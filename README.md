@@ -35,14 +35,15 @@ Před odevzdáním si vždy lokálně otestujte funkčnost vašeho řešení. Te
 Jakmile jsou vaše úpravy hotové a testy procházejí, vytvořte **commit** a nahrajte ho na váš forknutý repozitář pomocí příkazu **push**.
 
 ### 5. Vytvoření Pull Requestu
-Následně vytvořte **pull request** z vašeho forknutého repozitáře do mého původního repozitáře.
+Po nahrání změn na váš repozitář se vám obvykle zobrazí výzva k vytvoření pull requestu. Pokud ne, přejděte na záložku **Pull requests** ve vašem forknutém repozitáři a klikněte na **New pull request**.
 
-* Cílovou větví by měla být větev s **vaším jménem**.
+* **Název pull requestu:** Pojmenujte pull request tak, aby obsahoval vaše jméno a název úkolu, například `Odevzdani Ukol 0 - Josef Novak`.
+* **Cílová větev:** Cílovou větví by měla být větev s **vaším jménem** v mém původním repozitáři.
 * Ponechte zaškrtnutou volbu **Allow edits by maintainers**.
 * Po vytvoření pull requestu se automaticky spustí testy. U prvního odevzdání bude potřeba mé schválení pro spuštění testů, u dalších úkolů to již nebude nutné.
 
 ### 6. Kontrola a hodnocení
-* Stav testů můžete sledovat přímo v pull requestu.
+* Stav testů a svůj pull request naleznete v záložce **Pull requests** v **mém původním repozitáři**.
 * Pokud všechny testy projdou, úkol je považován za splněný a já následně váš pull request schválím a začlením (mergnu).
 * Pokud některý z testů selže, zkontrolujte svůj kód, opravte chyby a nahrajte novou verzi (další commit a push). Pokud si s opravou nebudete vědět rady, dejte mi vědět.
 
