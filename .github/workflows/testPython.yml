@@ -1,21 +1,14 @@
 name: Python syntax check
 
-on:
-  push:
-    branches:    
-      - '*'         # matches every branch that doesn't contain a '/'
-      - '*/*'       # matches every branch containing a single '/'
-      - '**'        # matches every branch
-  pull_request:
-    branches:    
-      - '*'         # matches every branch that doesn't contain a '/'
-      - '*/*'       # matches every branch containing a single '/'
-      - '**'        # matches every branch
+on: [push, pull_request]
 
 jobs:
   python_syntax_check:
     runs-on: ubuntu-latest
-
+    if: |
+      github.event_name == 'pull_request' || 
+      github.event.repository.fork == true || 
+      github.ref != 'refs/heads/master'
     steps:
     - uses: actions/checkout@v3
     - name: Install Python dependencies
