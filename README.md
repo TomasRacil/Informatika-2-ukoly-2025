@@ -23,7 +23,7 @@ Před odevzdáním si vždy lokálně otestujte funkčnost vašeho řešení. Te
 
 * **Spuštění Python testů:**
     ```shell
-    cd Ukol_0/python && python -m unittest discover
+    cd Ukol_0/python && python3 -m unittest discover
     ```
 * **Spuštění C++ testů:**
     ```shell
