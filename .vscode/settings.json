@@ -58,5 +58,7 @@
         "list": "cpp",
         "ratio": "cpp"
     },
-    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp"
+    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp",
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python-envs.pythonProjects": []
 }
