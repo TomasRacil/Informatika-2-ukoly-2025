@@ -7,7 +7,7 @@ project(Ukol_0)
 add_executable(vypocty ${CMAKE_CURRENT_SOURCE_DIR}/hello_world.cpp)
 
 # Set the build directory to be a subdirectory of the project directory
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
+set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
 # Add your test executable
 add_executable(mytests ${CMAKE_CURRENT_SOURCE_DIR}/test.cpp)
