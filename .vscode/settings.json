@@ -56,7 +56,8 @@
         "variant": "cpp",
         "chrono": "cpp",
         "list": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "*.txt": "cpp"
     },
-    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp"
+    "cmake.sourceDirectory": "/workspaces/Informatika-2-ukoly-2025-Kaplanek_Lukas/Ukol_3"
 }
