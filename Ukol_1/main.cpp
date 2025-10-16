@@ -1,118 +1,89 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <cctype>
+#include <iostream>   //výpis na obrazovku
+#include <fstream>    //pro čtení ze souboru
+#include <string>     //pro práci s textem
+#include <sstream>    //pro rozdělení textu na slova
+#include <cctype>     //pro převod písmen na malá
 
-// --- Funkce k implementaci ---
-using namespace std;
-/**
- * @brief Načte obsah souboru do řetězce.
- * @param filename Název souboru.
- * @return Obsah souboru jako std::string.
- */
-std::string getFileContent(std::string filename) {
-    ifstream file(filename);
-    if (!file.is_open()) { return "";
-    } else {
-        stringstream buffer;
-        buffer << file.rdbuf();
-        return buffer.str();
+using namespace std;  // abych nemusel psát std::
+
+// řetězec do jednoho souboru
+string getFileContent(const string& filename) {
+    ifstream file(filename);        // otevře soubor
+    if (!file.is_open()) {          
+        return "";                  // vrátí se mi prázdný text
     }
+    stringstream buffer;            
+    buffer << file.rdbuf();         // načte celý soubor
+    return buffer.str();            // vrátí obsah jako tet
 }
 
-/**
- * @brief Spočítá počet všech znaků v textu.
- * @param content Text k analýze.
- * @return Počet znaků.
- */
-int countCharacters(std::string content) {
-    content.size();
-    // TODO: Doplňte kód pro spočítání znaků.
-    return content.size();
+// spočítá mi všechny znaky
+int countCharacters(const string& content) {
+    return content.size();          // dá mi počet znaků
 }
 
-/**
- * @brief Spočítá počet řádků v textu.
- * @param content Text k analýze.
- * @return Počet řádků.
- */
-int countLines(std::string content) {
-     int lines = 0;
-     for (char c : content){
-        if (c=='\n')
-        lines ++;
-     }
-     if(!content.empty())
-     lines++;
-     return lines; 
+// spočítá počet řádků v textu
+int countLines(const string& content) {
+    if (content.empty()) return 0;  //když je prázdný
+    int lines = 0;                  
+    for (char c : content) {        // každý znak v textu
+        if (c == '\n') lines++;     // když najde znak
+    }
+    if (content.back() != '\n') {   
+        lines++;                    
+    }
+    return lines;                   // vrátí počet řádků
 }
 
-/**
- * @brief Spočítá počet slov v textu.
- * @param content Text k analýze.
- * @return Počet slov.
- */
-int countWords(std::string content) {
-    int WordCount(string content);
-     while ((content, countLines)){
-        stringstream ss(content);
-        string word;
-        int count = 0;
+// spočítá počet slov
+int countWords(const string& content) {
+    stringstream ss(content);       
+    string word;                    // jedno slovo
+    int count = 0;                  // počítá slova
+    while (ss >> word) {            //mezera mezi slovy
+        count++;                    
+    }
+    return count;                   // dá mi počet slov
+}
 
-        while (ss>>word){
-            count++;
+// spočítá počet samohlásek (a, e, i, o, u)
+int countVowels(const string& content) {
+    int vowels = 0;                 // psamohlásky
+    for (char ch : content) {       // projde znaky
+        ch = tolower(ch);           // znaky na malá písmena
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            vowels++;               // když samohláska, tak + 1
         }
-        return count;
-     }
-    // TODO: Doplňte kód pro spočítání slov.
-    // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    
+    }
+    return vowels;                  // dá počet samohlásek
 }
 
-/**
- * @brief Spočítá počet samohlásek (a, e, i, o, u) v textu.
- * @param content Text k analýze.
- * @return Počet samohlásek.
- */
-int countVowels(std::string content) {
-    int Vowels = 0;
-    for (char x : content){
-        if (x == 'a'||x =='e'||x =='i'||x =='o'||x =='u')
-         Vowels++;}
-
-    // TODO: Doplňte kód pro spočítání samohlásek.
-    // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return Vowels;
-}
-
-
-// --- Hlavní program (neměnit) ---
-
+// main
 #ifndef __TEST__
 int main() {
-    std::string filename = "text_k_analyze.txt";
-    std::string content = getFileContent(filename);
+    string filename = "text_k_analyze.txt"; // jméno souboru
+    string content = getFileContent(filename); // obsah
 
-    if (content.empty() && filename == "text_k_analyze.txt") {
-         std::cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << std::endl;
-         return 1;
+    if (content.empty()) {                   // prázdný
+        cerr << "Chyba: soubor se nepodařilo otevřít." << endl;
+        return 1;                            // ukončí program s chybou
     }
 
-    // Volání jednotlivých analytických funkcí
+    // zavolá mi funkce a uloží výsledky
     int pocetZnaku = countCharacters(content);
     int pocetRadku = countLines(content);
     int pocetSlov = countWords(content);
     int pocetSamohlasek = countVowels(content);
 
-    // Výpis výsledků
-    std::cout << "--- Vysledky analyzy souboru ---" << std::endl;
-    std::cout << "Pocet znaku: " << pocetZnaku << std::endl;
-    std::cout << "Pocet radku: " << pocetRadku << std::endl;
-    std::cout << "Pocet slov: " << pocetSlov << std::endl;
-    std::cout << "Pocet samohlasek: " << pocetSamohlasek << std::endl;
+    // vypíše výsledky
+    cout << "--- Výsledky analýzy ---" << endl;
+    cout << "Počet znaků: " << pocetZnaku << endl;
+    cout << "Počet řádků: " << pocetRadku << endl;
+    cout << "Počet slov: " << pocetSlov << endl;
+    cout << "Počet samohlásek: " << pocetSamohlasek << endl;
 
-    return 0;
+    return 0; // konec programu
 }
 #endif
+
 
