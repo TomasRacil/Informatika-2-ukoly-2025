@@ -12,10 +12,19 @@
  * @return Obsah souboru jako std::string.
  */
 std::string getFileContent(std::string filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        return "";
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    return buffer.str();
+
     // TODO: Doplňte kód pro načtení souboru.
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    
 }
 
 /**
@@ -24,8 +33,10 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
+    return content.length();
+
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    
 }
 
 /**
@@ -34,9 +45,20 @@ int countCharacters(std::string content) {
  * @return Počet řádků.
  */
 int countLines(std::string content) {
+    if (content.empty()) {
+        return 0;
+    }
+    int lineCount = 1; 
+    for (char c : content) {
+        if (c == '\n') {
+            lineCount++;
+        }
+    }
+    return lineCount;
+
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    
 }
 
 /**
@@ -45,9 +67,17 @@ int countLines(std::string content) {
  * @return Počet slov.
  */
 int countWords(std::string content) {
+    std::istringstream stream(content);
+    std::string word;
+    int wordCount = 0;
+    while (stream >> word) {
+        wordCount++;
+    }
+    return wordCount;
+
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+    
 }
 
 /**
@@ -56,9 +86,18 @@ int countWords(std::string content) {
  * @return Počet samohlásek.
  */
 int countVowels(std::string content) {
+    int vowelCount = 0;
+    for (char c : content) {
+        char lowerC = std::tolower(c);
+        if (lowerC == 'a' || lowerC == 'e' || lowerC == 'i' || lowerC == 'o' || lowerC == 'u') {
+            vowelCount++;
+        }
+    }
+    return vowelCount;
+    
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    
 }
 
 
