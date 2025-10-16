@@ -1,3 +1,4 @@
+
 # Informatika 2 - Úkoly 2025
 
 Vítejte v repozitáři pro předmět Informatika 2. Tento repozitář slouží jako centrální místo pro zadávání a odevzdávání vašich úkolů. Postupně zde budou přidávány nové úkoly, proto sledujte repozitář pro aktuální informace.
@@ -51,3 +52,5 @@ Po nahrání změn na váš repozitář se vám obvykle zobrazí výzva k vytvo�
 
 ### Důležité upozornění
 **Dodržujte termíny odevzdání!** Pokud by se vám z jakéhokoli důvodu nedařilo vytvořit pull request včas, samotné vytvoření commitu na vašem forknutém repozitáři bude sloužit jako důkaz, že jste úkol vyřešili v termínu.
+
+@TomasRacil
