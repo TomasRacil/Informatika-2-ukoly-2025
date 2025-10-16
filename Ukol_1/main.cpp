@@ -8,11 +8,6 @@ using namespace std;
 
 // --- Funkce k implementaci ---
 
-/**
- * @brief Načte obsah souboru do řetězce.
- * @param filename Název souboru.
- * @return Obsah souboru jako std::string.
- */
 string getFileContent(string filename) {
     ifstream file(filename);
     if(!file.is_open()){
@@ -24,11 +19,6 @@ string getFileContent(string filename) {
     return buffer.str();
 }
 
-/**
- * @brief Spočítá počet všech znaků v textu.
- * @param content Text k analýze.
- * @return Počet znaků.
- */
 int countCharacters(string content) {
     return content.size();
 }
@@ -46,19 +36,12 @@ int countLines(string content) {
 }
 
 int countWords(string content) {
+    istringstream iss(content);
+    string word;
     int countW = 0;
-    bool inWord;
 
-    for(char c : content){
-        if(isalpha(c)){
-            if(!inWord){
-                inWord = true;
-                countW++;
-            }
-        }
-        else{
-            inWord = false;
-        }
+    while(iss >> word){
+        countW++;
     }
     return countW;
 }
