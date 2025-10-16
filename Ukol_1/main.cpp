@@ -11,11 +11,26 @@
  * @param filename Název souboru.
  * @return Obsah souboru jako std::string.
  */
-std::string getFileContent(std::string filename) {
-    // TODO: Doplňte kód pro načtení souboru.
-    // Nápověda: Použijte std::ifstream a std::stringstream.
-    // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+std::string getFileContent(std::string filename)
+{
+
+    std::ifstream vstupniSoubor(filename);
+    if (!vstupniSoubor.is_open())
+    {
+        return "";
+    }
+
+    std::string content, radek;
+
+    // pridava postupne v cyklu radky do content
+    while (std::getline(vstupniSoubor, radek))
+    {
+        content += radek;
+        // pokud neni konec souboru, prida konec radku
+        if (!vstupniSoubor.eof())
+            content = content + '\n';
+    }
+    return content;
 }
 
 /**
@@ -23,9 +38,18 @@ std::string getFileContent(std::string filename) {
  * @param content Text k analýze.
  * @return Počet znaků.
  */
-int countCharacters(std::string content) {
+int countCharacters(std::string content)
+{
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+
+    if (content.empty())
+    {
+        return 0;
+    }
+    // vyuzijem funkci length()
+    int pocet = content.length();
+
+    return pocet;
 }
 
 /**
@@ -33,10 +57,26 @@ int countCharacters(std::string content) {
  * @param content Text k analýze.
  * @return Počet řádků.
  */
-int countLines(std::string content) {
+int countLines(std::string content)
+{
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    if (content.empty())
+    {
+        return 0;
+    }
+    // 1, viz. komentar vyse
+    int pocRadku = 1;
+    for (char c : content)
+    {
+        // pokud je konec radku, pripoctem do promenne
+        if (c == '\n')
+        {
+            pocRadku++;
+        }
+    }
+
+    return pocRadku;
 }
 
 /**
@@ -44,10 +84,24 @@ int countLines(std::string content) {
  * @param content Text k analýze.
  * @return Počet slov.
  */
-int countWords(std::string content) {
-    // TODO: Doplňte kód pro spočítání slov.
-    // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+int countWords(std::string content)
+{
+    if (content.empty())
+    {
+        return 0;
+    }
+    // Použijeme stringstream pro rozdělení textu na slova.
+    std::stringstream strstr(content);
+    std::string slovo;
+    int pocSlov = 0;
+
+    // Cyklus cte slova oddelena mezerami
+    while (strstr >> slovo)
+    {
+        pocSlov++;
+    }
+
+    return pocSlov;
 }
 
 /**
@@ -55,23 +109,41 @@ int countWords(std::string content) {
  * @param content Text k analýze.
  * @return Počet samohlásek.
  */
-int countVowels(std::string content) {
+int countVowels(std::string content)
+{
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
-}
+    if (content.empty())
+    {
+        return 0;
+    }
 
+    int pocSamohlasek = 0;
+
+    for (char c : content)
+    {
+        // male pismenko musime ulozit do nove promenne
+        char maly = tolower(c);
+        if (maly == 'a' || maly == 'e' || maly == 'i' || maly == 'o' || maly == 'u')
+        {
+            pocSamohlasek++;
+        }
+    }
+    return pocSamohlasek;
+}
 
 // --- Hlavní program (neměnit) ---
 
 #ifndef __TEST__
-int main() {
+int main()
+{
     std::string filename = "text_k_analyze.txt";
     std::string content = getFileContent(filename);
 
-    if (content.empty() && filename == "text_k_analyze.txt") {
-         std::cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << std::endl;
-         return 1;
+    if (content.empty() && filename == "text_k_analyze.txt")
+    {
+        std::cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << std::endl;
+        return 1;
     }
 
     // Volání jednotlivých analytických funkcí
@@ -90,4 +162,3 @@ int main() {
     return 0;
 }
 #endif // __TEST__
-
