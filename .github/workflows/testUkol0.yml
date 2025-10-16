@@ -28,3 +28,4 @@ jobs:
     - name: Build and run C++ tests
 
       run: mkdir -p build && cd build && cmake .. && make && ./mytests || exit 1
+
