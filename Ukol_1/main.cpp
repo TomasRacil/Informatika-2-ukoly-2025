@@ -41,12 +41,14 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
-    std::string text = getFileContent("text_k_analyze.txt");
-    int znak;
-    for(int i =0; i<text.size()-1; i++)
+    int znak = 0;
+    if(content.size() >0)
     {
-        char c = text[i];
+    for(int i =0; i<content.size()-1; i++)
+    {
+        char c = content[i];
         znak++;
+    }
     }
     if(znak>0)
     {
@@ -66,7 +68,9 @@ int countCharacters(std::string content) {
 int countLines(std::string content) {
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    int pocet;
+    int pocet =0;
+    if(content.size() >0)
+    {
     for(int i =0; i<content.size(); i++)
     {
         if (content[i] == '\n')
@@ -74,7 +78,7 @@ int countLines(std::string content) {
            pocet++; 
         }
     }
-
+    }
     return pocet;
 }
 
@@ -86,8 +90,14 @@ int countLines(std::string content) {
 int countWords(std::string content) {
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    int pocet;
+    int pocet=0;
     bool radek = false;
+    if(content.empty())
+    {
+        return 0;
+    }
+    if(content.size() >0)
+    {
     for(int i =0; i<content.size(); i++)
     {
         if (content[i] == 32)
@@ -99,12 +109,12 @@ int countWords(std::string content) {
             pocet++;
             radek = true;
         }
-        if(content[i] == '\n' && content[i-1] == '\n')
+        if(i + 1 < content.size() && content[i] == '\n' && content[i+1] == '\n')
         {
             pocet--;
         }
     }
-
+    }
     if(radek)
     {
         return pocet;
@@ -123,7 +133,9 @@ int countWords(std::string content) {
 int countVowels(std::string content) {
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    int pocet;
+    int pocet=0;
+    if(content.size() >0)
+    {
     for(int i =0; i<content.size(); i++)
     {
         if(std::tolower(content[i])== 'a' || std::tolower(content[i])== 'e' || std::tolower(content[i])== 'i' || std::tolower(content[i])== 'o' || std::tolower(content[i])== 'u')
@@ -131,7 +143,7 @@ int countVowels(std::string content) {
             pocet++;
         }
     }
-
+    }
     return pocet;
 }
 
@@ -145,7 +157,7 @@ int main() {
 
     if (content.empty() && filename == "text_k_analyze.txt") {
          std::cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << std::endl;
-         return 1;
+         return 0;
     }
 
     // Volání jednotlivých analytických funkcí
