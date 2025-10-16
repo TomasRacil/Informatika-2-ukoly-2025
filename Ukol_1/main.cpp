@@ -17,7 +17,6 @@ std::string getFileContent(std::string filename) {
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
     std::stringstream obsah;
-    std::string nacteni;
     std::ifstream soubor(filename);
 
     if (!soubor.is_open()) {
@@ -35,12 +34,16 @@ std::string getFileContent(std::string filename) {
  */
 int countCharacters(std::string content) {
     // TODO: Doplňte kód pro spočítání znaků.
+    /*
     int i = 0;
 
     for (char c : content) {
         i++;
     }
     return i;
+    */
+
+    return content.size();
 }
 
 /**
