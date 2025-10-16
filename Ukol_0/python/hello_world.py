@@ -1,5 +1,9 @@
 def hello_world() -> str:
+<<<<<<< HEAD
     return ""
+=======
+    return "Hello world!"
+>>>>>>> refs/remotes/origin/main
 
 
 def main():

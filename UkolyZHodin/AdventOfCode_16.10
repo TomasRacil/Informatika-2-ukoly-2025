@@ -1,0 +1,62 @@
+#include <iostream>
+#include<fstream>
+#include <string>
+
+using namespace std;
+
+int main() {
+	ifstream vstupnnisoubor("dataAD16.10.txt");
+	int floor = 0;
+    int first_basement_pos = 0;
+	string line;
+
+	int pocidadlo = 0;
+    for (char znak:line) {
+        if (znak == '(') {
+            ++pocidadlo;
+        } else if (znak == ')') {
+            --pocidadlo;
+        }
+	}
+
+    if (vstupnnisoubor.is_open()) {
+        while (getline(vstupnnisoubor, line)) {
+            for (size_t i = 0; i < line.length(); ++i) {
+                if (line[i] == '(') {
+                    ++floor;
+                } else if (line[i] == ')') {
+                    --floor;
+                }
+                if (floor == -1 && first_basement_pos == 0) {
+                    first_basement_pos = static_cast<int>(i) + 1;
+                }
+            }
+        }
+        vstupnnisoubor.close();
+    } else {
+        cerr << "Nepodarilo se otevrit soubor." << endl;
+        return 1;
+	}
+
+    for (size_t i = 0; i < line.length(); ++i) {
+        if (line[i] == '(') {
+            ++floor;
+        } else if (line[i] == ')') {
+            --floor;
+        }
+
+        if (floor == -1) {
+            first_basement_pos = static_cast<int>(i) + 1;
+        }
+    }
+
+	cout << "Finalni patro: " << floor << endl;
+
+    if (first_basement_pos != 0) {
+        cout << "Prvni znak, ktery zpusi vstup do sklepa je na pozici: " << first_basement_pos << endl;
+    } else {
+        cout << "Nikdy nevstoupil do sklepa. Finalni patro: " << floor << endl;
+    }
+
+    return 0;
+}
