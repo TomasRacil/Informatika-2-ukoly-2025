@@ -12,9 +12,14 @@ class  Floor{
     string input = "";
 
     void getFloor() {
+
         int iteration = 0;
         int floor = 0;
         for (char c : input) {
+            if (c != '(' && c != ')') {
+                continue;
+            }
+            
             iteration++;
             if (c == '(') {
                 floor++;
