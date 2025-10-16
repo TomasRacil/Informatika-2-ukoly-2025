@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <cctype>
+#include <vector>
 
 // --- Funkce k implementaci ---
 
@@ -15,7 +16,16 @@ std::string getFileContent(std::string filename) {
     // TODO: Doplňte kód pro načtení souboru.
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    std::stringstream obsah;
+    std::string nacteni;
+    std::ifstream soubor(filename);
+
+    if (!soubor.is_open()) {
+        return "";
+    }
+
+    obsah << soubor.rdbuf();
+    return obsah.str();
 }
 
 /**
@@ -25,7 +35,12 @@ std::string getFileContent(std::string filename) {
  */
 int countCharacters(std::string content) {
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    int i = 0;
+
+    for (char c : content) {
+        i++;
+    }
+    return i;
 }
 
 /**
@@ -36,7 +51,15 @@ int countCharacters(std::string content) {
 int countLines(std::string content) {
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    int pocetRadku = 0;
+    std::stringstream obsah(content);
+    std::string radek;
+
+    while (getline(obsah, radek)) {
+        pocetRadku++;
+    }
+
+    return pocetRadku;
 }
 
 /**
@@ -47,7 +70,16 @@ int countLines(std::string content) {
 int countWords(std::string content) {
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+
+    std::stringstream obsah(content);
+    int i = 0;
+    std::string slovo;
+
+    while (obsah >> slovo) {
+        i++;
+    }
+
+    return i;
 }
 
 /**
@@ -58,7 +90,28 @@ int countWords(std::string content) {
 int countVowels(std::string content) {
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+
+    int samohlasky = 0;
+
+    for (char c : content) {
+        if (tolower(c) == 'a') {
+            samohlasky++;
+        }
+        else if (tolower(c) == 'e') {
+            samohlasky++;
+        }
+        else if (tolower(c) == 'i') {
+            samohlasky++;
+        }
+        else if (tolower(c) == 'o') {
+            samohlasky++;
+        }
+        else if (tolower(c) == 'u') {
+            samohlasky++;
+        }
+    }
+
+    return samohlasky;
 }
 
 
