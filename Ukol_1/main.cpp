@@ -12,10 +12,10 @@
  * @return Obsah souboru jako std::string.
  */
 std::string getFileContent(std::string filename) {
-    // TODO: Doplňte kód pro načtení souboru.
-    // Nápověda: Použijte std::ifstream a std::stringstream.
-    // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        return "";
+    }
 }
 
 /**
@@ -24,8 +24,8 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
-    // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    std::cout << content.length() << std::endl;
+    return content.length();
 }
 
 /**
@@ -33,10 +33,14 @@ int countCharacters(std::string content) {
  * @param content Text k analýze.
  * @return Počet řádků.
  */
+int linecount=0;
 int countLines(std::string content) {
-    // TODO: Doplňte kód pro spočítání řádků.
-    // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    for(char c : content) {
+        if(c == '\n') {
+            linecount++;
+        }
+    }
+    return linecount + 1;
 }
 
 /**
@@ -44,10 +48,14 @@ int countLines(std::string content) {
  * @param content Text k analýze.
  * @return Počet slov.
  */
+int wordcount=0;
 int countWords(std::string content) {
-    // TODO: Doplňte kód pro spočítání slov.
-    // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+    std::istringstream stream(content);
+    std::string word;
+    while (stream >> word) {
+        wordcount++;
+    }
+    return wordcount;
 }
 
 /**
@@ -55,10 +63,15 @@ int countWords(std::string content) {
  * @param content Text k analýze.
  * @return Počet samohlásek.
  */
+int vowelcount=0;
 int countVowels(std::string content) {
-    // TODO: Doplňte kód pro spočítání samohlásek.
-    // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    for(char c : content) {
+        char lowerC = std::tolower(c);
+        if(lowerC == 'a' || lowerC == 'e' || lowerC == 'i' || lowerC == 'o' || lowerC == 'u' || lowerC == 'A' || lowerC == 'E' || lowerC == 'I' || lowerC == 'O' || lowerC == 'U') {
+            vowelcount++;
+        }
+    }
+    return vowelcount;
 }
 
 
