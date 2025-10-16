@@ -11,10 +11,21 @@
  * @param filename Název souboru.
  * @return Obsah souboru jako std::string.
  */
-std::string getFileContent(std::string filename) {
-    // TODO: Doplňte kód pro načtení souboru.
-    // Nápověda: Použijte std::ifstream a std::stringstream.
-    // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
+std::string getFileContent(std::string filename) 
+{   std::ifstream file(filename);
+    if(!file.is_open())
+    {
+        return "";
+    }
+    if (file) 
+    {
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+    }
+                                            // TODO: Doplňte kód pro načtení souboru.
+                                            // Nápověda: Použijte std::ifstream a std::stringstream.
+                                            // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
     return "";
 }
 
@@ -23,9 +34,10 @@ std::string getFileContent(std::string filename) {
  * @param content Text k analýze.
  * @return Počet znaků.
  */
-int countCharacters(std::string content) {
-    // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+int countCharacters(std::string content)
+{
+                                            // TODO: Doplňte kód pro spočítání znaků.
+    return content.size();
 }
 
 /**
@@ -33,10 +45,20 @@ int countCharacters(std::string content) {
  * @param content Text k analýze.
  * @return Počet řádků.
  */
-int countLines(std::string content) {
-    // TODO: Doplňte kód pro spočítání řádků.
-    // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+int countLines(std::string content) 
+{   if (content.empty()) 
+    {
+        return 0; // Prázdný obsah má 0 řádků
+    }
+    int lines=1;
+    for(char c:content)
+    {
+        if(c== '\n')
+        lines++;
+    }
+                                // TODO: Doplňte kód pro spočítání řádků.
+                                // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
+    return lines;
 }
 
 /**
@@ -44,10 +66,17 @@ int countLines(std::string content) {
  * @param content Text k analýze.
  * @return Počet slov.
  */
-int countWords(std::string content) {
-    // TODO: Doplňte kód pro spočítání slov.
-    // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+int countWords(std::string content) 
+{   std::stringstream stream(content);
+    std::string word;
+    int count=0;
+    while(stream >> word)
+    {
+        count++;
+    }
+    return count;
+                                // TODO: Doplňte kód pro spočítání slov.
+                                // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
 }
 
 /**
@@ -55,10 +84,17 @@ int countWords(std::string content) {
  * @param content Text k analýze.
  * @return Počet samohlásek.
  */
-int countVowels(std::string content) {
-    // TODO: Doplňte kód pro spočítání samohlásek.
-    // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+int countVowels(std::string content) 
+{   int count=0;
+    for(char c:content)
+    {
+        c=tolower(c);
+        if(c=='a' || c=='e' || c=='i' || c=='o' || c=='u')
+        count++;
+    }
+                                // TODO: Doplňte kód pro spočítání samohlásek.
+                                // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
+    return count;
 }
 
 
