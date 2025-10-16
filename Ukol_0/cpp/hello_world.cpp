@@ -12,6 +12,5 @@ std::string hello_world()
 int main()
 {
     std::cout << hello_world() << std::endl;
-    return 0;
 }
 #endif // __TEST__
