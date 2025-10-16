@@ -51,3 +51,5 @@ Po nahrání změn na váš repozitář se vám obvykle zobrazí výzva k vytvo�
 
 ### Důležité upozornění
 **Dodržujte termíny odevzdání!** Pokud by se vám z jakéhokoli důvodu nedařilo vytvořit pull request včas, samotné vytvoření commitu na vašem forknutém repozitáři bude sloužit jako důkaz, že jste úkol vyřešili v termínu.
+
+@TomasRacil
