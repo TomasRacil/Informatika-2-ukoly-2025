@@ -4,7 +4,7 @@
 
 std::string hello_world()
 {
-    return "hello world";
+    return "Hello world!";
 }
 
 #ifndef __TEST__ // Add this preprocessor guard
