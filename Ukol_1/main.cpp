@@ -114,5 +114,5 @@ int main() {
 
     return 0;
 }
-#endif // __TEST__
+#endif
 
