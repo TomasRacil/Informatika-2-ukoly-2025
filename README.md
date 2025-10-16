@@ -1,4 +1,3 @@
-
 # Informatika 2 - Úkoly 2025
 
 Vítejte v repozitáři pro předmět Informatika 2. Tento repozitář slouží jako centrální místo pro zadávání a odevzdávání vašich úkolů. Postupně zde budou přidávány nové úkoly, proto sledujte repozitář pro aktuální informace.
