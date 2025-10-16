@@ -15,8 +15,10 @@ using namespace std;
 string getFileContent(string filename) {
     ifstream soubor(filename);
     if (!soubor.is_open()) {
-        return "";                    // soubor se nepodařilo otevřít
+        return "";    
+        return 0;                // soubor se nepodařilo otevřít
     }
+    
 }
 
 /**
