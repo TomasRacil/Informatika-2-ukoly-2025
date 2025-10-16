@@ -3,7 +3,7 @@ project(Informatika_2)
 
 
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
 # Najdi Google Test framework
 enable_testing()
@@ -25,3 +25,7 @@ add_test(NAME mytests COMMAND mytests)
 
 #Ukol 3
 add_executable(kalkulacka ${CMAKE_CURRENT_SOURCE_DIR}/Ukol_3/main.cpp)
+
+
+#Ukol 1 z hoidny
+add_executable(AO1 ${CMAKE_CURRENT_SOURCE_DIR}/Ukoly_z_hodin/AO15_1/main.cpp)
