@@ -5,17 +5,20 @@
 #include <cctype>
 
 // --- Funkce k implementaci ---
-
+using namespace std;
 /**
  * @brief Načte obsah souboru do řetězce.
  * @param filename Název souboru.
  * @return Obsah souboru jako std::string.
  */
 std::string getFileContent(std::string filename) {
-    // TODO: Doplňte kód pro načtení souboru.
-    // Nápověda: Použijte std::ifstream a std::stringstream.
-    // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    ifstream file(filename);
+    if (!file.is_open()) { return "";
+    } else {
+        stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+    }
 }
 
 /**
@@ -24,8 +27,9 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
+    content.size();
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    return content.size();
 }
 
 /**
@@ -34,9 +38,14 @@ int countCharacters(std::string content) {
  * @return Počet řádků.
  */
 int countLines(std::string content) {
-    // TODO: Doplňte kód pro spočítání řádků.
-    // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+     int lines = 0;
+     for (char c : content){
+        if (c=='\n')
+        lines ++;
+     }
+     if(!content.empty())
+     lines++;
+     return lines; 
 }
 
 /**
@@ -45,9 +54,20 @@ int countLines(std::string content) {
  * @return Počet slov.
  */
 int countWords(std::string content) {
+    int WordCount(string content);
+     while ((content, countLines)){
+        stringstream ss(content);
+        string word;
+        int count = 0;
+
+        while (ss>>word){
+            count++;
+        }
+        return count;
+     }
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+    
 }
 
 /**
@@ -56,9 +76,14 @@ int countWords(std::string content) {
  * @return Počet samohlásek.
  */
 int countVowels(std::string content) {
+    int Vowels = 0;
+    for (char x : content){
+        if (x == 'a'||x =='e'||x =='i'||x =='o'||x =='u')
+         Vowels++;}
+
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    return Vowels;
 }
 
 
