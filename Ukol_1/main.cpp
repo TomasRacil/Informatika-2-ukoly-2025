@@ -15,6 +15,21 @@ std::string getFileContent(std::string filename) {
     // TODO: Doplňte kód pro načtení souboru.
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
+    std::string radek;
+    std::string vysledek;
+    std::ifstream mujSoubor(filename);
+    if (mujSoubor.is_open()) {
+        bool prvniRadek = true;
+        while(getline(mujSoubor, radek)){
+            if (!prvniRadek){
+            vysledek.append("\n");
+        }
+        vysledek.append(radek);
+            prvniRadek = false;
+        }
+        mujSoubor.close();
+        return vysledek;
+    }
     return "";
 }
 
@@ -25,7 +40,7 @@ std::string getFileContent(std::string filename) {
  */
 int countCharacters(std::string content) {
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    return static_cast<int>(content.size());
 }
 
 /**
@@ -36,7 +51,22 @@ int countCharacters(std::string content) {
 int countLines(std::string content) {
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    if (content.empty())
+    {
+        return 0;
+    }
+    
+    int lines = 1;
+    for(char c : content) {
+        if(c == '\n') {
+            lines++;
+        }
+    }
+     
+    if(!content.empty() && content.back() == '\n'){
+        lines--;
+    }
+    return lines;
 }
 
 /**
@@ -47,7 +77,14 @@ int countLines(std::string content) {
 int countWords(std::string content) {
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+   std::stringstream ss(content);
+   std::string slovo;
+   int pocetslov = 0;
+
+   while(ss >> slovo){
+    pocetslov++;
+   }
+    return pocetslov;
 }
 
 /**
@@ -58,7 +95,16 @@ int countWords(std::string content) {
 int countVowels(std::string content) {
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+     std::stringstream ss(content);
+     int pocetsamohlasek = 0;
+     for(char c :  content){
+        c = std::tolower(static_cast<unsigned char>(c));
+        if(c == 'a' ||c == 'e'||c == 'i'||c == 'o'||c == 'u'){
+        pocetsamohlasek++;
+        }
+     }
+
+    return pocetsamohlasek;
 }
 
 
