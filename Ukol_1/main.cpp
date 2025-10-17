@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <cctype>
+using namespace std;
 
 // --- Funkce k implementaci ---
 
@@ -13,7 +14,7 @@
  */
 std::string getFileContent(std::string content) {
     std::ifstream soubor("text_k_analyze.txt");
-    if (!soubor) {
+    if (!soubor.is_open()) {
         return "";
     }
     else {
@@ -44,15 +45,19 @@ int countCharacters(std::string content) {
  * @return Počet řádků.
  */
 int countLines(std::string content) {
-    int radek=1;
+    int radek=0;
     for (char c : content){
         if (c == '\n'){
             radek++;
+        }
+        else if (content.size() > 0){
+            radek = 1;
         }
     }
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
     return radek;
+
 }
 
 /**
@@ -61,7 +66,7 @@ int countLines(std::string content) {
  * @return Počet slov.
  */
 int countWords(std::string content) {
-    std::istringstream stream(content);
+    std::stringstream stream(content);
     std::string slovo;
     int slova = 0;
     while (stream >> slovo) {
@@ -93,7 +98,7 @@ int countVowels(std::string content) {
 
 // --- Hlavní program (neměnit) ---
 
-#ifndef __TEST__
+#ifndef TEST
 int main() {
     std::string filename = "text_k_analyze.txt";
     std::string content = getFileContent(filename);
@@ -118,5 +123,6 @@ int main() {
 
     return 0;
 }
-#endif // __TEST__
+#endif // TEST
+
 
