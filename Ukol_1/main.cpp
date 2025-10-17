@@ -83,7 +83,7 @@ int countVowels(std::string content) {
 }
 
 
-// --- Hlavní program (neměnit) ---
+// --- Hlavní program (neměnit) 
 
 #ifndef __TEST__
 int main() {
