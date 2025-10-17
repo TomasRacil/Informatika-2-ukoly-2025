@@ -16,9 +16,10 @@ string getFileContent(string filename) {
     ifstream soubor(filename);
     if (!soubor.is_open()) {
         return "";    
-        return 0;                // soubor se nepodařilo otevřít
     }
-    
+    stringstream buffer;
+    buffer << soubor.rdbuf();
+    return buffer.str();
 }
 
 /**
