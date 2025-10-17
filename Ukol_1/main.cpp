@@ -11,11 +11,20 @@
  * @param filename Název souboru.
  * @return Obsah souboru jako std::string.
  */
-std::string getFileContent(std::string filename) {
+std::string getFileContent(std::string content) {
+    std::ifstream soubor("text_k_analyze.txt");
+    if (!soubor) {
+        return "";
+    }
+    else {
+        std::stringstream buffer;
+        buffer << soubor.rdbuf(); 
+        return buffer.str();
+    }
     // TODO: Doplňte kód pro načtení souboru.
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    
 }
 
 /**
@@ -24,8 +33,9 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
+    return int(content.size());
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+
 }
 
 /**
@@ -34,9 +44,15 @@ int countCharacters(std::string content) {
  * @return Počet řádků.
  */
 int countLines(std::string content) {
+    int radek=1;
+    for (char c : content){
+        if (c == '\n'){
+            radek++;
+        }
+    }
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    return radek;
 }
 
 /**
@@ -45,9 +61,15 @@ int countLines(std::string content) {
  * @return Počet slov.
  */
 int countWords(std::string content) {
+    std::istringstream stream(content);
+    std::string slovo;
+    int slova = 0;
+    while (stream >> slovo) {
+        slova++;
+    }
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+    return slova;
 }
 
 /**
@@ -56,9 +78,16 @@ int countWords(std::string content) {
  * @return Počet samohlásek.
  */
 int countVowels(std::string content) {
+    int samohlasky = 0;
+    for (char c : content) {
+        char a = char (tolower(c));
+        if (a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u') {
+            samohlasky++;
+        }
+    }
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    return samohlasky;
 }
 
 
