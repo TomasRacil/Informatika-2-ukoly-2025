@@ -33,7 +33,7 @@ std::string getFileContent(std::string content) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
-    return int(content.size());
+    return static_cast<int>(content.size());
     // TODO: Doplňte kód pro spočítání znaků.
 
 }
