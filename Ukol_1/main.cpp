@@ -15,7 +15,13 @@ std::string getFileContent(std::string filename) {
     // TODO: Doplňte kód pro načtení souboru.
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        return "";
+    }
+    std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();;
 }
 
 /**
@@ -25,7 +31,7 @@ std::string getFileContent(std::string filename) {
  */
 int countCharacters(std::string content) {
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    return static_cast<int>(content.size());
 }
 
 /**
@@ -36,7 +42,16 @@ int countCharacters(std::string content) {
 int countLines(std::string content) {
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    if (content.empty()) {
+        return 0;
+    }
+    int pocetradku = 1; // Začínáme s 1 řádkem
+    for (char c : content) {
+        if (c == '\n') {
+            pocetradku++;
+        }
+    }
+    return pocetradku;
 }
 
 /**
@@ -47,7 +62,13 @@ int countLines(std::string content) {
 int countWords(std::string content) {
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+    std::stringstream ss(content);
+    std::string word;
+    int pocetslov = 0;
+    while (ss >> word) {
+        pocetslov++;
+    }
+    return pocetslov;
 }
 
 /**
@@ -58,7 +79,14 @@ int countWords(std::string content) {
 int countVowels(std::string content) {
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    int pocetpismen = 0;
+    for (char c : content) {
+        char malapismena = std::tolower(static_cast<unsigned char>(c)); 
+        if (malapismena == 'a' || malapismena == 'e' || malapismena == 'i' || malapismena == 'o' || malapismena == 'u') {
+            pocetpismen++;
+        }
+    }
+    return pocetpismen;
 }
 
 
