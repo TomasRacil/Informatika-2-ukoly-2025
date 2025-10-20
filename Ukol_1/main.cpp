@@ -13,7 +13,7 @@ using namespace std;
  * @return Obsah souboru jako std::string.
  */
 std::string getFileContent(std::string content) {
-    std::ifstream soubor("text_k_analyze.txt");
+    std::ifstream soubor(content);
     if (!soubor.is_open()) {
         return "";
     }
@@ -50,10 +50,11 @@ int countLines(std::string content) {
         if (c == '\n'){
             radek++;
         }
-        else if (content.size() > 0){
-            radek = 1;
-        }
     }
+        if (!content.empty()) {
+            radek++;
+        }
+    
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
     return radek;

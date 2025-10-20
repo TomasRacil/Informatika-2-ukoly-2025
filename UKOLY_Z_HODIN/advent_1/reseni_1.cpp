@@ -29,3 +29,4 @@ int main() {
     std::cout << patro << std::endl;
     std::cout << basement << std::endl;
     return 0;
+}
