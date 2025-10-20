@@ -16,6 +16,10 @@ std::string getFileContent(std::string filename) {
     if (!file.is_open()) {
         return "";
     }
+
+    std::ostringstream buffer;
+    buffer << file.rdbuf();
+    return buffer.str();
 }
 
 /**
@@ -24,7 +28,6 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
-    std::cout << content.length() << std::endl;
     return content.length();
 }
 
@@ -33,14 +36,15 @@ int countCharacters(std::string content) {
  * @param content Text k analýze.
  * @return Počet řádků.
  */
-int linecount=0;
 int countLines(std::string content) {
+    int linecount = 0;
     for(char c : content) {
         if(c == '\n') {
             linecount++;
         }
     }
-    return linecount + 1;
+    // Pokud soubor není prázdný, přičteme poslední řádek
+    return content.empty() ? 0 : linecount + 1;
 }
 
 /**
@@ -48,10 +52,10 @@ int countLines(std::string content) {
  * @param content Text k analýze.
  * @return Počet slov.
  */
-int wordcount=0;
 int countWords(std::string content) {
     std::istringstream stream(content);
     std::string word;
+    int wordcount = 0;
     while (stream >> word) {
         wordcount++;
     }
@@ -63,11 +67,11 @@ int countWords(std::string content) {
  * @param content Text k analýze.
  * @return Počet samohlásek.
  */
-int vowelcount=0;
 int countVowels(std::string content) {
+    int vowelcount = 0;
     for(char c : content) {
         char lowerC = std::tolower(c);
-        if(lowerC == 'a' || lowerC == 'e' || lowerC == 'i' || lowerC == 'o' || lowerC == 'u' || lowerC == 'A' || lowerC == 'E' || lowerC == 'I' || lowerC == 'O' || lowerC == 'U') {
+        if(lowerC == 'a' || lowerC == 'e' || lowerC == 'i' || lowerC == 'o' || lowerC == 'u') {
             vowelcount++;
         }
     }
@@ -103,4 +107,3 @@ int main() {
     return 0;
 }
 #endif // __TEST__
-
