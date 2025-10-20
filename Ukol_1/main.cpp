@@ -19,7 +19,11 @@ std::string getFileContent(std::string filename) {
     std::ifstream file(filename); //  ifstream je třída pro čtení ze souboru
     if (!file.is_open()) {
         return "";
+<<<<<<< HEAD
         // !file.is_open() je podmínka, která kontroluje, zda se soubor nepodařilo otevřít
+=======
+        // soubor který se nedá otevřít vrátí prázdný řetězec
+>>>>>>> 2808318332723574c911143572d17300f8978970
     }
 
     std::stringstream content; // slouží jako buffer pro načtený obsah souboru
