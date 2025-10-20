@@ -87,6 +87,7 @@ int main() {
     std::cout << "Pocet slov: " << pocetSlov << std::endl;
     std::cout << "Pocet samohlasek: " << pocetSamohlasek << std::endl;
 
+    std::cout<<std::endl;
     return 0;
 }
 #endif // __TEST__
