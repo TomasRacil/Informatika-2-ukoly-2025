@@ -26,4 +26,5 @@ jobs:
     - name: Install C++ dependencies
       run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev
     - name: Build and run C++ tests
-      run: cd Ukol_0/cpp && mkdir -p build && cd build && cmake .. && make && ./mytests || exit 1
+      run: mkdir -p build && cd build && cmake .. && make && ./mytests || exit 1
+
