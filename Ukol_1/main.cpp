@@ -11,21 +11,24 @@
  * @param filename Název souboru.
  * @return Obsah souboru jako std::string.
  */
-std::string getFileContent(std::string filename) {
-    // TODO: Doplňte kód pro načtení souboru.
-    // Nápověda: Použijte std::ifstream a std::stringstream.
-    // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+std::string getFileContent(const std::string filename) {
+    std::ifstream soubor("text_k_analyze.txt");
+    if (!soubor.is_open())
+    {
+        std::cout << "Soubor se nepodařilo otevřít!" << std::endl;
+        return "";
+    }
+    std::ostringstream ss;
+    ss << soubor.rdbuf();
+    return ss.str();
 }
-
 /**
  * @brief Spočítá počet všech znaků v textu.
  * @param content Text k analýze.
  * @return Počet znaků.
  */
-int countCharacters(std::string content) {
-    // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+int countCharacters(const std::string content) {
+    return content.size();
 }
 
 /**
@@ -33,21 +36,28 @@ int countCharacters(std::string content) {
  * @param content Text k analýze.
  * @return Počet řádků.
  */
-int countLines(std::string content) {
-    // TODO: Doplňte kód pro spočítání řádků.
-    // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+int countLines(const std::string content) {
+    int countLines = 0;
+    std::istringstream iss(content);
+    std::string line;
+    while (std::getline(iss, line)) {
+        countLines++;
+    }
+    return countLines;
 }
-
 /**
  * @brief Spočítá počet slov v textu.
  * @param content Text k analýze.
  * @return Počet slov.
  */
-int countWords(std::string content) {
-    // TODO: Doplňte kód pro spočítání slov.
-    // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+int countWords(const std::string content) {
+    int countWords = 0;
+    std::istringstream iss(content);
+    std::string soubor;
+    while (iss >> soubor) {
+        countWords++;
+    }
+    return countWords;
 }
 
 /**
@@ -56,9 +66,16 @@ int countWords(std::string content) {
  * @return Počet samohlásek.
  */
 int countVowels(std::string content) {
-    // TODO: Doplňte kód pro spočítání samohlásek.
-    // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    int countVowels = 0;
+    for (char c : content) 
+    {
+        c = std::tolower(static_cast<unsigned char>(c));
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') 
+        {
+            countVowels++;
+        }
+    }
+        return countVowels;
 }
 
 
