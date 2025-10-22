@@ -17,7 +17,7 @@ std::string getFileContent(std::string filename)
     {
         return "";
     }
-    if (file) 
+    if (file)
     {
         std::stringstream buffer;
         buffer << file.rdbuf();
