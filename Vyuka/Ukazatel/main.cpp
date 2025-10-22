@@ -10,8 +10,13 @@ void prehod_cisla(int* a, int* b)
          *b=*a-*b;
          *a-=*b;
     }
+/*
 
 void najdi_nejmensi_nejvetsi(int* pole, int velikost_pole, int* nejvetsi, int*)
+{
+
+}
+*/
 
 int main() {
     /*
