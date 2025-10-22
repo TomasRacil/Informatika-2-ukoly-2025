@@ -19,9 +19,9 @@ std::string getFileContent(std::string filename)
     }
     if (file)
     {
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-        return buffer.str();
+        std::stringstream buffer; // Vytvoření stringstreamu pro ukládání obsahu
+        buffer << file.rdbuf();   // Načtení celého obsahu souboru do stringstreamu
+        return buffer.str();     // Vrácení obsahu jako std::string
     }
                                             // TODO: Doplňte kód pro načtení souboru.
                                             // Nápověda: Použijte std::ifstream a std::stringstream.
@@ -50,10 +50,10 @@ int countLines(std::string content)
     {
         return 0; // Prázdný obsah má 0 řádků
     }
-    int lines=1;
+    int lines=1;  
     for(char c:content)
     {
-        if(c== '\n')
+        if(c== '\n') 
         lines++;
     }
                                 // TODO: Doplňte kód pro spočítání řádků.
