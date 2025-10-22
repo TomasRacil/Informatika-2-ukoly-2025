@@ -58,7 +58,7 @@ int main() {
 
     for (const auto& slope : slopes) {
         long long trees = count_trees(map, slope.first, slope.second);
-        cout << "Do prava:" << slope.first << ", dolu: " << slope.second
+        cout << "Do prava: " << slope.first << ", dolu: " << slope.second
              << " => pocet stromov: " << trees << endl;
         result *= trees;
     }
