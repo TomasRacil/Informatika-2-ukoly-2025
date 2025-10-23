@@ -18,3 +18,4 @@ jobs:
         find . -name "*.py" -print0 | while IFS= read -r -d '' file; do
           python3 -m py_compile "$file" || exit 1
         done
+        
