@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip> // Pro std::setw
-
+using namespace std;
 /**
  * @brief Alokuje paměť pro matici o 'rows' řádcích a 'cols' sloupcích.
  * Inicializuje všechny prvky na 0.
@@ -9,11 +9,14 @@
  * @return Ukazatel na alokovanou matici (int**).
  */
 int** allocateMatrix(int rows, int cols) {
-    // TODO: Doplňte kód pro alokaci
-    // 1. Alokujte pole pointerů (řádky)
-    // 2. V cyklu alokujte pro každý řádek pole intů (sloupce)
-    // 3. V cyklech inicializujte všechny prvky na 0
-    return nullptr; // Nahraďte
+    int** matrix = new int*[rows];
+    for (int i = 0;i<rows;i++){
+        matrix[i] = new int[cols];
+        for (int j = 0;j<cols;j++){
+            matrix[i][j] = 0;
+        }
+    }
+    return matrix;
 }
 
 /**
@@ -22,9 +25,10 @@ int** allocateMatrix(int rows, int cols) {
  * @param rows Počet řádků matice.
  */
 void deallocateMatrix(int** matrix, int rows) {
-    // TODO: Doplňte kód pro dealokaci
-    // 1. V cyklu uvolněte paměť pro každý řádek
-    // 2. Uvolněte paměť pro pole pointerů
+    for (int i = 0; i < rows; i++) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
 }
 
 /**
@@ -34,8 +38,12 @@ void deallocateMatrix(int** matrix, int rows) {
  * @param cols Počet sloupců.
  */
 void printMatrix(int** matrix, int rows, int cols) {
-    // TODO: Doplňte kód pro výpis
-    // Použijte std::cout a std::setw(4) pro hezčí formátování
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << setw(4) << matrix[i][j];
+        }
+        cout << endl;
+    }
 }
 
 /**
@@ -47,9 +55,12 @@ void printMatrix(int** matrix, int rows, int cols) {
  * @return Ukazatel na novou matici, která je výsledkem součtu.
  */
 int** addMatrices(int** matrixA, int** matrixB, int rows, int cols) {
-    // TODO: Alokujte výslednou matici a proveďte součet
     int** result = allocateMatrix(rows, cols);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matrixA[i][j] + matrixB[i][j];
+        }
+    }
     return result;
 }
 
@@ -64,7 +75,11 @@ int** addMatrices(int** matrixA, int** matrixB, int rows, int cols) {
 int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) {
     // TODO: Alokujte výslednou matici a proveďte rozdíl
     int** result = allocateMatrix(rows, cols);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matrixA[i][j] - matrixB[i][j];
+        }
+    }
     return result;
 }
 
@@ -80,7 +95,13 @@ int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) {
 int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int colsB) {
     // TODO: Alokujte výslednou matici (rowsA x colsB) a proveďte násobení
     int** result = allocateMatrix(rowsA, colsB);
-    // ... doplňte výpočet (pozor na tři vnořené cykly)
+    for (int i = 0; i < rowsA; i++) {
+        for (int j = 0; j < colsB; j++) {
+            for (int k = 0; k < colsA; k++) {
+                result[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
     return result;
 }
 
@@ -94,7 +115,11 @@ int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int c
 int** transposeMatrix(int** matrix, int rows, int cols) {
     // TODO: Alokujte výslednou matici (cols x rows) a proveďte transpozici
     int** result = allocateMatrix(cols, rows);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[j][i] = matrix[i][j];
+        }
+    }
     return result;
 }
 
