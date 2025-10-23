@@ -43,7 +43,7 @@ int countCharacters(std::string content) {
     int count = 0;
     for (int i = 0; i < content.length(); i++)
     {
-        if(content[i] != '\0'){
+        if( content[i] != '\r'){
             count++;
         }
     }
