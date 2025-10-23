@@ -18,3 +18,4 @@ jobs:
         find . -name "*.cpp" -print0 | while IFS= read -r -d '' file; do
           g++ -fsyntax-only -std=c++17 -o /dev/null -S "$file" || exit 1
         done
+        
