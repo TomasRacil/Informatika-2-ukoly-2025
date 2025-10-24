@@ -13,7 +13,16 @@ int** allocateMatrix(int rows, int cols) {
     // 1. Alokujte pole pointerů (řádky)
     // 2. V cyklu alokujte pro každý řádek pole intů (sloupce)
     // 3. V cyklech inicializujte všechny prvky na 0
-    return nullptr; // Nahraďte
+
+    int** matrix = nullptr;
+
+    matrix = new int*[rows];
+
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = new int[cols];
+    }
+
+    return matrix; // Nahraďte
 }
 
 /**
@@ -25,6 +34,15 @@ void deallocateMatrix(int** matrix, int rows) {
     // TODO: Doplňte kód pro dealokaci
     // 1. V cyklu uvolněte paměť pro každý řádek
     // 2. Uvolněte paměť pro pole pointerů
+
+    for (int i = 0; i < rows; i++) {
+        delete[] matrix[i];
+        
+        matrix[i] = nullptr;
+    }
+
+    delete[] matrix;
+    matrix = nullptr;
 }
 
 /**
@@ -36,6 +54,12 @@ void deallocateMatrix(int** matrix, int rows) {
 void printMatrix(int** matrix, int rows, int cols) {
     // TODO: Doplňte kód pro výpis
     // Použijte std::cout a std::setw(4) pro hezčí formátování
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; r++) {
+            int result = matrix[r][c];
+            std::cout << std::setw(4) << result;
+        }
+    }
 }
 
 /**

@@ -1,0 +1,11 @@
+101, Jan Novak, 1.8 
+105, Petra Svobodova, 2.1 
+102, Tomas Marny, 1.2 
+104, Eva Kralova, 3.0 
+103, Martin Vesely, 1.1
+#Tento radek je komentar a mel by byt ignorovan
+106, Lucie Pokorna, 2.5 
+108, David Smutny, 1.5 
+107, Adam Novy, 1.9 
+109, Barbora Ticha, 2.8 
+110, Michal Hruby, 1.1
