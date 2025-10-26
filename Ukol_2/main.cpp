@@ -131,7 +131,7 @@ int** transposeMatrix(int** matrix, int rows, int cols) {
     int** result = allocateMatrix(cols, rows);
     for (int i = 0; i <rows; i++)
     {
-    for (int j=0;i<cols;j++){
+    for (int j=0;j<cols;j++){
         result[j][i]=matrix[i][j];
         }
     }
