@@ -8,12 +8,22 @@
  * @param cols Počet sloupců.
  * @return Ukazatel na alokovanou matici (int**).
  */
-int** allocateMatrix(int rows, int cols) {
+int** allocateMatrix(int rows, int cols) 
+{
     // TODO: Doplňte kód pro alokaci
     // 1. Alokujte pole pointerů (řádky)
     // 2. V cyklu alokujte pro každý řádek pole intů (sloupce)
-    // 3. V cyklech inicializujte všechny prvky na 0
-    return nullptr; // Nahraďte
+    // 3. Inicializujte všechny prvky na 0
+    int** matrix = new int*[rows];          // Alokace řádků
+    for (int i = 0; i < rows; ++i)          // Pro každý řádek
+    {
+        matrix[i] = new int[cols];          // Alokace sloupců
+        for (int j = 0; j < cols; ++j)      // Inicializace prvků
+        {
+            matrix[i][j] = 0;               // Inicializace na 0
+        }
+    }
+    return matrix;                          // Vrácení ukazatele na matici
 }
 
 /**
@@ -21,10 +31,17 @@ int** allocateMatrix(int rows, int cols) {
  * @param matrix Ukazatel na matici.
  * @param rows Počet řádků matice.
  */
-void deallocateMatrix(int** matrix, int rows) {
+void deallocateMatrix(int** matrix, int rows) 
+{ 
     // TODO: Doplňte kód pro dealokaci
     // 1. V cyklu uvolněte paměť pro každý řádek
     // 2. Uvolněte paměť pro pole pointerů
+    for(int i=0;i<rows;i++)
+    {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+
 }
 
 /**
@@ -33,7 +50,16 @@ void deallocateMatrix(int** matrix, int rows) {
  * @param rows Počet řádků.
  * @param cols Počet sloupců.
  */
-void printMatrix(int** matrix, int rows, int cols) {
+void printMatrix(int** matrix, int rows, int cols) 
+{
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<cols;j++)
+        {
+            std::cout << std::setw(4) <<matrix[i][j];
+        }
+        std::cout << std::endl;
+    }   
     // TODO: Doplňte kód pro výpis
     // Použijte std::cout a std::setw(4) pro hezčí formátování
 }
@@ -46,10 +72,17 @@ void printMatrix(int** matrix, int rows, int cols) {
  * @param cols Počet sloupců.
  * @return Ukazatel na novou matici, která je výsledkem součtu.
  */
-int** addMatrices(int** matrixA, int** matrixB, int rows, int cols) {
+int** addMatrices(int** matrixA, int** matrixB, int rows, int cols) 
+{
     // TODO: Alokujte výslednou matici a proveďte součet
     int** result = allocateMatrix(rows, cols);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; ++i) 
+    {
+        for (int j = 0; j < cols; ++j) 
+        {
+            result[i][j] = matrixA[i][j] + matrixB[i][j];
+        }
+    }
     return result;
 }
 
@@ -61,10 +94,17 @@ int** addMatrices(int** matrixA, int** matrixB, int rows, int cols) {
  * @param cols Počet sloupců.
  * @return Ukazatel na novou matici, která je výsledkem rozdílu.
  */
-int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) {
+int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) 
+{
     // TODO: Alokujte výslednou matici a proveďte rozdíl
     int** result = allocateMatrix(rows, cols);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; ++i) 
+    {
+        for (int j = 0; j < cols; ++j) 
+        {
+            result[i][j] = matrixA[i][j] - matrixB[i][j];
+        }
+    }
     return result;
 }
 
@@ -77,9 +117,21 @@ int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) {
  * @param colsB Počet sloupců matice B.
  * @return Ukazatel na novou matici, která je výsledkem násobení.
  */
-int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int colsB) {
+int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int colsB) 
+{
     // TODO: Alokujte výslednou matici (rowsA x colsB) a proveďte násobení
-    int** result = allocateMatrix(rowsA, colsB);
+    int** result = allocateMatrix(rowsA, colsB);                                // Výsledná matice má rozměry rowsA x colsB
+    for(int i=0;i<rowsA;i++)                                                    // Pro každý řádek matice A
+    {
+        for(int j=0;j<colsB;j++)                                                // Pro každý sloupec matice B
+        {
+            result[i][j] = 0;                                                   // Inicializace prvku výsledné matice
+            for (int k = 0; k < colsA; ++k)                                     // Pro každý prvek ve řádku A a sloupci B
+            {                                                                   
+                result[i][j] += matrixA[i][k] * matrixB[k][j];                  // Sčítání příspěvků pro (i,j)
+            }
+        }
+    }
     // ... doplňte výpočet (pozor na tři vnořené cykly)
     return result;
 }
@@ -91,10 +143,17 @@ int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int c
  * @param cols Počet sloupců původní matice.
  * @return Ukazatel na novou transponovanou matici (cols x rows).
  */
-int** transposeMatrix(int** matrix, int rows, int cols) {
-    // TODO: Alokujte výslednou matici (cols x rows) a proveďte transpozici
-    int** result = allocateMatrix(cols, rows);
-    // ... doplňte výpočet
+int** transposeMatrix(int** matrix, int rows, int cols) 
+{
+     // TODO: Alokujte výslednou matici (cols x rows) a proveďte transpozici
+    int** result = allocateMatrix(cols, rows);                         // Výsledná matice má rozměry cols x rows
+    for(int i=0;i<rows;i++)                                            // Pro každý řádek původní matice
+    {
+        for(int j=0;j<cols;j++)                                     // Pro každý sloupec původní matice
+        {
+            result[j][i]=matrix[i][j];                              // Transpozice prvku
+        }
+    }
     return result;
 }
 
@@ -102,7 +161,8 @@ int** transposeMatrix(int** matrix, int rows, int cols) {
 // --- Hlavní program (pro vaše vlastní testování) ---
 
 #ifndef __TEST__
-int main() {
+int main() 
+{
     // Zde si můžete vytvořit vlastní testovací scénář
     
     int rowsA = 2, colsA = 3;
