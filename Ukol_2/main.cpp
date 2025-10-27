@@ -23,7 +23,7 @@ int** allocateMatrix(int rows, int cols)
             matrix[i][j] = 0;               // Inicializace na 0
         }
     }
-    return matrix;                          // Vrácení ukazatele na matici
+    return matrix;                          // Vrácení ukazatele na matici pomocí matrix
 }
 
 /**
