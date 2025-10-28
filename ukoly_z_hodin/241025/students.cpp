@@ -34,7 +34,7 @@ stringstream open_file(string file_name)
 
     if (!soubor || !soubor.is_open())
     {
-        return;
+        return stringstream();
     }
 
     stringstream content;
