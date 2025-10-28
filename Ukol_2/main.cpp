@@ -113,16 +113,17 @@ int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int c
     // TODO: Alokujte výslednou matici (rowsA x colsB) a proveďte násobení
     int** result = allocateMatrix(rowsA, colsB);
     // ... doplňte výpočet (pozor na tři vnořené cykly)
-    for (int i = 0; i < rowsA; i++)
-    {
-        for (int j = 0; j < colsB; j++)
+        for (int i = 0; i < rowsA; i++) 
         {
-            for (int k = 0; i < colsA; k++)
+            for (int j = 0; j < colsB; j++) 
             {
-                result[i][j] = matrixA[i][k] * matrixB[k][j];
+            result[i][j] = 0;
+                for (int k = 0; k < colsA; k++) 
+                {
+                result[i][j] += matrixA[i][k] * matrixB[k][j];
+                }
             }
         }
-    }  
     return result;
 }
 
