@@ -54,7 +54,7 @@ int main(){
 
     auto start = chrono::high_resolution_clock::now();
     // tridici_funkce(pole, n, "selection");
-    selectionSort(pole, n, "quick");
+    selectionSort (n, pole);
     auto stop = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
     cout << "Algoritmus trval: " << duration.count() << " ms" << endl;
