@@ -9,11 +9,14 @@
  * @return Ukazatel na alokovanou matici (int**).
  */
 int** allocateMatrix(int rows, int cols) {
-    // TODO: Doplňte kód pro alokaci
-    // 1. Alokujte pole pointerů (řádky)
-    // 2. V cyklu alokujte pro každý řádek pole intů (sloupce)
-    // 3. V cyklech inicializujte všechny prvky na 0
-    return nullptr; // Nahraďte
+    int** matrix = new int*[rows];           // 1. Alokace pole ukazatelů (řádky)
+    for (int i = 0; i < rows; ++i) {
+        matrix[i] = new int[cols];           // 2. Alokace každého řádku (pole int)
+        for (int j = 0; j < cols; ++j) {
+            matrix[i][j] = 0;                // 3. Inicializace na 0
+        }
+    }
+    return matrix;
 }
 
 /**
@@ -22,9 +25,11 @@ int** allocateMatrix(int rows, int cols) {
  * @param rows Počet řádků matice.
  */
 void deallocateMatrix(int** matrix, int rows) {
-    // TODO: Doplňte kód pro dealokaci
-    // 1. V cyklu uvolněte paměť pro každý řádek
-    // 2. Uvolněte paměť pro pole pointerů
+    if (!matrix) return;
+    for (int i = 0; i < rows; ++i) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
 }
 
 /**
@@ -34,8 +39,12 @@ void deallocateMatrix(int** matrix, int rows) {
  * @param cols Počet sloupců.
  */
 void printMatrix(int** matrix, int rows, int cols) {
-    // TODO: Doplňte kód pro výpis
-    // Použijte std::cout a std::setw(4) pro hezčí formátování
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            std::cout << std::setw(4) << matrix[i][j];
+        }
+        std::cout << std::endl;
+    }
 }
 
 /**
@@ -47,9 +56,12 @@ void printMatrix(int** matrix, int rows, int cols) {
  * @return Ukazatel na novou matici, která je výsledkem součtu.
  */
 int** addMatrices(int** matrixA, int** matrixB, int rows, int cols) {
-    // TODO: Alokujte výslednou matici a proveďte součet
     int** result = allocateMatrix(rows, cols);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result[i][j] = matrixA[i][j] + matrixB[i][j];
+        }
+    }
     return result;
 }
 
@@ -62,9 +74,12 @@ int** addMatrices(int** matrixA, int** matrixB, int rows, int cols) {
  * @return Ukazatel na novou matici, která je výsledkem rozdílu.
  */
 int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) {
-    // TODO: Alokujte výslednou matici a proveďte rozdíl
     int** result = allocateMatrix(rows, cols);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result[i][j] = matrixA[i][j] - matrixB[i][j];
+        }
+    }
     return result;
 }
 
@@ -78,9 +93,14 @@ int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) {
  * @return Ukazatel na novou matici, která je výsledkem násobení.
  */
 int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int colsB) {
-    // TODO: Alokujte výslednou matici (rowsA x colsB) a proveďte násobení
     int** result = allocateMatrix(rowsA, colsB);
-    // ... doplňte výpočet (pozor na tři vnořené cykly)
+    for (int i = 0; i < rowsA; ++i) {
+        for (int j = 0; j < colsB; ++j) {
+            for (int k = 0; k < colsA; ++k) {
+                result[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
     return result;
 }
 
@@ -92,19 +112,19 @@ int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int c
  * @return Ukazatel na novou transponovanou matici (cols x rows).
  */
 int** transposeMatrix(int** matrix, int rows, int cols) {
-    // TODO: Alokujte výslednou matici (cols x rows) a proveďte transpozici
     int** result = allocateMatrix(cols, rows);
-    // ... doplňte výpočet
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result[j][i] = matrix[i][j];
+        }
+    }
     return result;
 }
 
 
 // --- Hlavní program (pro vaše vlastní testování) ---
-
 #ifndef __TEST__
 int main() {
-    // Zde si můžete vytvořit vlastní testovací scénář
-    
     int rowsA = 2, colsA = 3;
     int** matA = allocateMatrix(rowsA, colsA);
     matA[0][0] = 1; matA[0][1] = 2; matA[0][2] = 3;
@@ -131,7 +151,6 @@ int main() {
     int** matT = transposeMatrix(matA, rowsA, colsA);
     std::cout << "\nTransponovana matice A:" << std::endl;
     printMatrix(matT, colsA, rowsA);
-
 
     // Uvolnění paměti
     deallocateMatrix(matA, rowsA);
