@@ -22,7 +22,7 @@ int** allocateMatrix(int rows, int cols) {
         }
     }
     return matrix; // Nahraďte
-=======
+
     return nullptr; // Nahraďte
 
 }
