@@ -15,6 +15,8 @@ int** allocateMatrix(int rows, int cols) {
     matrix = new int*[rows];
     for (int i = 0; i < rows; i++){
         matrix[i] = new int [cols];
+        for(int j = 0; j < cols; j++)
+            matrix[i][j] = 0;
     }
     return matrix; // Nahraďte
 }
