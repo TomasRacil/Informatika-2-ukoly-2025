@@ -12,10 +12,13 @@
  * @return Obsah souboru jako std::string.
  */
 std::string getFileContent(std::string filename) {
-    // TODO: Doplňte kód pro načtení souboru.
-    // Nápověda: Použijte std::ifstream a std::stringstream.
-    // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (!in) {
+        return "";
+    }
+    std::ostringstream ss;
+    ss << in.rdbuf();
+    return ss.str();
 }
 
 /**
@@ -24,8 +27,8 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
-    // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    // Počet všech znaků včetně mezer a nových řádků
+    return static_cast<int>(content.size());
 }
 
 /**
@@ -34,9 +37,12 @@ int countCharacters(std::string content) {
  * @return Počet řádků.
  */
 int countLines(std::string content) {
-    // TODO: Doplňte kód pro spočítání řádků.
-    // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    if (content.empty()) return 0;
+    int lines = 0;
+    for (char c : content) if (c == '\n') ++lines;
+    // Pokud poslední znak není newline, pak je potřeba přičíst poslední řádek
+    if (content.back() != '\n') ++lines;
+    return lines;
 }
 
 /**
@@ -45,9 +51,11 @@ int countLines(std::string content) {
  * @return Počet slov.
  */
 int countWords(std::string content) {
-    // TODO: Doplňte kód pro spočítání slov.
-    // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+    std::istringstream iss(content);
+    std::string word;
+    int count = 0;
+    while (iss >> word) ++count;
+    return count;
 }
 
 /**
@@ -56,9 +64,12 @@ int countWords(std::string content) {
  * @return Počet samohlásek.
  */
 int countVowels(std::string content) {
-    // TODO: Doplňte kód pro spočítání samohlásek.
-    // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    int count = 0;
+    for (unsigned char ch : content) {
+        char c = static_cast<char>(std::tolower(ch));
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') ++count;
+    }
+    return count;
 }
 
 
@@ -90,4 +101,3 @@ int main() {
     return 0;
 }
 #endif // __TEST__
-
