@@ -56,7 +56,8 @@
         "variant": "cpp",
         "chrono": "cpp",
         "list": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "scoped_allocator": "cpp"
     },
     "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp"
 }
