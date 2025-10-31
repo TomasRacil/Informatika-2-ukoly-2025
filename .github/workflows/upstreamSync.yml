@@ -21,6 +21,6 @@ jobs:
 
       - name: Merge Changes and Push
         run: |
-          git checkout master
+          git checkout upstream/master
           git merge upstream/master
           git push origin master || echo "Master is up to date" && exit 1
