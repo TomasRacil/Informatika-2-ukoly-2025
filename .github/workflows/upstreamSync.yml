@@ -23,4 +23,4 @@ jobs:
         run: |
           git checkout master
           git merge upstream/master
-          git push origin master
+          git push origin master || echo "Master is up to date" && exit 1
