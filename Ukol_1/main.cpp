@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <cctype>
+#include <regex>
 
 // --- Funkce k implementaci ---
 
@@ -11,11 +12,25 @@
  * @param filename Název souboru.
  * @return Obsah souboru jako std::string.
  */
-std::string getFileContent(std::string filename) {
+std::string getFileContent(std::string filename)
+{
     // TODO: Doplňte kód pro načtení souboru.
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+
+    std::ifstream soubor(filename);
+
+    if (!soubor || !soubor.is_open())
+    {
+        return "";
+    }
+
+    std::stringstream content;
+
+    content << soubor.rdbuf();
+    soubor.close();
+
+    return content.str();
 }
 
 /**
@@ -23,9 +38,16 @@ std::string getFileContent(std::string filename) {
  * @param content Text k analýze.
  * @return Počet znaků.
  */
-int countCharacters(std::string content) {
+int countCharacters(std::string content)
+{
     // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    int total_characters = 0;
+
+    for (char ch : content) {
+        total_characters++;
+    }
+
+    return total_characters;
 }
 
 /**
@@ -33,10 +55,25 @@ int countCharacters(std::string content) {
  * @param content Text k analýze.
  * @return Počet řádků.
  */
-int countLines(std::string content) {
+int countLines(std::string content)
+{
     // TODO: Doplňte kód pro spočítání řádků.
     // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+
+    int lines = 0;
+
+    // prvni radek nema znak \n
+    if (!content.empty()) {
+        lines++;
+    }
+
+    for (char ch : content) {
+        if (ch == '\n') {
+            lines++;
+        }
+    }
+
+    return lines;
 }
 
 /**
@@ -44,10 +81,20 @@ int countLines(std::string content) {
  * @param content Text k analýze.
  * @return Počet slov.
  */
-int countWords(std::string content) {
+int countWords(std::string content)
+{
     // TODO: Doplňte kód pro spočítání slov.
     // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+
+    std::stringstream ss(content);
+    std::string words;
+    int word_count = 0;
+
+    while (ss >> words) {
+        word_count++;
+    }
+
+    return word_count;
 }
 
 /**
@@ -55,23 +102,34 @@ int countWords(std::string content) {
  * @param content Text k analýze.
  * @return Počet samohlásek.
  */
-int countVowels(std::string content) {
+int countVowels(std::string content)
+{
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
-}
+    std::regex samohlasky("[aeiou]", std::regex_constants::icase);
 
+    int total_vowels = 0;
+
+    for (char ch : content) {
+        if (std::regex_search(std::string(1, ch), samohlasky)) {
+            total_vowels++;
+        }
+    }
+    return total_vowels;
+}
 
 // --- Hlavní program (neměnit) ---
 
 #ifndef __TEST__
-int main() {
+int main()
+{
     std::string filename = "text_k_analyze.txt";
     std::string content = getFileContent(filename);
 
-    if (content.empty() && filename == "text_k_analyze.txt") {
-         std::cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << std::endl;
-         return 1;
+    if (content.empty() && filename == "text_k_analyze.txt")
+    {
+        std::cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << std::endl;
+        return 1;
     }
 
     // Volání jednotlivých analytických funkcí
@@ -90,4 +148,3 @@ int main() {
     return 0;
 }
 #endif // __TEST__
-
