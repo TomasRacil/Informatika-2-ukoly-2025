@@ -72,14 +72,14 @@ int countWords(std::string content) {
 int countVowels(std::string content) {
     // TODO: Doplňte kód pro spočítání samohlásek.
     // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    int count = 0;
+    int PocetSam = 0;
     for (char c : content) {
         char lowerC = std::tolower(c);
         if (lowerC == 'a' || lowerC == 'e' || lowerC == 'i' || lowerC == 'o' || lowerC == 'u') {
-            count++;
+            PocetSam++;
         }
     }
-    return count;
+    return PocetSam;
 }
 
 
