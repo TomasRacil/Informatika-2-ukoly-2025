@@ -26,9 +26,25 @@ private:
         // 2. V cyklu alokujte pro každý řádek pole intů (sloupce) o velikosti cols_
         // 3. V cyklech inicializujte všechny prvky na 0
         // Poznámka: Pokud rows_ nebo cols_ je 0, data_ by měl být nullptr
-        data_ = nullptr; // Nahraďte implementací
-    }
 
+        
+
+        if (rows_ <= 0 || cols_ <= 0) 
+        {
+        data_ = nullptr;
+        return;
+        }
+
+        data_ = new int*[rows_];
+        for (int i = 0; i < rows_; ++i) 
+        {
+            data_[i] = new int[cols_];
+            for (int j = 0; j < cols_; ++j) 
+            {
+            data_[i][j] = 0;
+            }
+    }
+    }
     /**
      * @brief Soukromá pomocná funkce pro uvolnění alokované paměti.
      * Volá se v destruktoru a operátoru přiřazení.
@@ -37,6 +53,17 @@ private:
         // TODO: Uvolněte paměť alokovanou pro data_.
         // 1. V cyklu uvolněte paměť pro každý řádek (pokud data_ není nullptr a rows_ > 0)
         // 2. Uvolněte paměť pro pole pointerů (pokud data_ není nullptr)
+
+        if(data_ != nullptr && rows_ > 0)
+        {
+        for(int i = 0; i<rows_; i++)
+        {
+            delete[] data_[i];
+
+        }
+        delete[] data_; 
+        data_ = nullptr;
+        }
     }
 
 public:
@@ -48,6 +75,9 @@ public:
     Matrix(int rows, int cols) {
         // TODO: Nastavte rows_ a cols_
         // TODO: Zavolejte allocateMatrix()
+        this->cols_ = cols;
+        this->rows_ = rows;
+        allocateMatrix();
     }
 
     /**
@@ -55,6 +85,8 @@ public:
      */
     ~Matrix() {
         // TODO: Zavolejte deallocateMatrix()
+
+        deallocateMatrix();
     }
 
     /**
@@ -70,9 +102,20 @@ public:
         // 2. Alokujte vlastní paměť (volejte allocateMatrix)
         // ...
         data_ = nullptr; // Nahraďte
+
+        allocateMatrix();
         
         // 3. Zkopírujte hodnoty z other.data_ do this->data_
         // (Pouze pokud data_ a other.data_ nejsou nullptr)
+
+       if (data_ != nullptr && other.data_ != nullptr) {
+        for (int i = 0; i < rows_; ++i) {
+            for (int j = 0; j < cols_; ++j) {
+                data_[i][j] = other.data_[i][j];
+            }
+        }
+    }
+
     }
 
     // TODO: (Bonus) Operátor přiřazení (=)
@@ -83,7 +126,13 @@ public:
      */
     int getRows() const {
         // TODO: Vraťte rows_
-        return rows_; // Nahraďte
+        if(this->rows_>0)
+        {
+        return this->rows_;
+        }
+        else{
+            return 0;
+        } // Nahraďte
     }
 
     /**
@@ -91,7 +140,14 @@ public:
      */
     int getCols() const {
         // TODO: Vraťte cols_
-        return cols_; // Nahraďte
+        if(this->cols_>0)
+        {
+        return this->cols_; // Nahraďte
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     /**
@@ -104,7 +160,11 @@ public:
         // TODO: Vraťte hodnotu na pozici [row][col]
         // Nezapomeňte ošetřit neplatné indexy (vyhodit std::out_of_range)
         // a ošetřit případ, kdy data_ == nullptr.
-        return -1; // Nahraďte implementací
+
+        if (data_ == nullptr || row < 0 || col < 0 || row >= rows_ || col >= cols_) {
+        throw std::out_of_range("Index mimo rozsah");
+    }
+    return data_[row][col];
     }
 
     /**
@@ -119,6 +179,11 @@ public:
         // Nezapomeňte ošetřit neplatné indexy (vyhodit std::out_of_range)
         // a ošetřit případ, kdy data_ == nullptr.
         // data_[row][col] = value;
+
+        if (data_ == nullptr || row < 0 || col < 0 || row >= rows_ || col >= cols_) {
+        throw std::out_of_range("Index mimo rozsah");
+    }
+    data_[row][col] = value;
     }
 
     /**
@@ -128,6 +193,14 @@ public:
         // TODO: Vytiskněte matici do konzole
         // Použijte std::cout a std::setw(4) pro hezké formátování
         std::cout << "Matrix (" << rows_ << "x" << cols_ << ")" << std::endl;
+        for(int i =0; i<rows_; i++)
+        {
+            for(int j = 0; j<cols_;j++)
+            {
+                std::cout << data_[i][j] << std::setw(4);
+            }
+            std::cout << '\n';
+        }
         // ... doplňte cykly pro výpis prvků
     }
 
@@ -141,12 +214,30 @@ public:
         // TODO: Zkontrolujte, zda jsou rozměry matic stejné
         // Pokud ne, vraťte prázdnou matici: return Matrix(0, 0);
         
+        if(other.rows_ == rows_ && other.cols_ == cols_)
+        {
+            Matrix result(rows_, cols_);
+
+            for(int i = 0; i<rows_;i++)
+            {
+                for(int j=0; j<cols_; j++)
+                {
+                    result.data_[i][j] = other.data_[i][j] + data_[i][j];
+                }
+            }
+            return result;
+        }
+        else
+        {
+            return Matrix(0,0);
+        }
+
         // TODO: Vytvořte novou matici 'result' pro výsledek
-        Matrix result(rows_, cols_);
         
+
+
         // TODO: Proveďte sčítání prvek po prvku
         
-        return result;
     }
 
     /**
@@ -157,11 +248,23 @@ public:
      */
     Matrix subtract(const Matrix& other) const {
         // TODO: Implementujte odečítání (podobně jako sčítání)
-        
-        Matrix result(rows_, cols_);
-        // ... doplňte výpočet
-        
-        return result; // Nahraďte
+       if(other.rows_ == rows_ && other.cols_ == cols_)
+        {
+            Matrix result(rows_, cols_);
+
+            for(int i = 0; i<rows_;i++)
+            {
+                for(int j=0; j<cols_; j++)
+                {
+                    result.data_[i][j] = data_[i][j]- other.data_[i][j];
+                }
+            }
+            return result;
+        }
+        else
+        {
+            return Matrix(0,0);
+        }
     }
 
     /**
@@ -176,11 +279,24 @@ public:
 
         // TODO: Vytvořte novou matici 'result' (this->rows_ x other.cols_)
         Matrix result(rows_, other.cols_);
-
-        // TODO: Proveďte násobení matic (tři vnořené cykly)
-        // result.setValue(i, j, suma);
-
-        return result;
+        if(other.rows_ == cols_ && other.cols_ == rows_)
+        {
+            for(int i=0; i<rows_; i++)
+            {
+            for(int j =0; j<other.cols_; j++)
+            {
+                for(int k = 0; k < cols_; k++)
+                {
+                    result.data_[i][j] += data_[i][k] * other.data_[k][j];
+                }
+            }
+            }
+            return result;
+        }
+        else
+        {
+            return Matrix(0,0);
+        }
     }
 
     /**
@@ -191,8 +307,12 @@ public:
         // TODO: Vytvořte novou matici 'result' (this->cols_ x this->rows_)
         Matrix result(cols_, rows_);
 
-        // TODO: Proveďte transpozici
-        // (Projděte původní matici a hodnoty ukládejte do 'result' na prohozené pozice)
+        for (int i = 0; i < rows_; i++)
+        {
+        for (int j = 0; j < cols_; j++) {
+            result.data_[j][i] = data_[i][j];
+        }
+        }
 
         return result;
     }
