@@ -1,193 +1,427 @@
 #include <iostream>
+#include <iomanip>   // Pro std::setw
+#include <stdexcept> // Pro případné výjimky
 
-using namespace std;
+// ===================================================================
+// 1. ČÁST: DEFINICE A IMPLEMENTACE TŘÍDY MATRIX
+// ===================================================================
 
-void clearConsole()
+/**
+ * @brief Třída reprezentující matici a operace nad ní.
+ * Implementace metod je psána přímo v těle třídy.
+ */
+class Matrix
 {
-    cout << "\033[2J\033[1;1H";
-}
+private:
+    int rows_;
+    int cols_;
+    int **data_;
 
-class Kalkulacka
-{
-    double vypocetBmi()
+    /**
+     * @brief Soukromá pomocná funkce pro alokaci paměti a inicializaci na 0.
+     * Volá se v konstruktorech.
+     */
+    void allocateMatrix()
     {
-
-        string hmotnost;
-        string vyska;
-
-        double vysledek = 0;
-        double hmotnostAsDouble = 0;
-        double vyskaAsDouble = 0;
-
-    retry:
-        try
+        // TODO: Alokujte paměť pro data_ (int**).
+        // 1. Alokujte pole pointerů (řádky) o velikosti rows_
+        // 2. V cyklu alokujte pro každý řádek pole intů (sloupce) o velikosti cols_
+        // 3. V cyklech inicializujte všechny prvky na 0
+        // Poznámka: Pokud rows_ nebo cols_ je 0, data_ by měl být nullptr
+        if (rows_ == 0 || cols_ == 0)
         {
-            cout << "Zadejte vasi hmotnost v kg: \n";
-            cin >> hmotnost;
-            hmotnostAsDouble = stod(hmotnost);
-
-            cout << "Zadejte vasi vysku v cm: \n";
-            cin >> vyska;
-            vyskaAsDouble = stod(vyska) / 100;
+            data_ = nullptr;
+            return;
         }
-        catch (...)
+        data_ = new int *[rows_];
+        for (int i = 0; i < rows_; i++)
         {
-            cout << "Neplatny vstup, zkuste to znovu. \n"
-                 << endl;
-            goto retry;
+            data_[i] = new int[cols_];
+            for (int j = 0; j < cols_; j++)
+            {
+                data_[i][j] = 0;
+            }
         }
-
-        vysledek = hmotnostAsDouble / (vyskaAsDouble * vyskaAsDouble);
-        return vysledek;
     }
 
-    double vypocetBmr()
+    /**
+     * @brief Soukromá pomocná funkce pro uvolnění alokované paměti.
+     * Volá se v destruktoru a operátoru přiřazení.
+     */
+    void deallocateMatrix()
     {
-
-        string pohlavi;
-        string vek;
-        string hmotnost;
-        string vyska;
-
-        double vysledek = 0;
-        double hmotnostAsDouble = 0;
-        double vyskaAsDouble = 0;
-        int vekAsInt = 0;
-
-    retry:
-        try
+        // TODO: Uvolněte paměť alokovanou pro data_.
+        // 1. V cyklu uvolněte paměť pro každý řádek (pokud data_ není nullptr a rows_ > 0)
+        // 2. Uvolněte paměť pro pole pointerů (pokud data_ není nullptr)
+        if (data_ != nullptr)
         {
-            cout << "Zadejte vase pohlavi (m/z): \n";
-            cin >> pohlavi;
-            if (pohlavi != "m" && pohlavi != "z")
+            for (int i = 0; i < rows_; i++)
             {
-                throw std::exception();
+                delete data_[i];
             }
-
-            cout << "Zadejte vas vek: \n";
-            cin >> vek;
-            vekAsInt = stoi(vek);
-
-            cout << "Zadejte vasi hmotnost v kg: \n";
-            cin >> hmotnost;
-            hmotnostAsDouble = stod(hmotnost);
-
-            cout << "Zadejte vasi vysku v cm: \n";
-            cin >> vyska;
-            vyskaAsDouble = stod(vyska);
+            delete data_;
+            data_ = nullptr;
         }
-        catch (...)
-        {
-            cout << "Neplatny vstup, zkuste to znovu. \n"
-                 << endl;
-            goto retry;
-        }
-
-        // vzorec ktery jsem nasel https://www.thecalculatorsite.com/articles/health/bmr-formula.php
-
-        if (pohlavi == "m")
-        {
-            vysledek = 66.47 + (13.75 * hmotnostAsDouble) + (5.003 * vyskaAsDouble) - (6.755 * vekAsInt);
-        }
-        else
-            vysledek = 655.1 + (9.563 * hmotnostAsDouble) + (1.85 * vyskaAsDouble) - (4.676 * vekAsInt);
-
-        return vysledek;
     }
 
 public:
-    int menu()
+    /**
+     * @brief Konstruktor: Vytvoří matici daných rozměrů.
+     * @param rows Počet řádků.
+     * @param cols Počet sloupců.
+     */
+    Matrix(int rows, int cols)
     {
-    retry:
-
-        cout << "Vyberte si operaci: \n";
-        cout << "1. Spocitat BMI \n";
-        cout << "2. Spocitat BMR \n";
-        cout << "3. Konec" << endl;
-
-        string volba;
-        int volbaAsInt = 0;
-
-        cin >> volba;
-
-        try
+        // TODO: Nastavte rows_ a cols_
+        // TODO: Zavolejte allocateMatrix()
+        rows_ = 0;
+        cols_ = 0;
+        if (rows > 0 && cols > 0)
         {
-            volbaAsInt = stoi(volba);
-            if (volbaAsInt < 1 || volbaAsInt > 3)
+
+            rows_ = rows;
+            cols_ = cols;
+        }
+
+        allocateMatrix();
+    }
+
+    /**
+     * @brief Destruktor: Uvolní alokovanou paměť.
+     */
+    ~Matrix()
+    {
+        // TODO: Zavolejte deallocateMatrix()
+        deallocateMatrix();
+    }
+
+    /**
+     * @brief Kopírovací konstruktor (Hluboká kopie).
+     * @param other Matice, ze které se kopíruje.
+     */
+    Matrix(const Matrix &other)
+    {
+        // TODO: Implementujte kopírovací konstruktor (hluboká kopie)
+        // 1. Zkopírujte rows_ a cols_ z 'other'
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+
+        // 2. Alokujte vlastní paměť (volejte allocateMatrix)
+        allocateMatrix();
+
+        // 3. Zkopírujte hodnoty z other.data_ do this->data_
+        // (Pouze pokud data_ a other.data_ nejsou nullptr)
+        if (data_ != nullptr && other.data_ != nullptr)
+        {
+            for (int i = 0; i < rows_; i++)
             {
-                throw std::out_of_range("Neplatna volba");
+                for (int j = 0; j < cols_; j++)
+                {
+                    data_[i][j] = other.data_[i][j];
+                }
             }
         }
-        catch (...)
-        {
-            clearConsole();
-            cout << "Neplatna volba, zkuste to znovu." << endl;
-            goto retry;
-        }
-        return volbaAsInt;
-    };
-
-    void handleBmi()
-    {
-        double vysledek = vypocetBmi();
-        cout << "Vase BMI je: " << vysledek << endl;
-
-        if (vysledek < 18.5)
-        {
-            cout << "Podvaha" << endl;
-        }
-        else if (vysledek >= 18.5 && vysledek < 25)
-        {
-            cout << "Normalni hmotnost" << endl;
-        }
-        else if (vysledek >= 25 && vysledek < 30)
-        {
-            cout << "Nadvaha" << endl;
-        }
-        else
-        {
-            cout << "Obezita" << endl;
-        }
-        cout << "Pro pokracovani stisknete libovolnou klavesu..." << endl;
-
-        // cekani na jakikoliv vstup
-        cin.ignore(); // vycisteni bufferu
-        cin.get();
     }
 
-    void handleBmr()
+    // TODO: (Bonus) Operátor přiřazení (=)
+    // Matrix& operator=(const Matrix& other);
+    Matrix &operator=(const Matrix &other)
     {
-        double vysledek = vypocetBmr();
-        cout << "Vase BMR je: " << vysledek << endl;
-        cout << "Pro pokracovani stisknete libovolnou klavesu..." << endl;
+        if (this == &other)
+            return *this;
 
-        cin.ignore();
-        cin.get();
+        deallocateMatrix();
+
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+
+        allocateMatrix();
+
+        if (data_ != nullptr && other.data_ != nullptr)
+        {
+            for (int i = 0; i < rows_; i++)
+            {
+                for (int j = 0; j < cols_; j++)
+                {
+                    data_[i][j] = other.data_[i][j];
+                }
+            }
+        }
+        return *this;
+    }
+
+    /**
+     * @brief Vrátí počet řádků matice.
+     */
+    int
+    getRows() const
+    {
+        // TODO: Vraťte rows_
+        return rows_; // Nahraďte
+    }
+
+    /**
+     * @brief Vrátí počet sloupců matice.
+     */
+    int getCols() const
+    {
+        // TODO: Vraťte cols_
+        return cols_; // Nahraďte
+    }
+
+    /**
+     * @brief Vrátí hodnotu na dané pozici.
+     * Pokud jsou indexy mimo rozsah, vyhodí std::out_of_range.
+     * @param row Index řádku.
+     * @param col Index sloupce.
+     */
+    int getValue(int row, int col) const
+    {
+        // TODO: Vraťte hodnotu na pozici [row][col]
+        // Nezapomeňte ošetřit neplatné indexy (vyhodit std::out_of_range)
+        // a ošetřit případ, kdy data_ == nullptr.
+        if (data_ == nullptr)
+        {
+            throw std::out_of_range("Matice není inicializována");
+        }
+        if (row < 0 || row >= rows_ || col < 0 || col >= cols_)
+        {
+            throw std::out_of_range("Pozice mimo rozsah");
+        }
+        return data_[row][col];
+    }
+
+    /**
+     * @brief Nastaví hodnotu na dané pozici.
+     * Pokud jsou indexy mimo rozsah, vyhodí std::out_of_range.
+     * @param row Index řádku.
+     * @param col Index sloupce.
+     * @param value Nová hodnota.
+     */
+    void setValue(int row, int col, int value)
+    {
+        // TODO: Nastavte hodnotu na pozici [row][col]
+        // Nezapomeňte ošetřit neplatné indexy (vyhodit std::out_of_range)
+        // a ošetřit případ, kdy data_ == nullptr.
+        // data_[row][col] = value;
+        if (data_ == nullptr)
+        {
+            throw std::out_of_range("Matice není inicializována");
+            return;
+        }
+        if (row < 0 || row >= rows_ || col < 0 || col >= cols_)
+        {
+            throw std::out_of_range("Pozice mimo rozsah");
+            return;
+        }
+        data_[row][col] = value;
+    }
+
+    /**
+     * @brief Vytiskne matici do konzole.
+     */
+    void print() const
+    {
+        // TODO: Vytiskněte matici do konzole
+        // Použijte std::cout a std::setw(4) pro hezké formátování
+        std::cout << "Matrix (" << rows_ << "x" << cols_ << ")" << std::endl;
+        // ... doplňte cykly pro výpis prvků
+        for (int i = 0; i < rows_; i++)
+        {
+            for (int j = 0; j < cols_; j++)
+            {
+                std::cout << std::setw(4) << data_[i][j];
+            }
+            std::cout << std::endl;
+        }
+    }
+
+    /**
+     * @brief Sečte tuto matici s jinou maticí.
+     * @param other Matice, která se přičítá.
+     * @return Nový objekt Matrix s výsledkem součtu.
+     * Vrací Matrix(0, 0) pokud operace není možná.
+     */
+    Matrix add(const Matrix &other) const
+    {
+        // TODO: Zkontrolujte, zda jsou rozměry matic stejné
+        // Pokud ne, vraťte prázdnou matici: return Matrix(0, 0);
+        if (rows_ != other.rows_ || cols_ != other.cols_)
+        {
+            return Matrix(0, 0);
+        }
+
+        // TODO: Vytvořte novou matici 'result' pro výsledek
+        Matrix result(rows_, cols_);
+
+        // TODO: Proveďte sčítání prvek po prvku
+        for (int i = 0; i < rows_; i++)
+        {
+            for (int j = 0; j < cols_; j++)
+            {
+                result.setValue(i, j, getValue(i, j) + other.getValue(i, j));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @brief Odečte jinou matici od této (this - other).
+     * @param other Matice, která se odčítá.
+     * @return Nový objekt Matrix s výsledkem rozdílu.
+     * Vrací Matrix(0, 0) pokud operace není možná.
+     */
+    Matrix subtract(const Matrix &other) const
+    {
+        // TODO: Implementujte odečítání (podobně jako sčítání)
+        if (rows_ != other.rows_ || cols_ != other.cols_)
+        {
+            return Matrix(0, 0);
+        }
+
+        Matrix result(rows_, cols_);
+        // ... doplňte výpočet
+
+        for (int i = 0; i < rows_; i++)
+        {
+            for (int j = 0; j < cols_; j++)
+            {
+                result.setValue(i, j, getValue(i, j) - other.getValue(i, j));
+            }
+        }
+
+        return result; // Nahraďte
+    }
+
+    /**
+     * @brief Vynásobí tuto matici jinou maticí (this * other).
+     * @param other Matice, kterou se násobí.
+     * @return Nový objekt Matrix s výsledkem násobení.
+     * Vrací Matrix(0, 0) pokud operace není možná.
+     */
+    Matrix multiply(const Matrix &other) const
+    {
+        // TODO: Zkontrolujte, zda jsou rozměry matic platné pro násobení
+        // Pokud ne, vraťte prázdnou matici: return Matrix(0, 0);
+        if (cols_ != other.rows_)
+        {
+            return Matrix(0, 0);
+        }
+
+        // TODO: Vytvořte novou matici 'result' (this->rows_ x other.cols_)
+        Matrix result(rows_, other.cols_);
+
+        // TODO: Proveďte násobení matic (tři vnořené cykly)
+        // result.setValue(i, j, suma);
+        for (int i = 0; i < rows_; i++)
+        {
+            for (int j = 0; j < other.cols_; j++)
+            {
+                int suma = 0;
+                for (int k = 0; k < cols_; k++)
+                {
+                    suma += getValue(i, k) * other.getValue(k, j);
+                }
+                result.setValue(i, j, suma);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * @brief Vytvoří transponovanou matici k této matici.
+     * @return Nový objekt Matrix, který je transpozicí.
+     */
+    Matrix transpose() const
+    {
+        // TODO: Vytvořte novou matici 'result' (this->cols_ x this->rows_)
+        Matrix result(cols_, rows_);
+
+        // TODO: Proveďte transpozici
+        // (Projděte původní matici a hodnoty ukládejte do 'result' na prohozené pozice)
+        for (int i = 0; i < rows_; i++)
+        {
+            for (int j = 0; j < cols_; j++)
+            {
+                result.setValue(j, i, getValue(i, j));
+            }
+        }
+
+        return result;
     }
 };
 
+// ===================================================================
+// 2. ČÁST: HLAVNÍ FUNKCE (PRO VAŠE TESTOVÁNÍ)
+// ===================================================================
+
+// Tento soubor se nespustí, pokud jsou spuštěny testy (díky __TEST__ definici)
+#ifndef __TEST__
 int main()
 {
-    Kalkulacka k = Kalkulacka();
+    std::cout << "--- Testovani tridy Matrix ---" << std::endl;
 
-    cout << "Vitejte v BMI kalkulacce! \n";
-    int volba = 0;
-    do
-    {
-        volba = k.menu();
-        switch (volba)
-        {
-        case 1:
-            k.handleBmi();
-            break;
-        case 2:
-            k.handleBmr();
-            break;
-        }
-        clearConsole();
-    } while (volba != 3);
+    // Vytvoření matice A
+    Matrix matA(2, 3);
+    matA.setValue(0, 0, 1);
+    matA.setValue(0, 1, 2);
+    matA.setValue(0, 2, 3);
+    matA.setValue(1, 0, 4);
+    matA.setValue(1, 1, 5);
+    matA.setValue(1, 2, 6);
 
-    cout << "Dekuji za pouziti a nashledanou. \n";
+    std::cout << "Matice A (2x3):" << std::endl;
+    matA.print();
+
+    // Vytvoření matice B
+    Matrix matB(3, 2);
+    matB.setValue(0, 0, 7);
+    matB.setValue(0, 1, 8);
+    matB.setValue(1, 0, 9);
+    matB.setValue(1, 1, 10);
+    matB.setValue(2, 0, 11);
+    matB.setValue(2, 1, 12);
+
+    std::cout << "\nMatice B (3x2):" << std::endl;
+    matB.print();
+
+    // Test násobení
+    Matrix matC = matA.multiply(matB);
+    std::cout << "\nVysledek A * B (2x2):" << std::endl;
+    matC.print();
+
+    // Test transpozice
+    Matrix matT = matA.transpose();
+    std::cout << "\nTransponovana matice A (3x2):" << std::endl;
+    matT.print();
+
+    // Test sčítání
+    Matrix matA2(2, 3);
+    matA2.setValue(0, 0, 10);
+    matA2.setValue(1, 1, 10);
+
+    std::cout << "\nMatice A2 (2x3):" << std::endl;
+    matA2.print();
+
+    Matrix matSum = matA.add(matA2);
+    std::cout << "\nVysledek A + A2 (2x3):" << std::endl;
+    matSum.print();
+
+    // Test kopírovacího konstruktoru
+    std::cout << "\nTest kopie matice A:" << std::endl;
+    Matrix matA_copy = matA;
+    matA_copy.print();
+
+    // Ověření hluboké kopie
+    matA.setValue(0, 0, 99);
+    std::cout << "\nMatice A po zmene (0,0) na 99:" << std::endl;
+    matA.print();
+    std::cout << "\nKopie matice A (mela by zustat nezmenena):" << std::endl;
+    matA_copy.print();
+
+    std::cout << "\n--- Testovani dokonceno ---" << std::endl;
 
     return 0;
-};
+}
+#endif // __TEST__

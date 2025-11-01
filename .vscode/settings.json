@@ -59,5 +59,8 @@
         "ratio": "cpp",
         "*.txt": "cpp"
     },
-    "cmake.sourceDirectory": "/workspaces/Informatika-2-ukoly-2025-Kaplanek_Lukas"
+    "cmake.sourceDirectory": "/workspaces/Informatika-2-ukoly-2025-Kaplanek_Lukas",
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "master"
+    ]
 }
