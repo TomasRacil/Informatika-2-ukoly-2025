@@ -1,0 +1,12 @@
+{
+  "includeFiles": [
+    "Ukoly_z_hodin/Skupinove_ulohy/**",
+    "src/**",
+    "README.md"
+  ],
+  "excludeFiles": [
+    "node_modules/**",
+    ".env",
+    ".git/**"
+  ]
+}
