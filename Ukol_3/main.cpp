@@ -66,6 +66,9 @@ public:
     Matrix(int rows, int cols)
         : rows_(rows), cols_(cols), data_(nullptr)
     {
+        // Normalize negative sizes to 0 to avoid negative allocations
+        if (rows_ < 0) rows_ = 0;
+        if (cols_ < 0) cols_ = 0;
         allocateMatrix();
     }
 
@@ -80,19 +83,24 @@ public:
      * @brief Kopírovací konstruktor (Hluboká kopie).
      * @param other Matice, ze které se kopíruje.
      */
-   Matrix(const Matrix& other)
-        : rows_(other.rows_), cols_(other.cols_), data_(nullptr)
-    {
-        allocateMatrix();
-        
-        if (data_ != nullptr && other.data_ != nullptr) {
-            for (int i = 0; i < rows_; ++i) {
-                for (int j = 0; j < cols_; ++j) {
-                    data_[i][j] = other.data_[i][j];
-                }
+    Matrix(const Matrix& other)
+    : rows_(other.rows_ < 0 ? 0 : other.rows_), cols_(other.cols_ < 0 ? 0 : other.cols_), data_(nullptr) {
+    if (rows_ == 0 || cols_ == 0) {
+        data_ = nullptr;
+        return;
+    }
+
+    allocateMatrix();
+
+    if (data_ != nullptr && other.data_ != nullptr) {
+        for (int i = 0; i < rows_; ++i) {
+            for (int j = 0; j < cols_; ++j) {
+                data_[i][j] = other.data_[i][j];
             }
         }
     }
+}
+
 
     /**
      * @brief Vrátí počet řádků matice.
