@@ -1,9 +1,9 @@
-name: C++ Syntax Tests
+name: C++ Ukol 3 Tests
 
 on: [push, pull_request]
 
 jobs:
-  cpp_syntax_check:
+  cpp_test:
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'pull_request' || 
@@ -13,9 +13,5 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install C++ dependencies
       run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev
-    - name: Check C++ syntax
-      run: |
-        find . -name "*.cpp" -print0 | while IFS= read -r -d '' file; do
-          g++ -fsyntax-only -std=c++17 -o /dev/null -S "$file" || exit 1
-        done
-        
+    - name: Build and run C++ tests
+      run: cd Ukol_3 && mkdir -p build && cd build && cmake .. && make && ./mytests || exit 1
