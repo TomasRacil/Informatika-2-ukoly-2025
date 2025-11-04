@@ -12,7 +12,7 @@ add_executable(mytests test.cpp)
 enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
-target_link_libraries(mytests GTest::gtest_main pthread)
+target_link_libraries(mytests GTest::gtest_main)
 
 target_compile_definitions(mytests PRIVATE __TEST__)
 
