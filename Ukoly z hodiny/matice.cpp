@@ -10,7 +10,6 @@ using namespace std;
 
 void vytvor_matici(int** pole, int radky, int sloupce){
         for (int i = 0; i < radky; ++i) {
-        // pPole2D[i] je typu 'ukazatel na int'
         pole[i] = new int[sloupce];
         for (int j = 0; j < sloupce; ++j){
             pole[i][j] = std::rand()%10;
