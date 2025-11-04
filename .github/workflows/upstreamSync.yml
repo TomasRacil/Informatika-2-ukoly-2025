@@ -13,7 +13,7 @@ jobs:
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           fetch-depth: 0
-          ref: test
+          ref: master
 
       - name: Configure Git
         run: |
@@ -69,10 +69,10 @@ jobs:
               fi
             done
             
-            git commit -m "Merge upstream/master into test (auto-resolved conflicts)"
+            git commit -m "Merge upstream/master into master (auto-resolved conflicts)"
           else
-            git commit -m "Merge upstream/master into test" || echo "Nothing to commit"
+            git commit -m "Merge upstream/master into master" || echo "Nothing to commit"
           fi
 
       - name: Push Changes
-        run: git push origin test
+        run: git push origin master
