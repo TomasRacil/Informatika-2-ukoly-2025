@@ -15,13 +15,13 @@ private:
 
     void allocateMatrix()
     {
+        // Pokud jsou rozměry 0 nebo záporné, nastavíme data_ na nullptr
         if (rows_ <= 0 || cols_ <= 0)
         {
             data_ = nullptr;
-            rows_ = 0;
-            cols_ = 0;
             return;
         }
+
         data_ = new int *[rows_];
 
         for (int i = 0; i < rows_; i++)
@@ -51,12 +51,11 @@ public:
         {
             rows_ = 0;
             cols_ = 0;
+            data_ = nullptr;
+            return;
         }
-        else
-        {
-            rows_ = rows;
-            cols_ = cols;
-        }
+        rows_ = rows;
+        cols_ = cols;
         allocateMatrix();
     }
 
@@ -102,13 +101,9 @@ public:
     // Getter pro hodnotu
     int getValue(int row, int col) const
     {
-        if (data_ == nullptr)
+        if (row < 0 || row >= rows_ || col < 0 || col >= cols_ || data_ == nullptr)
         {
-            throw std::runtime_error("Matice je prázdná");
-        }
-        if (row < 0 || row >= rows_ || col < 0 || col >= cols_)
-        {
-            throw std::out_of_range("Index mimo rozsah");
+            throw std::out_of_range("Index mimo rozsah nebo prázdná matice");
         }
         return data_[row][col];
     }
@@ -116,13 +111,9 @@ public:
     // Setter pro hodnotu
     void setValue(int row, int col, int value)
     {
-        if (data_ == nullptr)
+        if (row < 0 || row >= rows_ || col < 0 || col >= cols_ || data_ == nullptr)
         {
-            throw std::runtime_error("Matice je prázdná");
-        }
-        if (row < 0 || row >= rows_ || col < 0 || col >= cols_)
-        {
-            throw std::out_of_range("Index mimo rozsah");
+            throw std::out_of_range("Index mimo rozsah nebo prázdná matice");
         }
         data_[row][col] = value;
     }
