@@ -35,7 +35,7 @@ protected:
         // matB = {{5, 6}, {7, 8}}
         matB[0][0] = 5; matB[0][1] = 6;
         matB[1][0] = 7; matB[1][1] = 8;
-        
+
         // matIdent = {{1, 0}, {0, 1}}
         matIdent[0][0] = 1; matIdent[0][1] = 0;
         matIdent[1][0] = 0; matIdent[1][1] = 1;
@@ -53,7 +53,7 @@ TEST(AllocationTest, AllocateAndDeallocate) {
     int** matrix = allocateMatrix(rows, cols);
     ASSERT_NE(matrix, nullptr);
     ASSERT_NE(matrix[0], nullptr);
-    
+
     // Otestujeme, zda je inicializováno na 0
     EXPECT_EQ(matrix[0][0], 0);
     EXPECT_EQ(matrix[rows - 1][cols - 1], 0);
@@ -61,7 +61,7 @@ TEST(AllocationTest, AllocateAndDeallocate) {
     // Zapíšeme hodnotu
     matrix[1][1] = 123;
     EXPECT_EQ(matrix[1][1], 123);
-    
+
     deallocateMatrix(matrix, rows);
 }
 
