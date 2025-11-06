@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/workspaces/Informatika-2-ukoly-2025-JohnBui/Ukol_3/main.cpp
+iostream
+-
+iomanip
+-
+stdexcept
+-
+
+/workspaces/Informatika-2-ukoly-2025-JohnBui/Ukol_3/test.cpp
+gtest/gtest.h
+/workspaces/Informatika-2-ukoly-2025-JohnBui/Ukol_3/gtest/gtest.h
+main.cpp
+/workspaces/Informatika-2-ukoly-2025-JohnBui/Ukol_3/main.cpp
+stdexcept
+-
+
