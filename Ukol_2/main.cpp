@@ -103,7 +103,17 @@ int** subtractMatrices(int** matrixA, int** matrixB, int rows, int cols) {
 int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int colsB) {
     
     int** result = allocateMatrix(rowsA, colsB);
-    // ... doplňte výpočet (pozor na tři vnořené cykly)
+    for (int i = 0; i < rowsA; i++) {
+        for (int j = 0; j < colsB; j++) {
+
+            int sum = 0;
+            for (int k = 0; k < colsA; k++) {
+                sum += matrixA[i][k] * matrixB[k][j];
+            }
+
+            result[i][j] = sum;
+        }
+    }
     return result;
 }
 
@@ -117,7 +127,13 @@ int** multiplyMatrices(int** matrixA, int** matrixB, int rowsA, int colsA, int c
 int** transposeMatrix(int** matrix, int rows, int cols) {
     // TODO: Alokujte výslednou matici (cols x rows) a proveďte transpozici
     int** result = allocateMatrix(cols, rows);
-    // ... doplňte výpočet
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+
+            result[j][i] = matrix[i][j];
+        }
+    }
     return result;
 }
 
