@@ -79,7 +79,7 @@ public:
      * @brief Destruktor: Uvolní alokovanou paměť.
      */
     ~Matrix() {
-        // TODO: Zavolejte deallocateMatrix()
+        deallocateMatrix();
     }
 
     /**
@@ -108,16 +108,14 @@ public:
      * @brief Vrátí počet řádků matice.
      */
     int getRows() const {
-        // TODO: Vraťte rows_
-        return rows_; // Nahraďte
+        return rows_;
     }
 
     /**
      * @brief Vrátí počet sloupců matice.
      */
     int getCols() const {
-        // TODO: Vraťte cols_
-        return cols_; // Nahraďte
+        return cols_;
     }
 
     /**
@@ -266,10 +264,10 @@ public:
 // 2. ČÁST: HLAVNÍ FUNKCE (PRO VAŠE TESTOVÁNÍ)
 // ===================================================================
 
-// Tento soubor se nespustí, pokud jsou spuštěny testy (díky __TEST__ definici)
+// Bez kódu main, protože ten je hotov.
 #ifndef __TEST__
 int main() {
-    std::cout << "--- Testovani tridy Matrix ---" << std::endl;
+    std::cout << "--- Testovani tridy Matrix (Kompletni verze) ---" << std::endl;
     
     // Vytvoření matice A
     Matrix matA(2, 3);
@@ -280,7 +278,7 @@ int main() {
     matA.setValue(1, 1, 5);
     matA.setValue(1, 2, 6);
 
-    std::cout << "Matice A (2x3):" << std::endl;
+    std::cout << "\nMatice A (2x3):" << std::endl;
     matA.print();
 
     // Vytvoření matice B
@@ -317,18 +315,18 @@ int main() {
     std::cout << "\nVysledek A + A2 (2x3):" << std::endl;
     matSum.print();
 
-
-    // Test kopírovacího konstruktoru
-    std::cout << "\nTest kopie matice A:" << std::endl;
+    // Test kopírování a přiřazení
     Matrix matA_copy = matA;
-    matA_copy.print();
+    Matrix matA_assign(1, 1);
+    matA_assign = matA; 
     
-    // Ověření hluboké kopie
-    matA.setValue(0, 0, 99);
+    matA.setValue(0, 0, 99); // Změna originálu
     std::cout << "\nMatice A po zmene (0,0) na 99:" << std::endl;
     matA.print();
-    std::cout << "\nKopie matice A (mela by zustat nezmenena):" << std::endl;
+    std::cout << "\nKopie matice A (zustala puvodni hodnota 1):" << std::endl;
     matA_copy.print();
+    std::cout << "Prirazena matice A (zustala puvodni hodnota 1):" << std::endl;
+    matA_assign.print();
 
 
     std::cout << "\n--- Testovani dokonceno ---" << std::endl;
