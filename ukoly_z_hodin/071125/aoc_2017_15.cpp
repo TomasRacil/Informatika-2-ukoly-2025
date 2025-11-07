@@ -12,8 +12,8 @@ long int generator(long int num, int factor)
 
 int main()
 {
-    int a_starter = 65;   // 65; // 516;
-    int b_starter = 8921; // 8921;// 190;
+    int a_starter = 516;
+    int b_starter =  190;
 
     int a_generator = 16807;
     int b_generator = 48271;
@@ -27,30 +27,7 @@ int main()
 
     int valid_pairs = 0;
 
-    while (valid_pairs < gen_amount)
-    {
-        // Generate next valid numbers
-        do
-        {
-            a_result = generator(a_result, a_generator);
-        } while (a_result % 4 != 0);
-        do
-        {
-            b_result = generator(b_result, b_generator);
-        } while (b_result % 8 != 0);
-
-        // Compare lower 16 bits
-        if ((a_result & 0xFFFF) == (b_result & 0xFFFF))
-            matches++;
-
-        valid_pairs++;
-    }
-
-    /* for (int i = 0; i < gen_amount; i++)
-    {
-        a_result = generator(a_result, a_generator);
-        b_result = generator(b_result, b_generator);
-
+    while (valid_pairs < gen_amount)  {
         do
         {
             a_result = generator(a_result, a_generator);
@@ -68,6 +45,8 @@ int main()
         {
             matches++;
         }
-    } */
+
+        valid_pairs++;
+    }
     cout << matches;
 }
