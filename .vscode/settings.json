@@ -58,5 +58,14 @@
         "list": "cpp",
         "ratio": "cpp"
     },
-    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp"
+    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "My SQLite DB",
+            "database": "${workspaceFolder:Informatika-2-ukoly-2025-VaclavJelinek}/Ukoly_v_hodine/mydb.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }
