@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.0)
+project(Ukol_2)
+
+# Hlavní spustitelný soubor
+add_executable(kalkulacka main.cpp)
+
+# Testovací spustitelný soubor
+add_executable(mytests test.cpp)
+
+enable_testing()
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+target_link_libraries(mytests GTest::gtest_main)
+
+target_compile_definitions(mytests PRIVATE __TEST__)
+
+add_test(NAME mytests COMMAND mytests)
