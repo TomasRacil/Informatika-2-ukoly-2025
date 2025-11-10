@@ -27,6 +27,10 @@ std::string getFileContent(std::string content) {
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
     
 }
+std::stringstream buffer;
+buffer << file.rdbuf();            
+return buffer.str();   
+}
 
 /**
  * @brief Spočítá počet všech znaků v textu.
