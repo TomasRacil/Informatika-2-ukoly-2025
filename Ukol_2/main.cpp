@@ -9,19 +9,17 @@
  * @return Ukazatel na alokovanou matici (int**).
  */
 int** allocateMatrix(int rows, int cols) {
-    int** matrix=new int*[rows];
-    for(int i=0;i<rows;i++)
-    {
-        matrix[i]=new int[cols];
-        for(int j=0;j<cols;j++){
-            matrix[i][j]=0;
-            }
-        }
     // TODO: Doplňte kód pro alokaci
     // 1. Alokujte pole pointerů (řádky)
     // 2. V cyklu alokujte pro každý řádek pole intů (sloupce)
     // 3. V cyklech inicializujte všechny prvky na 0
-   
+    int** matrix = new int*[rows];
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = new int[cols];
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = 0;
+        }
+    }
     return matrix;
 }
 
@@ -31,10 +29,6 @@ int** allocateMatrix(int rows, int cols) {
  * @param rows Počet řádků matice.
  */
 void deallocateMatrix(int** matrix, int rows) {
-for(int i=0;i<rows;i++){
-    delete[] matrix[i];
-    }
-    delete[] matrix;
     // TODO: Doplňte kód pro dealokaci
     // 1. V cyklu uvolněte paměť pro každý řádek
     // 2. Uvolněte paměť pro pole pointerů
@@ -51,12 +45,6 @@ for(int i=0;i<rows;i++){
  * @param cols Počet sloupců.
  */
 void printMatrix(int** matrix, int rows, int cols) {
-    for(int i=0;i<rows;i++){
-        for(int j=0;j<cols;j++){
-            std::cout << std::setw(4)<<matrix[i][j];
-        }
-      
-    }
     // TODO: Doplňte kód pro výpis
     // Použijte std::cout a std::setw(4) pro hezčí formátování
     for (int i = 0; i < rows; i++) {

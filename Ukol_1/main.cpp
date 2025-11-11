@@ -26,10 +26,6 @@ std::string getFileContent(std::string content) {
     // Nápověda: Použijte std::ifstream a std::stringstream.
     // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
     
-
-std::stringstream buffer;
-buffer << file.rdbuf();            
-return buffer.str();   
 }
 
 /**
@@ -129,5 +125,4 @@ int main() {
     return 0;
 }
 #endif // TEST
-
 
