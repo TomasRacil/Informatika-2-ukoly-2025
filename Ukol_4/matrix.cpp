@@ -223,4 +223,5 @@ std::ostream &operator<<(std::ostream &os, const Matrix &mat)
             }
             os << std::endl;
         }
+    return os;
 }
