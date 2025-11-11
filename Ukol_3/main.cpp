@@ -71,8 +71,6 @@ private:
 public:
     /**
      * @brief Konstruktor: Vytvoří matici daných rozměrů.
-     * @param rows Počet řádků.
-     * @param cols Počet sloupců.
      */
     Matrix(int rows, int cols)
     {
@@ -95,7 +93,6 @@ public:
 
     /**
      * @brief Kopírovací konstruktor (Hluboká kopie).
-     * @param other Matice, ze které se kopíruje.
      */
     Matrix(const Matrix &other)
     {
@@ -122,8 +119,28 @@ public:
         }
     }
 
-    // TODO: (Bonus) Operátor přiřazení (=)
-    // Matrix& operator=(const Matrix& other);
+    /**
+     * @brief Operátor přiřazení (=)
+     */
+    Matrix& operator=(const Matrix& other) {
+        if (this == &other) {
+            return *this;
+        }
+
+        deallocateMatrix();
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+        allocateMatrix();
+        
+        if (data_ != nullptr) {
+            for (int i = 0; i < rows_; ++i) {
+                for (int j = 0; j < cols_; ++j) {
+                    data_[i][j] = other.data_[i][j];
+                }
+            }
+        }
+        return *this;
+    }
 
     /**
      * @brief Vrátí počet řádků matice.
@@ -345,7 +362,7 @@ public:
 // 2. ČÁST: HLAVNÍ FUNKCE (PRO VAŠE TESTOVÁNÍ)
 // ===================================================================
 
-// Tento soubor se nespustí, pokud jsou spuštěny testy (díky __TEST__ definici)
+// Bez kódu main, protože ten je hotov.
 #ifndef __TEST__
 int main()
 {
@@ -360,7 +377,7 @@ int main()
     matA.setValue(1, 1, 5);
     matA.setValue(1, 2, 6);
 
-    std::cout << "Matice A (2x3):" << std::endl;
+    std::cout << "\nMatice A (2x3):" << std::endl;
     matA.print();
 
     // Vytvoření matice B
@@ -397,17 +414,21 @@ int main()
     std::cout << "\nVysledek A + A2 (2x3):" << std::endl;
     matSum.print();
 
-    // Test kopírovacího konstruktoru
+    // Test kopírovacího konstruktoru a přiřazení
     std::cout << "\nTest kopie matice A:" << std::endl;
     Matrix matA_copy = matA;
     matA_copy.print();
+    Matrix matA_assign(1, 1);
+    matA_assign = matA; 
 
     // Ověření hluboké kopie
     matA.setValue(0, 0, 99);
     std::cout << "\nMatice A po zmene (0,0) na 99:" << std::endl;
     matA.print();
-    std::cout << "\nKopie matice A (mela by zustat nezmenena):" << std::endl;
+    std::cout << "\nKopie matice A (zustala puvodni hodnota 1):" << std::endl;
     matA_copy.print();
+    std::cout << "Prirazena matice A (zustala puvodni hodnota 1):" << std::endl;
+    matA_assign.print();
 
     std::cout << "\n--- Testovani dokonceno ---" << std::endl;
 
