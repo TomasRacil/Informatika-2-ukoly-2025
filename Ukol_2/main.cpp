@@ -21,13 +21,7 @@ int** allocateMatrix(int rows, int cols) {
     // 1. Alokujte pole pointerů (řádky)
     // 2. V cyklu alokujte pro každý řádek pole intů (sloupce)
     // 3. V cyklech inicializujte všechny prvky na 0
-    int** matrix = new int*[rows];
-    for (int i = 0; i < rows; i++) {
-        matrix[i] = new int[cols];
-        for (int j = 0; j < cols; j++) {
-            matrix[i][j] = 0;
-        }
-    }
+   
     return matrix;
 }
 
