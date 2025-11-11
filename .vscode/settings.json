@@ -56,7 +56,9 @@
         "variant": "cpp",
         "chrono": "cpp",
         "list": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     },
     "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp"
 }
