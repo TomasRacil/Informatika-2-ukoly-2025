@@ -42,10 +42,6 @@ std::string getFileContent(std::string filename)
 
     return buffer.str();
 }
-std::stringstream buffer;
-buffer << file.rdbuf();            
-return buffer.str();   
-}
 
 /**
 
