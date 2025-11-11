@@ -29,6 +29,8 @@ public:
     Matrix(int rows, int cols);
     ~Matrix();
     Matrix(const Matrix& other);
+
+    Matrix& operator=(const Matrix& other);
     
     int getRows() const;
     int getCols() const;
@@ -36,6 +38,7 @@ public:
     void setValue(int row, int col, int value);
     
     Matrix subtract(const Matrix& other);
+
     Matrix T();
 
     // Deklarace pro operátory +, *, <<
