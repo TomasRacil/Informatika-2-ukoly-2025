@@ -5,9 +5,7 @@
 
 /**
  * @brief Třída reprezentující matici a operace nad ní.
- * * TODO: Zkopírujte sem definici (deklaraci) vaší třídy Matrix z Ukolu 3.
- * Níže jsou uvedeny metody, které by třída měla obsahovat,
- * plus nové operátory pro Ukol 4.
+ * Finální hlavičkový soubor pro Úkol 4.
  */
 class Matrix {
 private:
@@ -15,52 +13,50 @@ private:
     int cols_;
     int** data_;
 
-    // TODO: Zkopírujte sem deklarace soukromých metod (allocateMatrix, deallocateMatrix)
+    // Deklarace soukromých pomocných metod
+    // (Implementace je skryta v .cpp souboru)
     void allocateMatrix();
     void deallocateMatrix();
 
 public:
-    // TODO: Zkopírujte sem deklarace veřejných metod z Ukolu 3
-    // (Konstruktor, Destruktor, Kopírovací konstruktor, gettery, settery,
-    // subtract, transpose)
-
-    // Příklad (doplňte zbytek):
-    Matrix();
-    Matrix(int rows, int cols);
-    ~Matrix();
-    Matrix(const Matrix& other);
+    // --- Konstruktory a destruktor ---
+    Matrix(); // Výchozí konstruktor
+    Matrix(int rows, int cols); // Hlavní konstruktor
+    ~Matrix(); // Destruktor
+    Matrix(const Matrix& other); // Kopírovací konstruktor
     
+    // --- Gettery (jsou 'const', protože jen čtou) ---
     int getRows() const;
     int getCols() const;
     int getValue(int row, int col) const;
+    
+    // --- Setter (není 'const', protože mění data) ---
     void setValue(int row, int col, int value);
     
-    Matrix subtract(const Matrix& other);
-    Matrix T();
+    // --- Operace (jsou 'const', protože nemění 'this' matici) ---
+    Matrix subtract(const Matrix& other) const;
+    Matrix T() const; // Transpozice
 
-    // Deklarace pro operátory +, *, <<
+    // --- Přetížené operátory (také 'const') ---
 
     /**
      * @brief Přetížení operátoru + pro sčítání matic.
-     * Nahrazuje metodu 'add'.
      */
-    Matrix operator+(const Matrix& other);
+    Matrix operator+(const Matrix& other) const;
 
     /**
      * @brief Přetížení operátoru * pro násobení matic.
-     * Nahrazuje metodu 'multiply'.
      */
-    Matrix operator*(const Matrix& other);
+    Matrix operator*(const Matrix& other) const;
 
     /**
-     * @brief Přetížení operátoru * pro násobení skalárem  (Matrix*scalar).
+     * @brief Přetížení operátoru * pro násobení skalárem (Matrix * scalar).
      */
-    Matrix operator*(int scalar);
+    Matrix operator*(int scalar) const;
 
     /**
      * @brief Přetížení operátoru << pro výpis matice do std::ostream.
+     * Toto je 'friend' funkce, není přímou součástí třídy.
      */
     friend std::ostream& operator<<(std::ostream& os, const Matrix& mat);
-
-
 };
