@@ -56,7 +56,11 @@
         "variant": "cpp",
         "chrono": "cpp",
         "list": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "bitset": "cpp",
+        "cstring": "cpp",
+        "unordered_set": "cpp",
+        "regex": "cpp"
     },
-    "cmake.sourceDirectory": "C:/Users/kubav/informatika-2-ukoly-2025-svejkys/Informatika-2-ukoly-2025-VitasekJakub/Ukol_3"
+    "cmake.sourceDirectory": "C:/Users/kubav/informatika-2-ukoly-2025-svejkys/Informatika-2-ukoly-2025-VitasekJakub/Ukol_1"
 }
