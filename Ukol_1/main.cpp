@@ -28,7 +28,6 @@ std::string getFileContent(std::string filename)
                                             // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
     return "";
 }
-
 /**
  * @brief Spočítá počet všech znaků v textu.
  * @param content Text k analýze.
