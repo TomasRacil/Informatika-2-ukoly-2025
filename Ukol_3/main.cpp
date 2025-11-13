@@ -23,15 +23,13 @@ private:
     void allocateMatrix() {
         if (rows_ <= 0 || cols_ <= 0) {
             data_ = nullptr;
-        data_ = nullptr;
-        return; 
+            return; 
     }
-    
-        data_ = new int*[rows_];
-        for (int i = 0; i < rows_; ++i) {
-            data_[i] = new int[cols_];
-            for (int j = 0; j < cols_; ++j) {
-                data_[i][j] = 0;
+    data_ = new int*[rows_];
+    for (int i = 0; i < rows_; ++i) {
+        data_[i] = new int[cols_];
+        for (int j = 0; j < cols_; ++j) {
+            data_[i][j] = 0;
             }
         }
     }
@@ -57,8 +55,15 @@ public:
      * @param cols Počet sloupců.
      */
     Matrix(int rows, int cols) { 
+        if (rows <=0 || cols <=0){
+            rows_ = 0;
+            cols_ = 0;
+            data_ = nullptr;
+            return;
+        }
         rows_ = rows;
         cols_ = cols;
+        data_ = nullptr;    
         allocateMatrix();
     }
 
