@@ -1,48 +1,27 @@
 #include "matrix.h"
-
-// TODO: Vložte sem potřebné #include (např. <iostream>, <iomanip>)
 #include <iostream>
 #include <iomanip>
-#include <stdexcept> // pro std::out_of_range
+#include <stdexcept>
 
-// ===================================================================
-// KROK 1: IMPLEMENTACE Z ÚKOLU 3
-// ===================================================================
-
-// Konstruktor bez parametrů
-Matrix::Matrix() : rows_(0), cols_(0), data_(nullptr) {}
-
-// Konstruktor s rozměry
-Matrix::Matrix(int rows, int cols) : rows_(rows), cols_(cols), data_(nullptr) {
-    allocateMatrix();
-}
-
-// Kopírovací konstruktor
-Matrix::Matrix(const Matrix& other) : rows_(other.rows_), cols_(other.cols_), data_(nullptr) {
-    allocateMatrix();
-    for (int i = 0; i < rows_; ++i)
-        for (int j = 0; j < cols_; ++j)
-            data_[i][j] = other.data_[i][j];
-}
-
-// Destruktor
-Matrix::~Matrix() {
-    deallocateMatrix();
-}
-
-// Alokace paměti pro matici
+// ===============================================================
+// Pomocné metody
+// ===============================================================
 void Matrix::allocateMatrix() {
     if (rows_ <= 0 || cols_ <= 0) {
+        rows_ = 0;
+        cols_ = 0;
         data_ = nullptr;
         return;
     }
 
     data_ = new int*[rows_];
-    for (int i = 0; i < rows_; ++i)
-        data_[i] = new int[cols_]{};
+    for (int i = 0; i < rows_; ++i) {
+        data_[i] = new int[cols_];
+        for (int j = 0; j < cols_; ++j)
+            data_[i][j] = 0;
+    }
 }
 
-// Uvolnění paměti
 void Matrix::deallocateMatrix() {
     if (data_ != nullptr) {
         for (int i = 0; i < rows_; ++i)
@@ -52,7 +31,36 @@ void Matrix::deallocateMatrix() {
     }
 }
 
-// Gettery a settery
+// ===============================================================
+// Konstrukce a destrukce
+// ===============================================================
+Matrix::Matrix() : rows_(0), cols_(0), data_(nullptr) {}
+
+Matrix::Matrix(int rows, int cols) : rows_(0), cols_(0), data_(nullptr) {
+    // Pokud jsou rozměry neplatné, zůstaň prázdný (0x0)
+    if (rows > 0 && cols > 0) {
+        rows_ = rows;
+        cols_ = cols;
+        allocateMatrix();
+    }
+}
+
+Matrix::~Matrix() {
+    deallocateMatrix();
+}
+
+Matrix::Matrix(const Matrix& other) : rows_(other.rows_), cols_(other.cols_), data_(nullptr) {
+    allocateMatrix();
+    if (data_ && other.data_) {
+        for (int i = 0; i < rows_; ++i)
+            for (int j = 0; j < cols_; ++j)
+                data_[i][j] = other.data_[i][j];
+    }
+}
+
+// ===============================================================
+// Gettery / Settery
+// ===============================================================
 int Matrix::getRows() const { return rows_; }
 int Matrix::getCols() const { return cols_; }
 
@@ -72,35 +80,35 @@ void Matrix::setValue(int row, int col, int value) {
     data_[row][col] = value;
 }
 
-// Odečtení matic
-Matrix Matrix::subtract(const Matrix& other) const {
+// ===============================================================
+// Operace
+// ===============================================================
+Matrix Matrix::subtract(const Matrix& other) {
     if (rows_ != other.rows_ || cols_ != other.cols_)
-        throw std::invalid_argument("Matrix dimensions must match for subtraction");
+        return Matrix(); // 0x0
 
     Matrix result(rows_, cols_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < cols_; ++j)
-            result.setValue(i, j, getValue(i, j) - other.getValue(i, j));
+            result.data_[i][j] = data_[i][j] - other.data_[i][j];
     return result;
 }
 
-// Transpozice matice
-Matrix Matrix::T() const {
+Matrix Matrix::T() {
     Matrix result(cols_, rows_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < cols_; ++j)
-            result.setValue(j, i, getValue(i, j));
+            result.data_[j][i] = data_[i][j];
     return result;
 }
 
-// ===================================================================
-// KROK 2: IMPLEMENTACE OPERÁTORŮ PRO ÚKOL 4
-// ===================================================================
-
-// Operátor +
-Matrix Matrix::operator+(const Matrix& other) const {
+// ===============================================================
+// Operátory
+// ===============================================================
+Matrix Matrix::operator+(const Matrix& other) {
+    // nesmí házet výjimku – místo toho prázdná matice
     if (rows_ != other.rows_ || cols_ != other.cols_)
-        throw std::invalid_argument("Matrix dimensions must match for addition");
+        return Matrix(); // 0x0
 
     Matrix result(rows_, cols_);
     for (int i = 0; i < rows_; ++i)
@@ -109,21 +117,23 @@ Matrix Matrix::operator+(const Matrix& other) const {
     return result;
 }
 
-// Operátor * (násobení matic)
-Matrix Matrix::operator*(const Matrix& other) const {
+Matrix Matrix::operator*(const Matrix& other) {
+    // nesmí házet výjimku – místo toho prázdná matice
     if (cols_ != other.rows_)
-        throw std::invalid_argument("Invalid dimensions for multiplication");
+        return Matrix(); // 0x0
 
     Matrix result(rows_, other.cols_);
     for (int i = 0; i < rows_; ++i)
-        for (int j = 0; j < other.cols_; ++j)
+        for (int j = 0; j < other.cols_; ++j) {
+            int sum = 0;
             for (int k = 0; k < cols_; ++k)
-                result.data_[i][j] += data_[i][k] * other.data_[k][j];
+                sum += data_[i][k] * other.data_[k][j];
+            result.data_[i][j] = sum;
+        }
     return result;
 }
 
-// Operátor * (násobení skalárem)
-Matrix Matrix::operator*(int scalar) const {
+Matrix Matrix::operator*(int scalar) {
     Matrix result(rows_, cols_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < cols_; ++j)
@@ -131,11 +141,13 @@ Matrix Matrix::operator*(int scalar) const {
     return result;
 }
 
-// Operátor << (výpis matice)
+// ===============================================================
+// Výpis
+// ===============================================================
 std::ostream& operator<<(std::ostream& os, const Matrix& mat) {
     for (int i = 0; i < mat.rows_; ++i) {
         for (int j = 0; j < mat.cols_; ++j)
-            os << std::setw(4) << mat.data_[i][j];
+            os << std::setw(5) << mat.data_[i][j];
         os << '\n';
     }
     return os;
