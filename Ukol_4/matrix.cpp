@@ -36,13 +36,8 @@ void Matrix::deallocateMatrix() {
 // ===============================================================
 Matrix::Matrix() : rows_(0), cols_(0), data_(nullptr) {}
 
-Matrix::Matrix(int rows, int cols) : rows_(0), cols_(0), data_(nullptr) {
-    // Pokud jsou rozměry neplatné, zůstaň prázdný (0x0)
-    if (rows > 0 && cols > 0) {
-        rows_ = rows;
-        cols_ = cols;
-        allocateMatrix();
-    }
+Matrix::Matrix(int rows, int cols) : rows_(rows), cols_(cols), data_(nullptr) {
+    allocateMatrix();
 }
 
 Matrix::~Matrix() {
@@ -65,28 +60,23 @@ int Matrix::getRows() const { return rows_; }
 int Matrix::getCols() const { return cols_; }
 
 int Matrix::getValue(int row, int col) const {
-    if (data_ == nullptr)
-        throw std::out_of_range("Matrix is not initialized");
-    if (row < 0 || row >= rows_ || col < 0 || col >= cols_)
-        throw std::out_of_range("Invalid matrix indices");
+    if (!data_ || row < 0 || col < 0 || row >= rows_ || col >= cols_)
+        throw std::out_of_range("Invalid index");
     return data_[row][col];
 }
 
 void Matrix::setValue(int row, int col, int value) {
-    if (data_ == nullptr)
-        throw std::out_of_range("Matrix is not initialized");
-    if (row < 0 || row >= rows_ || col < 0 || col >= cols_)
-        throw std::out_of_range("Invalid matrix indices");
+    if (!data_ || row < 0 || col < 0 || row >= rows_ || col >= cols_)
+        throw std::out_of_range("Invalid index");
     data_[row][col] = value;
 }
 
 // ===============================================================
 // Operace
 // ===============================================================
-Matrix Matrix::subtract(const Matrix& other) {
+Matrix Matrix::subtract(const Matrix& other) const {
     if (rows_ != other.rows_ || cols_ != other.cols_)
         return Matrix(); // 0x0
-
     Matrix result(rows_, cols_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < cols_; ++j)
@@ -94,7 +84,7 @@ Matrix Matrix::subtract(const Matrix& other) {
     return result;
 }
 
-Matrix Matrix::T() {
+Matrix Matrix::T() const {
     Matrix result(cols_, rows_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < cols_; ++j)
@@ -105,11 +95,9 @@ Matrix Matrix::T() {
 // ===============================================================
 // Operátory
 // ===============================================================
-Matrix Matrix::operator+(const Matrix& other) {
-    // nesmí házet výjimku – místo toho prázdná matice
+Matrix Matrix::operator+(const Matrix& other) const {
     if (rows_ != other.rows_ || cols_ != other.cols_)
         return Matrix(); // 0x0
-
     Matrix result(rows_, cols_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < cols_; ++j)
@@ -117,11 +105,9 @@ Matrix Matrix::operator+(const Matrix& other) {
     return result;
 }
 
-Matrix Matrix::operator*(const Matrix& other) {
-    // nesmí házet výjimku – místo toho prázdná matice
+Matrix Matrix::operator*(const Matrix& other) const {
     if (cols_ != other.rows_)
         return Matrix(); // 0x0
-
     Matrix result(rows_, other.cols_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < other.cols_; ++j) {
@@ -133,7 +119,7 @@ Matrix Matrix::operator*(const Matrix& other) {
     return result;
 }
 
-Matrix Matrix::operator*(int scalar) {
+Matrix Matrix::operator*(int scalar) const {
     Matrix result(rows_, cols_);
     for (int i = 0; i < rows_; ++i)
         for (int j = 0; j < cols_; ++j)
