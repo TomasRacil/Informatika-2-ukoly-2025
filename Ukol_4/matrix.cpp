@@ -13,7 +13,7 @@ void Matrix::allocateMatrix()
     data_ = new int *[rows_];
     for (int i = 0; i < rows_; i++)
     {
-        data_[i] = new int[cols_]; 
+        data_[i] = new int[cols_](); // () inicializuje nulami
     }
 }
 
@@ -30,9 +30,7 @@ void Matrix::deallocateMatrix()
     }
 }
 
-Matrix::Matrix() : rows_(0), cols_(0), data_(nullptr) {
-
-}
+Matrix::Matrix() : rows_(0), cols_(0), data_(nullptr) {}
 
 Matrix::Matrix(int rows, int cols)
 {
@@ -117,7 +115,7 @@ Matrix Matrix::subtract(const Matrix &other) const
     return result;
 }
 
-Matrix Matrix::T()
+Matrix Matrix::T() const
 {
     Matrix result(cols_, rows_);
     if (data_ != nullptr)

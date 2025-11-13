@@ -1,38 +1,39 @@
 #pragma once
 
-#include <stdexcept> 
-#include <ostream>   
-class Matrix {
+#include <stdexcept> // Pro std::out_of_range
+#include <ostream>   // Pro std::ostream
+
+class Matrix
+{
 private:
     int rows_;
     int cols_;
-    int** data_;
+    int **data_;
 
     void allocateMatrix();
     void deallocateMatrix();
 
 public:
-
-    Matrix();
-    ~Matrix();
+    // Konstruktory a destruktor
+    Matrix(); // default konstruktor pro 0x0 matici
     Matrix(int rows, int cols);
-    Matrix(const Matrix& other);
-    Matrix& operator=(const Matrix& other);
+    Matrix(const Matrix &other); // kopírovací konstruktor
+    ~Matrix();
 
+    // Gettery a settery
     int getRows() const;
     int getCols() const;
     int getValue(int row, int col) const;
     void setValue(int row, int col, int value);
-    
-    Matrix subtract(const Matrix& other) const;
-    Matrix T();
 
-    // Deklarace pro operátory +, *, <<
+    // Metody
+    Matrix subtract(const Matrix &other) const;
+    Matrix T() const; // transpozice (dříve transpose)
 
-    Matrix operator+(const Matrix& other) const;
-    Matrix operator*(const Matrix& other) const;
+    // Operátory
+    Matrix operator+(const Matrix &other) const;
+    Matrix operator*(const Matrix &other) const;
     Matrix operator*(int scalar) const;
-    friend std::ostream& operator<<(std::ostream &os, const Matrix &mat);
-
-
+    Matrix &operator=(const Matrix &other);
+    friend std::ostream &operator<<(std::ostream &os, const Matrix &mat);
 };
