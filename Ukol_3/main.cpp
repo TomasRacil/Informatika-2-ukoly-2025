@@ -3,6 +3,8 @@
 #include <stdexcept> // Pro případné výjimky
 using namespace std;
 
+using namespace std;
+
 // ===================================================================
 // 1. ČÁST: DEFINICE A IMPLEMENTACE TŘÍDY MATRIX
 // ===================================================================
@@ -107,6 +109,16 @@ public:
         
         // 3. Zkopírujte hodnoty z other.data_ do this->data_
         // (Pouze pokud data_ a other.data_ nejsou nullptr)
+        if (data_ != nullptr && other.data_ != nullptr)
+        {
+            for (int i = 0; i < rows_; i++)
+            {
+                for (int j = 0; j < cols_; j++)
+                {
+                    data_[i][j] = other.data_[i][j];
+                }
+            }
+        }
     }
 
     // TODO: (Bonus) Operátor přiřazení (=)
@@ -136,7 +148,7 @@ public:
      */
     int getRows() const {
         // TODO: Vraťte rows_
-        return rows_; // Nahraďte
+        return rows_; 
     }
 
     /**
@@ -144,7 +156,7 @@ public:
      */
     int getCols() const {
         // TODO: Vraťte cols_
-        return cols_; // Nahraďte
+        return cols_; 
     }
 
     /**
@@ -161,6 +173,7 @@ public:
             throw out_of_range("Index mimo rozsah"); 
         return data_[row][col];
     }
+    
 
     /**
      * @brief Nastaví hodnotu na dané pozici.
@@ -211,6 +224,13 @@ public:
             return Matrix(0, 0);
         // TODO: Vytvořte novou matici 'result' pro výsledek
         Matrix result(rows_, cols_);
+        for (int i = 0; i < rows_; i++)
+        {
+            for (int j = 0; j < cols_; j++)
+            {
+                result.setValue(i, j, getValue(i, j) + other.getValue(i, j));
+            }
+        }
         
         // TODO: Proveďte sčítání prvek po prvku
         for (int i = 0; i < rows_; i++) {
@@ -254,6 +274,18 @@ public:
             return Matrix(0, 0);
         // TODO: Vytvořte novou matici 'result' (this->rows_ x other.cols_)
         Matrix result(rows_, other.cols_);
+        for(int i = 0; i < rows_; i++)
+        {
+            for (int j = 0; j < other.cols_; j ++)
+            {
+                int suma = 0;
+                for (int k = 0; k < cols_; k++)
+                {
+                    suma += getValue(i, k) * other.getValue(k, j);
+                }
+                result.setValue(i, j, suma);
+            }
+        }
 
         // TODO: Proveďte násobení matic (tři vnořené cykly)
         // result.setValue(i, j, suma);
@@ -277,6 +309,16 @@ public:
     Matrix transpose() const {
         // TODO: Vytvořte novou matici 'result' (this->cols_ x this->rows_)
         Matrix result(cols_, rows_);
+        if (data_ != nullptr)
+        {
+            for (int i = 0; i < rows_; i++)
+            {
+                for (int j = 0; j < cols_; j++)
+                {
+                    result.setValue(j, i, getValue(i, j));
+                }
+            }
+        }
 
         // TODO: Proveďte transpozici
         // (Projděte původní matici a hodnoty ukládejte do 'result' na prohozené pozice)
