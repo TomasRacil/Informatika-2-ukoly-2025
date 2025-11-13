@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cctype>
 
+using namespace std;
 // --- Funkce k implementaci ---
 
 /**
@@ -12,10 +13,13 @@
  * @return Obsah souboru jako std::string.
  */
 std::string getFileContent(std::string filename) {
-    // TODO: Doplňte kód pro načtení souboru.
-    // Nápověda: Použijte std::ifstream a std::stringstream.
-    // V případě, že se soubor nepodaří otevřít, vraťte prázdný řetězec "".
-    return "";
+    ifstream file(filename);
+    if (!file.is_open()) {
+        return "";
+    }
+    stringstream buffer;
+    buffer << file.rdbuf();
+    return buffer.str();
 }
 
 /**
@@ -24,8 +28,7 @@ std::string getFileContent(std::string filename) {
  * @return Počet znaků.
  */
 int countCharacters(std::string content) {
-    // TODO: Doplňte kód pro spočítání znaků.
-    return 0;
+    return static_cast<int>(content.size());
 }
 
 /**
@@ -34,9 +37,19 @@ int countCharacters(std::string content) {
  * @return Počet řádků.
  */
 int countLines(std::string content) {
-    // TODO: Doplňte kód pro spočítání řádků.
-    // Nezapomeňte, že i neprázdný soubor bez znaku nového řádku má 1 řádek.
-    return 0;
+    if (content.empty()) return 0;
+
+    int radky = 0;
+    for (char c : content) {
+        if (c == '\n') {
+            radky++;
+        }
+    }
+    
+    if (content.back() != '\n') {
+        radky++;
+    }
+    return radky;
 }
 
 /**
@@ -45,9 +58,13 @@ int countLines(std::string content) {
  * @return Počet slov.
  */
 int countWords(std::string content) {
-    // TODO: Doplňte kód pro spočítání slov.
-    // Nápověda: Můžete použít std::stringstream pro snadné oddělení slov.
-    return 0;
+    stringstream strstring(content);
+    string slovo;
+    int count = 0;
+    while (strstring >> slovo) {
+        count++;
+    }
+    return count;
 }
 
 /**
@@ -56,9 +73,14 @@ int countWords(std::string content) {
  * @return Počet samohlásek.
  */
 int countVowels(std::string content) {
-    // TODO: Doplňte kód pro spočítání samohlásek.
-    // Nápověda: Procházejte řetězec znak po znaku a použijte tolower() pro zjednodušení.
-    return 0;
+    int pocet = 0;
+    for (char c : content) {
+        char male_pismen = static_cast<char>(tolower(c)); 
+        if (male_pismen == 'a' || male_pismen == 'e' || male_pismen == 'i' || male_pismen == 'o' || male_pismen == 'u') {
+            pocet++;
+        }
+    }
+    return pocet;
 }
 
 
@@ -90,4 +112,3 @@ int main() {
     return 0;
 }
 #endif // __TEST__
-
