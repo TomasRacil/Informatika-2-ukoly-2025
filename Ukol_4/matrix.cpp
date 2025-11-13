@@ -173,7 +173,7 @@ Matrix Matrix::operator*(int scalar)
 
 std::ostream &operator<<(std::ostream &os, const Matrix &mat)
 {
-    os << "Matica /"<< mat.rows_ << "x" <<mat.cols_ << ")"<<endl;
+    os << "Matice /"<< mat.rows_ << "x" <<mat.cols_ << ")"<<endl;
     if (!mat.data_){
         os << "prazdna matice" <<endl;
         return os;
