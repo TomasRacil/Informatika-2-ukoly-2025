@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/kalkulacka_oop.dir/main.cpp.o -o kalkulacka_oop 
