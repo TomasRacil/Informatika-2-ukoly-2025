@@ -29,14 +29,14 @@ public:
     Matrix(int rows, int cols);
     ~Matrix();
     Matrix(const Matrix& other);
-    
+
     int getRows() const;
     int getCols() const;
     int getValue(int row, int col) const;
     void setValue(int row, int col, int value);
-    
-    Matrix subtract(const Matrix& other);
-    Matrix T();
+
+    Matrix subtract(const Matrix& other) const;
+    Matrix T() const;
 
     // Deklarace pro operátory +, *, <<
 
@@ -44,23 +44,21 @@ public:
      * @brief Přetížení operátoru + pro sčítání matic.
      * Nahrazuje metodu 'add'.
      */
-    Matrix operator+(const Matrix& other);
+    Matrix operator+(const Matrix& other) const;
 
     /**
      * @brief Přetížení operátoru * pro násobení matic.
      * Nahrazuje metodu 'multiply'.
      */
-    Matrix operator*(const Matrix& other);
+    Matrix operator*(const Matrix& other) const;
 
     /**
      * @brief Přetížení operátoru * pro násobení skalárem  (Matrix*scalar).
      */
-    Matrix operator*(int scalar);
+    Matrix operator*(int scalar) const;
 
     /**
      * @brief Přetížení operátoru << pro výpis matice do std::ostream.
      */
     friend std::ostream& operator<<(std::ostream& os, const Matrix& mat);
-
-
 };
