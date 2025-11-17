@@ -1,6 +1,4 @@
 #include "matrix.h"
-
-// TODO: Vložte sem potřebné #include (např. <iostream>, <iomanip>)
 #include <iostream>
 #include <iomanip>
 #include <stdexcept> // pro std::out_of_range
@@ -9,53 +7,34 @@
 // KROK 1: IMPLEMENTACE Z ÚKOLU 3
 // ===================================================================
 
-// TODO: Zkopírujte sem implementace (těla) metod z vašeho hotového Ukolu 3.
-// (s výjimkou metod add, multiply a print, které budou nahrazeny operátory)
-// Nezapomeňte ke každé metodě přidat prefix 'Matrix::'
-
-// Příklad:
-// void Matrix::allocateMatrix() {
-//    // ... vaše implementace z Ukolu 3 ...
-// }
 void Matrix::allocateMatrix() {
-    if (rows_ <= 0 || cols_ <= 0)
-        {
-            data_ = nullptr;
-            return;
-        }
-
-        data_ = new int *[rows_];
-
-        for (int i = 0; i < rows_; i++)
-        {
-            data_[i] = new int[cols_]();
-        }
+    if (rows_ <= 0 || cols_ <= 0) {
+        data_ = nullptr;
+        return;
     }
 
-void Matrix::deallocateMatrix(){
-    if (data_ != nullptr)
-        {
-            for (int i = 0; i < rows_; i++)
-            {
-                delete[] data_[i];
-            }
-            delete[] data_;
-            data_ = nullptr;
-        }
+    data_ = new int *[rows_];
+    for (int i = 0; i < rows_; i++) {
+        data_[i] = new int[cols_]();
+    }
 }
-//
-// Matrix::Matrix(int rows, int cols) {
-//    // ... vaše implementace z Ukolu 3 ...
-// }
-//
-// ... atd. pro (destruktor, getRows, getValue, setValue, subtract, transpose...)
 
+void Matrix::deallocateMatrix() {
+    if (data_ != nullptr) {
+        for (int i = 0; i < rows_; i++) {
+            delete[] data_[i];
+        }
+        delete[] data_;
+        data_ = nullptr;
+    }
+}
 
 // ===================================================================
 // KROK 2: IMPLEMENTACE OPERÁTORŮ PRO ÚKOL 4
 // ===================================================================
 
 Matrix::Matrix()
+    : rows_(0), cols_(0), data_(nullptr) // DŮLEŽITÉ: inicializace!
 {
 }
 
@@ -131,8 +110,8 @@ Matrix Matrix::subtract(const Matrix &other)
     {
         return Matrix(0, 0);
     }
+
     Matrix result(rows_, cols_);
-        // ... doplňte výpočet
     for (int i = 0; i < rows_; i++)
     {
         for (int j = 0; j < cols_; j++)
@@ -153,12 +132,24 @@ Matrix Matrix::T()
         }
     }
 
-    return result;;
+    return result;
 }
 
 Matrix Matrix::operator+(const Matrix &other)
 {
-    return Matrix();
+    // pokud nesouhlasí rozměry, vrať prázdnou 0x0 matici
+    if (rows_ != other.rows_ || cols_ != other.cols_) {
+        return Matrix(0, 0);
+    }
+
+    Matrix result(rows_, cols_);
+    for (int i = 0; i < rows_; ++i) {
+        for (int j = 0; j < cols_; ++j) {
+            int sum = this->getValue(i, j) + other.getValue(i, j);
+            result.setValue(i, j, sum);
+        }
+    }
+    return result;
 }
 
 Matrix Matrix::operator*(const Matrix &other)
@@ -183,10 +174,11 @@ Matrix Matrix::operator*(const Matrix &other)
 
 Matrix Matrix::operator*(int scalar)
 {
-    Matrix result (rows_, cols_);
-    if(!data_) return result;
-    for (int i=0; i<rows_; i++){
-        for(int j = 0;j<cols_; j++){
+    Matrix result(rows_, cols_);
+    if (!data_) return result;
+
+    for (int i = 0; i < rows_; i++) {
+        for (int j = 0; j < cols_; j++) {
             result.data_[i][j] = data_[i][j] * scalar;
         }
     }
@@ -194,13 +186,14 @@ Matrix Matrix::operator*(int scalar)
 }
 
 std::ostream &operator<<(std::ostream &os, const Matrix &mat)
-{    os << "Matrix (" << mat.rows_ << "x" << mat.cols_ << ")" << std::endl;
-        // ... doplňte cykly pro výpis prvků
-        for (int i = 0; i < mat.rows_; ++i) {
-            for (int j = 0; j < mat.cols_; ++j) {
-                os << std::setw(4) << mat.data_[i][j];
-            }
-            os << std::endl;
+{
+    os << "Matrix (" << mat.rows_ << "x" << mat.cols_ << ")" << std::endl;
+
+    for (int i = 0; i < mat.rows_; ++i) {
+        for (int j = 0; j < mat.cols_; ++j) {
+            os << std::setw(4) << mat.data_[i][j];
         }
+        os << std::endl;
+    }
     return os;
 }
