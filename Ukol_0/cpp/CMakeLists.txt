@@ -17,9 +17,9 @@ enable_testing()
 find_package(GTest REQUIRED)
 # Propoj test s Google Testem
 include_directories(${GTEST_INCLUDE_DIRS})
-target_link_libraries(mytests GTest::gtest_main pthread) 
+target_link_libraries(mytests GTest::gtest_main) 
 
-# Define __TEST__ for the test compilation
-target_compile_definitions(mytests PRIVATE __TEST__)
+# Define _TEST_ for the test compilation
+target_compile_definitions(mytests PRIVATE _TEST_)
 
 add_test(NAME mytests COMMAND mytests)
