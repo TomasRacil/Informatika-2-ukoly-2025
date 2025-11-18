@@ -122,6 +122,26 @@ public:
         }
     }
 
+    /**
+     * @brief Operátor přiřazení (=)
+     */
+    Matrix& operator=(const Matrix& other) {
+        if (this == &other) {
+            return *this;
+        }
+
+        deallocateMatrix();
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+        
+        // 2. Alokujte vlastní paměť (volejte allocateMatrix)
+        // ...
+        data_ = nullptr; // Nahraďte
+        
+        // 3. Zkopírujte hodnoty z other.data_ do this->data_
+        // (Pouze pokud data_ a other.data_ nejsou nullptr)
+    }
+
     // TODO: (Bonus) Operátor přiřazení (=)
     // Matrix& operator=(const Matrix& other);
 
@@ -397,10 +417,12 @@ int main()
     std::cout << "\nVysledek A + A2 (2x3):" << std::endl;
     matSum.print();
 
-    // Test kopírovacího konstruktoru
+    // Test kopírovacího konstruktoru a přiřazení
     std::cout << "\nTest kopie matice A:" << std::endl;
     Matrix matA_copy = matA;
     matA_copy.print();
+    Matrix matA_assign(1, 1);
+    matA_assign = matA; 
 
     // Ověření hluboké kopie
     matA.setValue(0, 0, 99);
