@@ -79,7 +79,7 @@ public:
      * @brief Destruktor: Uvolní alokovanou paměť.
      */
     ~Matrix() {
-        deallocateMatrix();
+        // TODO: Zavolejte deallocateMatrix()
     }
 
     /**
@@ -108,14 +108,16 @@ public:
      * @brief Vrátí počet řádků matice.
      */
     int getRows() const {
-        return rows_;
+        // TODO: Vraťte rows_
+        return rows_; // Nahraďte
     }
 
     /**
      * @brief Vrátí počet sloupců matice.
      */
     int getCols() const {
-        return cols_;
+        // TODO: Vraťte cols_
+        return cols_; // Nahraďte
     }
 
     /**
