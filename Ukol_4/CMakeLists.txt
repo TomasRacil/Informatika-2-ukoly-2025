@@ -1,15 +1,24 @@
 cmake_minimum_required(VERSION 3.0)
-project(Ukol_1)
+project(Ukol_4)
 
-# Hlavní spustitelný soubor
-add_executable(analyza main.cpp)
+set(MATRIX_SOURCES
+    matrix.cpp
+)
 
-# Testovací spustitelný soubor
-add_executable(mytests test.cpp)
+add_executable(kalkulacka_oop 
+    main.cpp
+    ${MATRIX_SOURCES}
+)
+
+add_executable(mytests 
+    test.cpp
+    ${MATRIX_SOURCES}
+)
 
 enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
+
 target_link_libraries(mytests GTest::gtest_main)
 
 target_compile_definitions(mytests PRIVATE __TEST__)
