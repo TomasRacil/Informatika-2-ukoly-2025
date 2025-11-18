@@ -5,51 +5,35 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <chrono>
+#include <thread>
+#include <errno.h>
 
-// Funkce pro detekci stisku klávesy v Linuxu
-int kbhit(void) {
-    struct termios oldt, newt;
-    int ch;
-    int oldf;
-    
-    tcgetattr(STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
-    
-    ch = getchar();
-    
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-    fcntl(STDIN_FILENO, F_SETFL, oldf);
-    
-    if(ch != EOF) {
-        ungetc(ch, stdin);
-        return 1;
-    }
-    return 0;
+// Terminal raw mode management (set once)
+static struct termios orig_termios;
+static int orig_flags = -1;
+void disableRawMode() {
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+    if (orig_flags != -1) fcntl(STDIN_FILENO, F_SETFL, orig_flags);
+}
+void enableRawMode() {
+    tcgetattr(STDIN_FILENO, &orig_termios);
+    struct termios raw = orig_termios;
+    raw.c_lflag &= ~(ECHO | ICANON);
+    raw.c_cc[VMIN] = 0;
+    raw.c_cc[VTIME] = 0;
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+    orig_flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, orig_flags | O_NONBLOCK);
 }
 
-// Funkce pro čtení znaku v Linuxu
-char getch() {
-    char buf = 0;
-    struct termios old = {0};
-    if (tcgetattr(0, &old) < 0)
-        perror("tcsetattr()");
-    old.c_lflag &= ~ICANON;
-    old.c_lflag &= ~ECHO;
-    old.c_cc[VMIN] = 1;
-    old.c_cc[VTIME] = 0;
-    if (tcsetattr(0, TCSANOW, &old) < 0)
-        perror("tcsetattr ICANON");
-    if (read(0, &buf, 1) < 0)
-        perror("read()");
-    old.c_lflag |= ICANON;
-    old.c_lflag |= ECHO;
-    if (tcsetattr(0, TCSADRAIN, &old) < 0)
-        perror("tcsetattr ~ICANON");
-    return buf;
+// non-blocking read single char, returns -1 if none
+int readCharNonBlocking() {
+    char c;
+    int n = (int)read(STDIN_FILENO, &c, 1);
+    if (n == 1) return (unsigned char)c;
+    if (n == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) return -1;
+    return -1;
 }
 
 bool gameOver;
@@ -64,133 +48,130 @@ eDirection dir;
 
 void Setup() {
     gameOver = false;
-    dir = STOP;
+    // had zacne se vyskytovat pouze po prvnim stisku - ale uz jede automaticky
+    dir = RIGHT;
     x = width / 2;
     y = height / 2;
     fruitX = rand() % width;
     fruitY = rand() % height;
     score = 0;
     nTail = 0;
+    tailX.clear();
+    tailY.clear();
 }
 
 void Draw() {
-    system("clear"); // Změna z cls na clear pro Linux
-    for (int i = 0; i < width + 2; i++)
-        std::cout << "#";
+    system("clear");
+    for (int i = 0; i < width + 2; i++) std::cout << "#";
     std::cout << std::endl;
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            if (j == 0)
-                std::cout << "#";
-            if (i == y && j == x)
-                std::cout << "O";
-            else if (i == fruitY && j == fruitX)
-                std::cout << "F";
+            if (j == 0) std::cout << "#";
+            if (i == y && j == x) std::cout << "O";
+            else if (i == fruitY && j == fruitX) std::cout << "F";
             else {
                 bool print = false;
                 for (int k = 0; k < nTail; k++) {
-                    if (tailX[k] == j && tailY[k] == i) {
-                        std::cout << "o";
-                        print = true;
-                    }
+                    if (tailX[k] == j && tailY[k] == i) { std::cout << "o"; print = true; break; }
                 }
-                if (!print)
-                    std::cout << " ";
+                if (!print) std::cout << " ";
             }
-            if (j == width - 1)
-                std::cout << "#";
+            if (j == width - 1) std::cout << "#";
         }
         std::cout << std::endl;
     }
 
-    for (int i = 0; i < width + 2; i++)
-        std::cout << "#";
+    for (int i = 0; i < width + 2; i++) std::cout << "#";
     std::cout << std::endl;
-    std::cout << "Skóre:" << score << std::endl;
+    std::cout << "Skóre: " << score << std::endl;
 }
 
 void Input() {
-    if (kbhit()) {
-        switch (getch()) {
-        case 'a':
-            if (dir != RIGHT) dir = LEFT;
-            break;
-        case 'd':
-            if (dir != LEFT) dir = RIGHT;
-            break;
-        case 'w':
-            if (dir != DOWN) dir = UP;
-            break;
-        case 's':
-            if (dir != UP) dir = DOWN;
-            break;
-        case 'x':
-            gameOver = true;
-            break;
-        }
+    int c = readCharNonBlocking();
+    if (c == -1) return;
+    switch (c) {
+    case 'a': case 'A':
+        if (dir != RIGHT) dir = LEFT;
+        break;
+    case 'd': case 'D':
+        if (dir != LEFT) dir = RIGHT;
+        break;
+    case 'w': case 'W':
+        if (dir != DOWN) dir = UP;
+        break;
+    case 's': case 'S':
+        if (dir != UP) dir = DOWN;
+        break;
+    case 'x': case 'X':
+        gameOver = true;
+        break;
+    default:
+        break;
     }
 }
 
 void Logic() {
-    int prevX = tailX.size() > 0 ? tailX[0] : x;
-    int prevY = tailY.size() > 0 ? tailY[0] : y;
+    int prevX = nTail > 0 ? tailX[0] : x;
+    int prevY = nTail > 0 ? tailY[0] : y;
     int prev2X, prev2Y;
 
-    if (nTail > 0) {
-        tailX[0] = x;
-        tailY[0] = y;
-    }
-
+    if (nTail > 0) { tailX[0] = x; tailY[0] = y; }
     for (int i = 1; i < nTail; i++) {
-        prev2X = tailX[i];
-        prev2Y = tailY[i];
-        tailX[i] = prevX;
-        tailY[i] = prevY;
-        prevX = prev2X;
-        prevY = prev2Y;
+        prev2X = tailX[i]; prev2Y = tailY[i];
+        tailX[i] = prevX; tailY[i] = prevY;
+        prevX = prev2X; prevY = prev2Y;
     }
 
     switch (dir) {
-    case LEFT:
-        x--;
-        break;
-    case RIGHT:
-        x++;
-        break;
-    case UP:
-        y--;
-        break;
-    case DOWN:
-        y++;
-        break;
+    case LEFT:  x--; break;
+    case RIGHT: x++; break;
+    case UP:    y--; break;
+    case DOWN:  y++; break;
+    default: break;
     }
 
-    if (x >= width) x = 0; else if (x < 0) x = width - 1;
-    if (y >= height) y = 0; else if (y < 0) y = height - 1;
+    // kolize se stenou -> konec
+    if (x < 0 || x >= width || y < 0 || y >= height) { gameOver = true; return; }
 
-    for (int i = 0; i < nTail; i++)
-        if (tailX[i] == x && tailY[i] == y)
-            gameOver = true;
+    for (int i = 0; i < nTail; i++) if (tailX[i] == x && tailY[i] == y) gameOver = true;
 
     if (x == fruitX && y == fruitY) {
         score += 10;
-        fruitX = rand() % width;
-        fruitY = rand() % height;
+        // nove ovoce mimo hada
+        while (true) {
+            fruitX = rand() % width; fruitY = rand() % height;
+            bool onTail = false;
+            for (int i = 0; i < nTail; ++i) if (tailX[i] == fruitX && tailY[i] == fruitY) { onTail = true; break; }
+            if (!onTail && !(fruitX == x && fruitY == y)) break;
+        }
         nTail++;
-        tailX.push_back(0);
-        tailY.push_back(0);
+        tailX.push_back(0); tailY.push_back(0);
     }
 }
 
 int main() {
-    srand(time(0));
+    srand((unsigned)time(nullptr));
+    enableRawMode();
+    atexit(disableRawMode);
+
     Setup();
+    using clock = std::chrono::steady_clock;
+    auto last_move = clock::now();
+    const std::chrono::milliseconds move_interval(400); // pomalejsi (400 ms)
+
     while (!gameOver) {
         Draw();
         Input();
-        Logic();
-        usleep(50000); // Změna z Sleep(50) na usleep(50000) pro Linux
+        auto now = clock::now();
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_move) >= move_interval) {
+            Logic();
+            last_move = now;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(8));
     }
+
+    disableRawMode();
+    std::cout << "Konec hry. Skóre: " << score << std::endl;
     return 0;
 }
