@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
+
 project(Ukol_4)
 
 set(MATRIX_SOURCES

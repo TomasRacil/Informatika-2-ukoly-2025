@@ -29,6 +29,7 @@
 // KROK 2: IMPLEMENTACE OPERÁTORŮ PRO ÚKOL 4
 // ===================================================================
 
+
 void Matrix::allocateMatrix()
 {
     if (rows_ > 0 && cols_ > 0) {
@@ -68,11 +69,14 @@ Matrix::Matrix(int rows, int cols)
     rows_ = rows;
     cols_ = cols;
     allocateMatrix();
+
 }
 
 Matrix::~Matrix()
 {
+
     deallocateMatrix();
+
 }
 
 Matrix::Matrix(const Matrix &other)
@@ -98,6 +102,7 @@ int Matrix::getRows() const
         } else {
             return 0;
         }
+    return 0;
 }
 
 int Matrix::getCols() const
@@ -107,6 +112,7 @@ int Matrix::getCols() const
         } else {
             return 0;
         }
+    return 0;
 }
 
 int Matrix::getValue(int row, int col) const
@@ -120,6 +126,7 @@ int Matrix::getValue(int row, int col) const
         } else {
             throw std::out_of_range("data_ == nullptr");
         }
+    return 0;
 }
 
 void Matrix::setValue(int row, int col, int value)
@@ -148,10 +155,11 @@ Matrix Matrix::subtract(const Matrix &other)
         if (data_ != nullptr && other.data_ != nullptr) {
             for (int i = 0; i < rows_; ++i) {
                 for (int j = 0; j < cols_; ++j) {
-                    result.setValue(i, j, this->getValue(i, j) - other.getValue(i, j)); // this->data_[i][j] - other.data_[i][j]
+                    result.setValue(i, j, this->getValue(i, j) - other.getValue(i, j));
                 }
             }
         }
+
         return result;
 }
 
@@ -162,7 +170,7 @@ Matrix Matrix::T()
         if (data_ != nullptr) {
             for (int i = 0; i < rows_; ++i) {
                 for (int j = 0; j < cols_; ++j) {
-                    result.setValue(j, i, this->getValue(i, j));
+                    result.setValue(j, i, this->getValue(i, j));                 
                 }
             }
         }
@@ -190,6 +198,7 @@ Matrix Matrix::operator+(const Matrix &other)
 
         return result;
 }
+
 
 Matrix Matrix::operator*(const Matrix &other)
 {
