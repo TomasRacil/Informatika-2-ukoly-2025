@@ -96,11 +96,6 @@ public:
     Matrix(const Matrix& other) {
         // TODO: Implementujte kopírovací konstruktor (hluboká kopie)
         // 1. Zkopírujte rows_ a cols_ z 'other'
-     * @param other Matice, ze které se kopíruje.
-     */
-    Matrix(const Matrix& other) {
-        // TODO: Implementujte kopírovací konstruktor (hluboká kopie)
-        // 1. Zkopírujte rows_ a cols_ z 'other'
         rows_ = other.rows_;
         cols_ = other.cols_;
         
@@ -329,10 +324,8 @@ public:
 // ===================================================================
 
 // Tento soubor se nespustí, pokud jsou spuštěny testy (díky __TEST__ definici)
-// Tento soubor se nespustí, pokud jsou spuštěny testy (díky __TEST__ definici)
 #ifndef __TEST__
 int main() {
-    std::cout << "--- Testovani tridy Matrix ---" << std::endl;
     std::cout << "--- Testovani tridy Matrix ---" << std::endl;
     
     // Vytvoření matice A
@@ -344,7 +337,6 @@ int main() {
     matA.setValue(1, 1, 5);
     matA.setValue(1, 2, 6);
 
-    std::cout << "Matice A (2x3):" << std::endl;
     std::cout << "Matice A (2x3):" << std::endl;
     matA.print();
 
@@ -385,20 +377,13 @@ int main() {
 
     // Test kopírovacího konstruktoru
     std::cout << "\nTest kopie matice A:" << std::endl;
-
-    // Test kopírovacího konstruktoru
-    std::cout << "\nTest kopie matice A:" << std::endl;
     Matrix matA_copy = matA;
-    matA_copy.print();
     matA_copy.print();
     
     // Ověření hluboké kopie
     matA.setValue(0, 0, 99);
-    // Ověření hluboké kopie
-    matA.setValue(0, 0, 99);
     std::cout << "\nMatice A po zmene (0,0) na 99:" << std::endl;
     matA.print();
-    std::cout << "\nKopie matice A (mela by zustat nezmenena):" << std::endl;
     std::cout << "\nKopie matice A (mela by zustat nezmenena):" << std::endl;
     matA_copy.print();
 
