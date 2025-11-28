@@ -22,6 +22,9 @@ bool Postava::jeZiva() const {
     if (_zivoty > 0) {
         return true;
     }
+    else {
+        return false;
+    }
 }
 
 void Postava::utok(Postava& cil) {
