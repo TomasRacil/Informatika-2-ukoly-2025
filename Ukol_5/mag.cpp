@@ -14,7 +14,7 @@ void Mag::utok(Postava& cil) {
     // 2. Pokud nemá dostatek many:
     //    - Vypište "Dosla mana, uderi holi"
     //    - Způsobte poškození: _sila * 0.5
-    //    - Přičtěte 5 many (regenerace)
+    //    - Přičtěte 5 many (regenerace) s
 }
 
 void Mag::vypisInfo() const {
