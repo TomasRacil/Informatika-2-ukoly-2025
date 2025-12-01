@@ -20,7 +20,7 @@ void Mag::utok(Postava& cil) {
     if(_mana>=10)
     {
         std::cout << "Sesila FIREBALL" << std::endl;
-        cil.prijmiUtok(_sila *20);
+        cil.prijmiUtok(_sila *2);
         _mana -= 10;
     }
     else

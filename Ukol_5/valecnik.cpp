@@ -40,7 +40,7 @@ void Valecnik::prijmiUtok(double poskozeni) {
         utok = poskozeni-_brneni;
     }
     std::cout << "Postava se urputne brani";
-    Postava::prijmiUtok(poskozeni-_brneni);
+    Postava::prijmiUtok(utok);
 }
 
 void Valecnik::vypisInfo() const {
