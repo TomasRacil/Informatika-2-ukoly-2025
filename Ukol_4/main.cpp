@@ -3,9 +3,10 @@
 
 // Tento soubor se nespustí, pokud jsou spuštěny testy (díky __TEST__ definici)
 #ifndef __TEST__
-int main() {
+int main()
+{
     std::cout << "--- Testovani tridy Matrix (z main.cpp) ---" << std::endl;
-    
+
     // Vytvoření matice A
     Matrix matA(2, 3);
     matA.setValue(0, 0, 1);
@@ -47,10 +48,10 @@ int main() {
     Matrix matA2(2, 3);
     matA2.setValue(0, 0, 10);
     matA2.setValue(1, 1, 10);
-    
+
     std::cout << "\nMatice A2 (2x3):" << std::endl;
     std::cout << matA2;
-    
+
     // Původní: Matrix matSum = matA.add(matA2);
     Matrix matSum = matA + matA2; // Nově pomocí operátoru +
     std::cout << "\nVysledek A + A2 (2x3):" << std::endl;
@@ -60,14 +61,13 @@ int main() {
     std::cout << "\nTest kopie matice A:" << std::endl;
     Matrix matA_copy = matA;
     std::cout << matA_copy;
-    
+
     // Ověření hluboké kopie
     matA.setValue(0, 0, 99);
     std::cout << "\nMatice A po zmene (0,0) na 99:" << std::endl;
     std::cout << matA;
     std::cout << "\nKopie matice A (mela by zustat nezmenena):" << std::endl;
     std::cout << matA_copy;
-
 
     std::cout << "\n--- Testovani dokonceno ---" << std::endl;
 
