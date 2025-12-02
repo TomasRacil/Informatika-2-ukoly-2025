@@ -18,12 +18,12 @@ void Mag::utok(Postava& cil) {
     //    - Přičtěte 5 many (regenerace)
     if (_mana >= 10) {
         std::cout << this->getJmeno() << " Sesila FIREBALL!" << std::endl;
-        cil.prijmiUtok(this->_sila * 2);
-        _mana -= 10;
+        cil.prijmiUtok(_sila * 2);
+        this->_mana -= 10;
     } else {
         std::cout << this->getJmeno() << " Dosla mana, uderi holi!" << std::endl;
-        cil.prijmiUtok(this->_sila * 0.5);
-        _mana += 5;
+        cil.prijmiUtok(_sila * 0.5);
+        this->_mana += 5;
     }
 }
 

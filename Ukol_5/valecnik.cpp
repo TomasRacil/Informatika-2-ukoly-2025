@@ -27,11 +27,11 @@ void Valecnik::prijmiUtok(double poskozeni) {
     // 2. Pokud je výsledek menší než 0, nastavte ho na 0.
     // 3. Vypište informaci o blokování.
     // 4. Zavolejte metodu předka Postava::prijmiUtok() se sníženým poškozením.
-    poskozeni -= _brneni;
+    poskozeni -= this->_brneni;
     if (poskozeni < 0) {
         poskozeni = 0;
     }
-    std::cout << this->getJmeno() << " blokuje " << _brneni << " poškození." << std::endl;
+    std::cout << this->getJmeno() << " blokuje " << std::endl;
     Postava::prijmiUtok(poskozeni);
 }
 

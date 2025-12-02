@@ -28,7 +28,7 @@ void Postava::utok(Postava& cil) {
     // TODO: Implementujte základní útok
     // 1. Vypište do konzole: "[Jmeno] utoci na [Cil] silou [Sila]"
     // 2. Zavolejte metodu cil.prijmiUtok(this->_sila)
-    std::cout << this->_jmeno << " utoci na " << cil.getJmeno() << " silou " << this->_sila << std::endl;
+    std::cout << this->getJmeno() << " utoci na " << cil.getJmeno() << " silou " << this->_sila << std::endl;
     cil.prijmiUtok(this->_sila);
 }
 
