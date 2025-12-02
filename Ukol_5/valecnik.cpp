@@ -13,8 +13,8 @@ void Valecnik::utok(Postava& cil) {
     // 2. Pokud ano, vypište hlášku o zuřivosti a útočte silou * 1.5
     // 3. Pokud ne, útočte normální silou.
     // Tip: Využijte metodu cil.prijmiUtok()
-    if (this->getZivoty() < (this->getMaxZivoty() * 0.3)) {
-        std::cout << this->getJmeno() << " je v berserk modu!" << std::endl;
+    if (_zivoty < 0.3 * _maxZivoty) {
+        std::cout << _jmeno << " je v berserk modu" << std::endl;
         cil.prijmiUtok(this->_sila * 1.5);
     } else {
         cil.prijmiUtok(this->_sila);
@@ -27,12 +27,12 @@ void Valecnik::prijmiUtok(double poskozeni) {
     // 2. Pokud je výsledek menší než 0, nastavte ho na 0.
     // 3. Vypište informaci o blokování.
     // 4. Zavolejte metodu předka Postava::prijmiUtok() se sníženým poškozením.
-    poskozeni -= this->_brneni;
-    if (poskozeni < 0) {
-        poskozeni = 0;
+    double snizenePoskozeni = poskozeni - _brneni;
+    if (snizenePoskozeni < 0) {
+        snizenePoskozeni = 0;
     }
-    std::cout << this->getJmeno() << " blokuje " << std::endl;
-    Postava::prijmiUtok(poskozeni);
+    std::cout << _jmeno << " blokuje " << poskozeni - snizenePoskozeni << " poškození." << std::endl;
+    Postava::prijmiUtok(snizenePoskozeni);
 }
 
 void Valecnik::vypisInfo() const {
