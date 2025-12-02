@@ -1,13 +1,30 @@
 #include "mag.h"
 
-Mag::Mag(const std::string& jmeno, double zivoty, double sila, double mana)
-    : Postava(jmeno, zivoty, sila) {
+Mag::Mag(const std::string &jmeno, double zivoty, double sila, double mana)
+    : Postava(jmeno, zivoty, sila)
+{
     // TODO: Inicializujte atribut _mana
+    _mana = mana;
 }
 
-void Mag::utok(Postava& cil) {
+void Mag::utok(Postava &cil)
+{
     // TODO: Implementujte maguv útok
     // 1. Pokud má mág dostatek many (>= 10):
+    if (_mana >= 10)
+    {
+        std::cout << _jmeno << "sesila FIREBALL" << std::endl;
+        double damage = _sila * 2;
+        _mana -= 10;
+        cil.prijmiUtok(damage);
+    }
+    else
+    {
+        std::cout << _jmeno << "Dosla mana, uderi holi" << std::endl;
+        double damage = _sila * 0.5;
+        _mana += 5;
+        cil.prijmiUtok(damage);
+    }
     //    - Vypište "Sesila FIREBALL"
     //    - Způsobte poškození: _sila * 2
     //    - Odečtěte 10 many
@@ -17,6 +34,7 @@ void Mag::utok(Postava& cil) {
     //    - Přičtěte 5 many (regenerace)
 }
 
-void Mag::vypisInfo() const {
+void Mag::vypisInfo() const
+{
     std::cout << "[Mag] " << _jmeno << " | HP: " << _zivoty << " | Mana: " << _mana << std::endl;
 }

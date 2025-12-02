@@ -6,7 +6,8 @@
 
 #ifndef __TEST__
 
-int main() {
+int main()
+{
     std::cout << "=== RPG ARENA ===" << std::endl;
 
     // Vytvorime instanci Valecnika a Maga
@@ -16,14 +17,17 @@ int main() {
     conan.vypisInfo();
     gandalf.vypisInfo();
 
-    std::cout << "\n--- Souboj zacina ---\n" << std::endl;
+    std::cout << "\n--- Souboj zacina ---\n"
+              << std::endl;
 
     int kolo = 1;
-    while (conan.jeZiva() && gandalf.jeZiva()) {
+    while (conan.jeZiva() && gandalf.jeZiva())
+    {
         std::cout << "Kolo " << kolo << ":" << std::endl;
-        
+
         conan.utok(gandalf);
-        if (!gandalf.jeZiva()) break;
+        if (!gandalf.jeZiva())
+            break;
 
         gandalf.utok(conan);
 
@@ -35,9 +39,12 @@ int main() {
     }
 
     std::cout << "\n=== KONEC HRY ===" << std::endl;
-    if (conan.jeZiva()) {
+    if (conan.jeZiva())
+    {
         std::cout << "Vitez: " << conan.getJmeno() << std::endl;
-    } else {
+    }
+    else
+    {
         std::cout << "Vitez: " << gandalf.getJmeno() << std::endl;
     }
 

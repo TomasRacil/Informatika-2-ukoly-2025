@@ -1,40 +1,60 @@
 #include "postava.h"
 
-Postava::Postava(const std::string& jmeno, double zivoty, double sila)
-    : _jmeno(jmeno), _zivoty(zivoty), _sila(sila), _maxZivoty(zivoty) {
+Postava::Postava(const std::string &jmeno, double zivoty, double sila)
+    : _jmeno(jmeno), _zivoty(zivoty), _sila(sila), _maxZivoty(zivoty)
+{
     // Konstruktor je již hotový
 }
 
-std::string Postava::getJmeno() const {
+std::string Postava::getJmeno() const
+{
     return _jmeno;
 }
 
-double Postava::getZivoty() const {
+double Postava::getZivoty() const
+{
     return _zivoty;
 }
 
-double Postava::getMaxZivoty() const {
+double Postava::getMaxZivoty() const
+{
     return _maxZivoty;
 }
 
-bool Postava::jeZiva() const {
+bool Postava::jeZiva() const
+{
     // TODO: Vraťte true, pokud jsou životy > 0
-    return false; 
+    if (_zivoty > 0)
+    {
+        return true;
+    }
+    else
+        return false;
 }
 
-void Postava::utok(Postava& cil) {
+void Postava::utok(Postava &cil)
+{
     // TODO: Implementujte základní útok
     // 1. Vypište do konzole: "[Jmeno] utoci na [Cil] silou [Sila]"
+    std::cout << this->_jmeno << " utoci na " << cil.getJmeno() << " silou " << _sila << std::endl;
     // 2. Zavolejte metodu cil.prijmiUtok(this->_sila)
+    cil.prijmiUtok(this->_sila);
 }
 
-void Postava::prijmiUtok(double poskozeni) {
+void Postava::prijmiUtok(double poskozeni)
+{
     // TODO: Implementujte přijetí poškození
     // 1. Pokud je poskozeni < 0, nastavte ho na 0 (obranne mechanismy)
+    if (poskozeni < 0)
+        poskozeni = 0;
     // 2. Odečtěte poškození od _zivoty
+    _zivoty -= poskozeni;
     // 3. Pokud _zivoty klesnou pod 0, nastavte je na 0
+    if (_zivoty < 0)
+        _zivoty = 0;
 }
 
-void Postava::vypisInfo() const {
+void Postava::vypisInfo() const
+{
     std::cout << "[Postava] " << _jmeno << " | HP: " << _zivoty << " | DMG: " << _sila << std::endl;
 }
