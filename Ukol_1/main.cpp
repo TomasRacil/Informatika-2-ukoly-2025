@@ -4,12 +4,13 @@
 #include <sstream>
 #include <cctype>
 
+using namespace std;
 // --- Funkce k implementaci ---
 
 /**
  * @brief Načte obsah souboru do řetězce.
  * @param filename Název souboru.
- * @return Obsah souboru jako std::string.
+ * @return Obsah souboru jako string.
  */
 std::string getFileContent(std::string filename) {
     std::ifstream in(filename, std::ios::in | std::ios::binary);
@@ -72,16 +73,15 @@ int countVowels(std::string content) {
     return count;
 }
 
-
 // --- Hlavní program (neměnit) ---
 
 #ifndef __TEST__
 int main() {
-    std::string filename = "text_k_analyze.txt";
-    std::string content = getFileContent(filename);
+    string filename = "text_k_analyze.txt";
+    string content = getFileContent(filename);
 
     if (content.empty() && filename == "text_k_analyze.txt") {
-         std::cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << std::endl;
+         cerr << "Chyba: Soubor je prázdný nebo se nepodařilo ho otevřít." << endl;
          return 1;
     }
 
@@ -92,11 +92,11 @@ int main() {
     int pocetSamohlasek = countVowels(content);
 
     // Výpis výsledků
-    std::cout << "--- Vysledky analyzy souboru ---" << std::endl;
-    std::cout << "Pocet znaku: " << pocetZnaku << std::endl;
-    std::cout << "Pocet radku: " << pocetRadku << std::endl;
-    std::cout << "Pocet slov: " << pocetSlov << std::endl;
-    std::cout << "Pocet samohlasek: " << pocetSamohlasek << std::endl;
+    cout << "--- Vysledky analyzy souboru ---" << endl;
+    cout << "Pocet znaku: " << pocetZnaku << endl;
+    cout << "Pocet radku: " << pocetRadku << endl;
+    cout << "Pocet slov: " << pocetSlov << endl;
+    cout << "Pocet samohlasek: " << pocetSamohlasek << endl;
 
     return 0;
 }
