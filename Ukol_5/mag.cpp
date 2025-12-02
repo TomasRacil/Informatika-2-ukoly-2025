@@ -3,6 +3,7 @@
 Mag::Mag(const std::string& jmeno, double zivoty, double sila, double mana)
     : Postava(jmeno, zivoty, sila) {
     // TODO: Inicializujte atribut _mana
+    this->_mana = mana;
 }
 
 void Mag::utok(Postava& cil) {
@@ -15,6 +16,18 @@ void Mag::utok(Postava& cil) {
     //    - Vypište "Dosla mana, uderi holi"
     //    - Způsobte poškození: _sila * 0.5
     //    - Přičtěte 5 many (regenerace)
+    if (this->_mana >= 10)
+    {
+        std::cout << this->_jmeno << " sesila FIREBALL" << std::endl;
+        cil.prijmiUtok(this->_sila * 2);
+        this->_mana -= 10;
+    }
+    else
+    {
+        std::cout << this->_jmeno << " Dosla mana, uderi holi" << std::endl;
+        cil.prijmiUtok(this->_sila * 0.5);
+        this->_mana += 5;
+    }
 }
 
 void Mag::vypisInfo() const {
