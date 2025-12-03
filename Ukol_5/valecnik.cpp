@@ -7,7 +7,7 @@ Valecnik::Valecnik(const std::string& jmeno, double zivoty, double sila, double 
 void Valecnik::utok(Postava& cil) {
     double dmg = _sila;
 
-    if (_zivoty < 30) {
+    if (_zivoty < 0,3 * _zivoty) {
         std::cout << _jmeno << " upada do ZURENÍ (BERSERK)!" << std::endl;
         dmg *= 1.5;
     }
