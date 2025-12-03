@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
-#include <iostream>
 
-// Zakladni trida
 class Postava {
 protected:
     std::string _jmeno;
@@ -12,7 +10,6 @@ protected:
 
 public:
     Postava(const std::string& jmeno, double zivoty, double sila);
-    
     virtual ~Postava() = default;
 
     std::string getJmeno() const;

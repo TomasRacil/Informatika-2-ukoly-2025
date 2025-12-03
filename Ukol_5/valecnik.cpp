@@ -1,42 +1,37 @@
 #include "valecnik.h"
-
-using namespace std;
+#include <iostream>
+#include <algorithm>
 
 Valecnik::Valecnik(const std::string& jmeno, double zivoty, double sila, double brneni)
-    : Postava(jmeno, zivoty, sila) { // Volání konstruktoru předka
-    // TODO: Inicializujte atribut _brneni
-    _brneni = 5;
+    : Postava(jmeno, zivoty, sila), _brneni(brneni) {
 }
 
 void Valecnik::utok(Postava& cil) {
-    // TODO: Implementujte útok válečníka
-    // 1. Zkontrolujte, zda má válečník méně než 30 % maximálních životů (berserk mode).
-    //    (Pozor: v zadání není max_hp, pro zjednodušení předpokládejme, že < 30 HP = berserk)
-    // 2. Pokud ano, vypište hlášku o zuřivosti a útočte silou * 1.5
-    // 3. Pokud ne, útočte normální silou.
-    // Tip: Využijte metodu cil.prijmiUtok()
-    if (_zivoty < 30) {
-        cout << "Berserk mode!" << endl;
-        cil.prijmiUtok(_sila * 1.5); 
+    // jednoduchý berserk: pokud má méně než 30% max HP, útočí silněji
+    double hpRatio = (_maxZivoty > 0.0) ? (_zivoty / _maxZivoty) : 0.0;
+    if (hpRatio < 0.30) {
+        std::cout << _jmeno << " je v berserk modu a útočí silou " << (_sila * 1.5) << "!" << std::endl;
+        cil.prijmiUtok(_sila * 1.5);
     } else {
+        std::cout << _jmeno << " udeří normálně silou " << _sila << "." << std::endl;
         cil.prijmiUtok(_sila);
     }
 }
 
 void Valecnik::prijmiUtok(double poskozeni) {
-    // TODO: Implementujte obranu válečníka
-    // 1. Snižte příchozí poškození o hodnotu _brneni.
-    // 2. Pokud je výsledek menší než 0, nastavte ho na 0.
-    // 3. Vypište informaci o blokování.
-    // 4. Zavolejte metodu předka Postava::prijmiUtok() se sníženým poškozením.
-    poskozeni -= _brneni;
-    if (poskozeni < 0) {
-        poskozeni = 0;
-        cout << "Utok zablokovan!" << endl;
+    // snížení poškození o armor
+    if (poskozeni < 0.0) poskozeni = 0.0;
+    double effective = poskozeni - _brneni;
+    if (effective <= 0.0) {
+        effective = 0.0;
+        std::cout << _jmeno << " zablokoval utok (armor " << _brneni << ")!" << std::endl;
+    } else {
+        std::cout << _jmeno << " blokoval " << _brneni << " z damage." << std::endl;
     }
-    Postava::prijmiUtok(poskozeni);
+    Postava::prijmiUtok(effective);
 }
 
 void Valecnik::vypisInfo() const {
-    std::cout << "[Valecnik] " << _jmeno << " | HP: " << _zivoty << " | Armor: " << _brneni << std::endl;
+    std::cout << "[Valecnik] " << _jmeno << " | HP: " << _zivoty << " / " << _maxZivoty
+              << " | DMG: " << _sila << " | Armor: " << _brneni << std::endl;
 }

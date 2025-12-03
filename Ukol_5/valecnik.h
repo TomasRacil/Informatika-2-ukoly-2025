@@ -1,7 +1,6 @@
 #pragma once
 #include "postava.h"
 
-// Valecnik dedi z Postavy
 class Valecnik : public Postava {
 private:
     double _brneni;
