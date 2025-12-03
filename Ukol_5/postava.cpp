@@ -1,4 +1,5 @@
 #include "postava.h"
+using namespace std;
 
 Postava::Postava(const std::string& jmeno, double zivoty, double sila)
     : _jmeno(jmeno), _zivoty(zivoty), _sila(sila), _maxZivoty(zivoty) {
@@ -19,13 +20,23 @@ double Postava::getMaxZivoty() const {
 
 bool Postava::jeZiva() const {
     // TODO: Vraťte true, pokud jsou životy > 0
-    return false; 
+    if (_zivoty > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false; 
+    }
+    
 }
 
 void Postava::utok(Postava& cil) {
     // TODO: Implementujte základní útok
     // 1. Vypište do konzole: "[Jmeno] utoci na [Cil] silou [Sila]"
     // 2. Zavolejte metodu cil.prijmiUtok(this->_sila)
+    cout << this -> _jmeno << "útočí na" << cil.getJmeno() << "silou" << _sila << endl;
+    cil.prijmiUtok(this -> _sila);
 }
 
 void Postava::prijmiUtok(double poskozeni) {
@@ -33,6 +44,13 @@ void Postava::prijmiUtok(double poskozeni) {
     // 1. Pokud je poskozeni < 0, nastavte ho na 0 (obranne mechanismy)
     // 2. Odečtěte poškození od _zivoty
     // 3. Pokud _zivoty klesnou pod 0, nastavte je na 0
+    if(poskozeni < 0)
+    poskozeni = 0;
+    _zivoty -= poskozeni;
+    if(_zivoty < 0)
+    {
+        _zivoty = 0;
+    } 
 }
 
 void Postava::vypisInfo() const {
