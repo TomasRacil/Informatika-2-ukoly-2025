@@ -29,12 +29,12 @@ public:
     Matrix(int rows, int cols);
     ~Matrix();
     Matrix(const Matrix& other);
-    
+
     int getRows() const;
     int getCols() const;
     int getValue(int row, int col) const;
     void setValue(int row, int col, int value);
-    
+
     Matrix subtract(const Matrix& other);
     Matrix T();
 
@@ -44,13 +44,13 @@ public:
      * @brief Přetížení operátoru + pro sčítání matic.
      * Nahrazuje metodu 'add'.
      */
-      Matrix operator+(const Matrix& other) const;
+    Matrix operator+(const Matrix& other);
 
     /**
      * @brief Přetížení operátoru * pro násobení matic.
      * Nahrazuje metodu 'multiply'.
      */
-    Matrix operator*(const Matrix& other) const;
+    Matrix operator*(const Matrix& other);
 
     /**
      * @brief Přetížení operátoru * pro násobení skalárem  (Matrix*scalar).
