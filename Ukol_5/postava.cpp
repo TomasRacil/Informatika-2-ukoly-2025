@@ -19,20 +19,33 @@ double Postava::getMaxZivoty() const {
 
 bool Postava::jeZiva() const {
     // TODO: Vraťte true, pokud jsou životy > 0
-    return false; 
+    return _zivoty > 0; 
 }
 
 void Postava::utok(Postava& cil) {
     // TODO: Implementujte základní útok
     // 1. Vypište do konzole: "[Jmeno] utoci na [Cil] silou [Sila]"
+    std::cout << "[Postava] " << _jmeno << " utoci na " << cil.getJmeno() 
+              << " silou " << _sila << std::endl;
+
     // 2. Zavolejte metodu cil.prijmiUtok(this->_sila)
+    cil.prijmiUtok(_sila);
 }
 
 void Postava::prijmiUtok(double poskozeni) {
     // TODO: Implementujte přijetí poškození
     // 1. Pokud je poskozeni < 0, nastavte ho na 0 (obranne mechanismy)
+    if (poskozeni < 0) {
+        poskozeni = 0;
+    }
+
     // 2. Odečtěte poškození od _zivoty
+    _zivoty -= poskozeni;
+
     // 3. Pokud _zivoty klesnou pod 0, nastavte je na 0
+    if (_zivoty < 0) {
+        _zivoty = 0;
+    }
 }
 
 void Postava::vypisInfo() const {
