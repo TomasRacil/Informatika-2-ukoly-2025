@@ -1,5 +1,4 @@
 #include "matrix.h"
-
 // TODO: Vložte sem potřebné #include (např. <iostream>, <iomanip>)
 #include <iostream>
 #include <iomanip>
