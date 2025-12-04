@@ -7,12 +7,12 @@ Mag::Mag(const std::string& jmeno, double zivoty, double sila, double mana)
 
 void Mag::utok(Postava& cil) {
 if (_mana >= 10){
-    std::cout << getJmeno() << "Sesila FIREBALL" << endl;
+    std::cout << getJmeno() << "Sesila FIREBALL" << std::endl;
     cil.prijmiUtok(2 * _sila);
     _mana -= 10;
     }
 else{ 
-        std::cout << getJmeno() << "Dosla mana, uderi holi" << endl;
+        std::cout << getJmeno() << "Dosla mana, uderi holi" << std::endl;
         cil.prijmiUtok(_sila * 0.5);
         _mana += 5;
     }
