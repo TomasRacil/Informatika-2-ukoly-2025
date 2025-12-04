@@ -22,6 +22,7 @@ bool Postava::jeZiva() const {
     if (_zivoty > 0) {
     return true;
     } 
+    else return false;
 }
 
 void Postava::utok(Postava& cil) {
@@ -32,13 +33,13 @@ void Postava::utok(Postava& cil) {
 void Postava::prijmiUtok(double poskozeni) {
     if(poskozeni < 0){
     poskozeni = 0;
-    };
+    }
     
     _zivoty -= poskozeni;
 
     if(_zivoty < 0){
     _zivoty = 0;
-    };
+    }
     
     // TODO: Implementujte přijetí poškození
     // 1. Pokud je poskozeni < 0, nastavte ho na 0 (obranne mechanismy)
