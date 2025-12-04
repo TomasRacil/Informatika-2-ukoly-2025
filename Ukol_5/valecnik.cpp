@@ -6,7 +6,7 @@ Valecnik::Valecnik(const std::string& jmeno, double zivoty, double sila, double 
 
 void Valecnik::utok(Postava& cil) {
     if(getZivoty() < 0.3 * getMaxZivoty()){
-    std::cout << getJmeno() << "je Berserk dává větší damage" << endl;
+    std::cout << getJmeno() << "je Berserk dává větší damage" << std::endl;
     cil.prijmiUtok(1.5 * _sila);
     }
     else{ cil.prijmiUtok(_sila);
@@ -25,7 +25,7 @@ void Valecnik::prijmiUtok(double poskozeni) {
     poskozeni = 0;
     };
     if (poskozeni = 0){
-    std::cout << getJmeno() << "zablokoval utok" << endl;
+    std::cout << getJmeno() << "zablokoval utok" << std::endl;
     }
 Postava::prijmiUtok(poskozeni);
 }
