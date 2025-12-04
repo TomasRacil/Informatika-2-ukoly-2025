@@ -19,16 +19,14 @@ double Postava::getMaxZivoty() const {
 }
 
 bool Postava::jeZiva() const {
-    if (zivoty > 0) {
+    if (_zivoty > 0) {
     return true;
     } 
 }
 
 void Postava::utok(Postava& cil) {
-    // TODO: Implementujte základní útok
-    
     cout << _jmeno << "utoci na" << cil.getJmeno() << "silou" << _sila << endl;
-    cil.prijmiUtok(this->_sila)
+    cil.prijmiUtok(this->_sila);
 }
 
 void Postava::prijmiUtok(double poskozeni) {

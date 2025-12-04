@@ -9,7 +9,7 @@ void Valecnik::utok(Postava& cil) {
     if(getZivoty() < 0.3 * getMaxZivoty()){
     cout << getJmeno() << "rawr" << endl;
     cil.prijmiUtok(1.5 * _sila);
-    }else{ cil.prijmiUtok();
+    }else{ cil.prijmiUtok(this->_sila);
     }
     // TODO: Implementujte útok válečníka
     // 1. Zkontrolujte, zda má válečník méně než 30 % maximálních životů (berserk mode).
@@ -27,7 +27,7 @@ void Valecnik::prijmiUtok(double poskozeni) {
     if (poskozeni = 0){
     cout << getJmeno() << "zablokoval utok" << endl;
     }
-Postava::prijmiUtok()
+Postava::prijmiUtok(this->_sila);
 }
 
 void Valecnik::vypisInfo() const {
