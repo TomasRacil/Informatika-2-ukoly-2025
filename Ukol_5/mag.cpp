@@ -1,5 +1,5 @@
 #include "mag.h"
-using namespace std; 
+
 Mag::Mag(const std::string& jmeno, double zivoty, double sila, double mana)
     : Postava(jmeno, zivoty, sila) {
     _mana = mana;
@@ -7,13 +7,14 @@ Mag::Mag(const std::string& jmeno, double zivoty, double sila, double mana)
 
 void Mag::utok(Postava& cil) {
 if (_mana >= 10){
-    cout << getJmeno() << "Sesila FIREBALL" << endl;
+    std::cout << getJmeno() << "Sesila FIREBALL" << endl;
     cil.prijmiUtok(2 * _sila);
     _mana -= 10;
-    }else{ 
-        cout << getJmeno() << "Dosla mana, uderi holi" << endl;
-        _mana += 5;
+    }
+else{ 
+        std::cout << getJmeno() << "Dosla mana, uderi holi" << endl;
         cil.prijmiUtok(_sila * 0.5);
+        _mana += 5;
     }
     
 }
