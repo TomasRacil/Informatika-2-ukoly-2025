@@ -15,16 +15,10 @@ private:
     int cols_;
     int** data_;
 
-    // TODO: Zkopírujte sem deklarace soukromých metod (allocateMatrix, deallocateMatrix)
     void allocateMatrix();
     void deallocateMatrix();
 
 public:
-    // TODO: Zkopírujte sem deklarace veřejných metod z Ukolu 3
-    // (Konstruktor, Destruktor, Kopírovací konstruktor, gettery, settery,
-    // subtract, transpose)
-
-    // Příklad (doplňte zbytek):
     Matrix();
     Matrix(int rows, int cols);
     ~Matrix();
