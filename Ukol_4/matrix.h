@@ -44,13 +44,13 @@ public:
      * @brief Přetížení operátoru + pro sčítání matic.
      * Nahrazuje metodu 'add'.
      */
-    Matrix operator+(const Matrix& other);
+    Matrix operator+(const Matrix& other) const;
 
     /**
      * @brief Přetížení operátoru * pro násobení matic.
      * Nahrazuje metodu 'multiply'.
      */
-    Matrix operator*(const Matrix& other);
+    Matrix operator*(const Matrix& other) const;
 
     /**
      * @brief Přetížení operátoru * pro násobení skalárem  (Matrix*scalar).
