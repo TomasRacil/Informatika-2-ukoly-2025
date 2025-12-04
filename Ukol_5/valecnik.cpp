@@ -1,5 +1,4 @@
 #include "valecnik.h"
-using namespace std;
 Valecnik::Valecnik(const std::string& jmeno, double zivoty, double sila, double brneni)
     : Postava(jmeno, zivoty, sila) { // Volání konstruktoru předka
     _brneni = brneni;
@@ -7,9 +6,10 @@ Valecnik::Valecnik(const std::string& jmeno, double zivoty, double sila, double 
 
 void Valecnik::utok(Postava& cil) {
     if(getZivoty() < 0.3 * getMaxZivoty()){
-    cout << getJmeno() << "je Berserk dává větší damage" << endl;
+    std::cout << getJmeno() << "je Berserk dává větší damage" << endl;
     cil.prijmiUtok(1.5 * _sila);
-    }else{ cil.prijmiUtok(_sila);
+    }
+    else{ cil.prijmiUtok(_sila);
     }
     // TODO: Implementujte útok válečníka
         // 1. Zkontrolujte, zda má válečník méně než 30 % maximálních životů (berserk mode).
@@ -25,7 +25,7 @@ void Valecnik::prijmiUtok(double poskozeni) {
     poskozeni = 0;
     };
     if (poskozeni = 0){
-    cout << getJmeno() << "zablokoval utok" << endl;
+    std::cout << getJmeno() << "zablokoval utok" << endl;
     }
 Postava::prijmiUtok(poskozeni);
 }
