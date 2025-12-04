@@ -56,7 +56,9 @@
         "variant": "cpp",
         "chrono": "cpp",
         "list": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "xstring": "cpp"
     },
-    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp"
+    "cmake.sourceDirectory": "C:/Users/rajdl/Plocha/KB/Informatika-2-ukoly-2025/Ukol_0/cpp",
+    "C_Cpp.errorSquiggles": "disabled"
 }
