@@ -26,7 +26,7 @@ bool Postava::jeZiva() const {
 }
 
 void Postava::utok(Postava& cil) {
-    cout << _jmeno << "utoci na" << cil.getJmeno() << "silou" << _sila << endl;
+    cout << _jmeno << "utoci na" << cil.getJmeno() << "silou" << this ->_sila << endl;
     cil.prijmiUtok(this->_sila);
 }
 
