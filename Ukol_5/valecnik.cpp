@@ -3,6 +3,7 @@
 Valecnik::Valecnik(const std::string& jmeno, double zivoty, double sila, double brneni)
     : Postava(jmeno, zivoty, sila) { // Volání konstruktoru předka
     // TODO: Inicializujte atribut _brneni
+    _brneni = brneni;
 }
 
 void Valecnik::utok(Postava& cil) {
@@ -12,6 +13,16 @@ void Valecnik::utok(Postava& cil) {
     // 2. Pokud ano, vypište hlášku o zuřivosti a útočte silou * 1.5
     // 3. Pokud ne, útočte normální silou.
     // Tip: Využijte metodu cil.prijmiUtok()
+    if (_zivoty < 0.3 * _maxZivoty)
+    {
+        std::cout << _jmeno << " je v zuřivosti a útočí silou " << (_sila * 1.5) << std::endl;
+        cil.prijmiUtok(_sila * 1.5);
+    }
+    else
+    {
+        std::cout << _jmeno << " utoci na " << cil.getJmeno() << " silou " << _sila << std::endl;
+        cil.prijmiUtok(_sila);
+    }
 }
 
 void Valecnik::prijmiUtok(double poskozeni) {
@@ -20,6 +31,11 @@ void Valecnik::prijmiUtok(double poskozeni) {
     // 2. Pokud je výsledek menší než 0, nastavte ho na 0.
     // 3. Vypište informaci o blokování.
     // 4. Zavolejte metodu předka Postava::prijmiUtok() se sníženým poškozením.
+    poskozeni -= _brneni;
+    if (poskozeni < 0)
+        poskozeni = 0;
+    std::cout << _jmeno << " blokuje " << _brneni << " poškození" << std::endl;
+    Postava::prijmiUtok(poskozeni);
 }
 
 void Valecnik::vypisInfo() const {
