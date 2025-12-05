@@ -150,6 +150,9 @@ public:
         return *this;
     }
 
+    // TODO: (Bonus) Operátor přiřazení (=)
+    // Matrix& operator=(const Matrix& other);
+
     /**
      * @brief Vrátí počet řádků matice.
      */
