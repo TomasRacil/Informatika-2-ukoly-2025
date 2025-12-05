@@ -56,7 +56,13 @@
         "variant": "cpp",
         "chrono": "cpp",
         "list": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     },
     "cmake.sourceDirectory": "/workspaces/Informatika-2-ukoly-2025-Pajaa/Ukol_2"
 }
