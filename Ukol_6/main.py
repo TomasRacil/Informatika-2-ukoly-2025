@@ -1,5 +1,6 @@
 import os
 
+
 def nacti_data(soubor: str) -> list:
     """
     Načte data ze souboru.
@@ -12,6 +13,14 @@ def nacti_data(soubor: str) -> list:
     # 3. Rozdělte řádek podle čárky (první prvek je jméno, zbytek jsou známky)
     # 4. Převeďte známky na int
     # 5. Přidejte slovník do seznamu data
+    with open(soubor, 'r') as f:
+        for line in f:
+            parts = line.strip().split(',')
+            jmeno = parts[0]
+            parts.remove(parts[0])
+            znamky = [int(z) for z in parts if z != '']
+            data.append({'jmeno': jmeno, 'znamky': znamky})
+
     return data
 
 
@@ -21,7 +30,9 @@ def spocitej_prumer(znamky: list) -> float:
     Pokud je seznam prázdný, vrací 0.0.
     """
     # TODO: Implementujte výpočet průměru
-    return 0.0
+    if len(znamky) == 0:
+        return 0.0
+    return sum(znamky) / len(znamky)
 
 
 def prospel(prumer: float) -> bool:
@@ -29,7 +40,8 @@ def prospel(prumer: float) -> bool:
     Vrátí True, pokud je průměr <= 3.5, jinak False.
     """
     # TODO: Implementujte podmínku prospěchu
-    return False
+
+    return False if prumer > 3.5 else True
 
 
 def zpracuj_vysledky(studenti: list) -> dict:
@@ -42,6 +54,10 @@ def zpracuj_vysledky(studenti: list) -> dict:
     # 1. Pro každého zavolejte spocitej_prumer
     # 2. Zavolejte prospel
     # 3. Uložte do slovníku vysledky pod klíčem jména studenta
+    for student in studenti:
+        prumer = spocitej_prumer(student['znamky'])
+        vysledky[student['jmeno']] = {
+            'prumer': prumer, 'prospel': prospel(prumer)}
     return vysledky
 
 
@@ -51,13 +67,19 @@ def uloz_report(vystupni_soubor: str, vysledky: dict) -> None:
     Jmeno: Prumer (PROSPEL/NEPROSPEL)
     """
     # TODO: Otevřete soubor pro zápis a zapište formátované výsledky
-    pass
+    with open(vystupni_soubor, 'w') as f:
+        lines = []
+        for vysledek in vysledky:
+            prospel = "PROSPEL" if vysledky[vysledek]['prospel'] else "NEPROSPEL"
+            f.write(
+                f"{vysledek}: {vysledky[vysledek]['prumer']} {prospel}\n")
 
 
 if __name__ == "__main__":
     # Tento blok slouží pro vaše manuální testování
     # Vytvořte si soubor 'studenti.txt' s testovacími daty pro vyzkoušení
-    
+
+    print(os.getcwd())  # Prints the current working directory
     vstup = "studenti.txt"
     vystup = "report.txt"
 
@@ -65,10 +87,10 @@ if __name__ == "__main__":
         print(f"Načítám data z {vstup}...")
         data = nacti_data(vstup)
         print(f"Načteno: {data}")
-        
+
         zpracovano = zpracuj_vysledky(data)
         print(f"Výsledky: {zpracovano}")
-        
+
         uloz_report(vystup, zpracovano)
         print(f"Report uložen do {vystup}")
     else:
