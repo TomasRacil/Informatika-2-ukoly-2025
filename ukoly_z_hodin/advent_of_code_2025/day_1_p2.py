@@ -11,31 +11,27 @@ def calculate_position(direction, distance, dial_number):
     mod = distance % 100
     full_blocks = distance // 100
 
-    step = -100 if direction == "left" else 100
-
-    for _ in range(full_blocks):
-        dial_number += step
-
-        if (dial_number < 0):
-            zero_position += 1
-            dial_number = dial_number + 100
-
-
-        if (dial_number > 99):
-            zero_position += 1
-            dial_number = dial_number - 100
+    zero_position += full_blocks
 
     if (mod > 0):
+        previous_dial_number = dial_number
         dial_number += -mod if direction == "left" else mod
         
         if (dial_number < 0):
-            zero_position += 1
+            zero_position += 1 if previous_dial_number != 0 else 0
             dial_number = dial_number + 100
+
+            return dial_number
 
 
         if (dial_number > 99):
+            zero_position += 1 if previous_dial_number != 0 else 0
+            dial_number = dial_number - 100
+
+            return dial_number
+
+        if (dial_number == 0):
             zero_position += 1
-            dial_number = dial_number - 100 
         
     return dial_number
 
