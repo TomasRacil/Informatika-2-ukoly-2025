@@ -20,7 +20,7 @@ def nacti_data(soubor: str) -> list:
             
             radek = radek.split(",")
             jmeno = radek[0]
-            znamky = [int(znamka) for znamka in radek[1:]]
+            znamky = [int(znamka) for znamka in radek[1:] if znamka]
             
             data.append({"jmeno": jmeno, "znamky": znamky})
     
