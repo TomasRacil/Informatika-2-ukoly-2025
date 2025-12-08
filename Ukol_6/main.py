@@ -12,6 +12,22 @@ def nacti_data(soubor: str) -> list:
     # 3. Rozdělte řádek podle čárky (první prvek je jméno, zbytek jsou známky)
     # 4. Převeďte známky na int
     # 5. Přidejte slovník do seznamu data
+    with open(soubor, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+
+            prvky = line.split(",")
+            jmeno = prvky[0]
+            znamky = []
+
+            for i in range(1, len(prvky)):
+                if prvky[i].strip():
+                    znamky.append(int(prvky[i]))
+
+            data.append({"jmeno": jmeno, "znamky": znamky})
+
     return data
 
 
@@ -21,15 +37,16 @@ def spocitej_prumer(znamky: list) -> float:
     Pokud je seznam prázdný, vrací 0.0.
     """
     # TODO: Implementujte výpočet průměru
-    return 0.0
-
+    if len(znamky) == 0:
+        return 0.0
+    return sum(znamky)/len(znamky)
 
 def prospel(prumer: float) -> bool:
     """
     Vrátí True, pokud je průměr <= 3.5, jinak False.
     """
     # TODO: Implementujte podmínku prospěchu
-    return False
+    return prumer <= 3.5
 
 
 def zpracuj_vysledky(studenti: list) -> dict:
@@ -42,6 +59,14 @@ def zpracuj_vysledky(studenti: list) -> dict:
     # 1. Pro každého zavolejte spocitej_prumer
     # 2. Zavolejte prospel
     # 3. Uložte do slovníku vysledky pod klíčem jména studenta
+    for student in studenti:
+        jmeno = student["jmeno"]
+        znamky = student["znamky"]
+
+        prumer = spocitej_prumer(znamky)
+        prospel_bool = prospel(prumer)
+
+        vysledky[jmeno] = {"prumer": prumer, "prospel": prospel_bool}
     return vysledky
 
 
@@ -51,7 +76,11 @@ def uloz_report(vystupni_soubor: str, vysledky: dict) -> None:
     Jmeno: Prumer (PROSPEL/NEPROSPEL)
     """
     # TODO: Otevřete soubor pro zápis a zapište formátované výsledky
-    pass
+    with open(vystupni_soubor, "w", encoding="utf-8") as f:
+        for jmeno, data in vysledky.items():
+            prumer = data["prumer"]
+            stav = "PROSPEL" if data["prospel"] else "NEPROSPEL"
+            f.write(f"{jmeno}: {prumer} ({stav})\n")
 
 
 if __name__ == "__main__":
