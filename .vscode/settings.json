@@ -58,6 +58,5 @@
         "list": "cpp",
         "ratio": "cpp"
     },
-    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp",
-    "C_Cpp.errorSquiggles": "disabled"
+    "cmake.sourceDirectory": "/workspaces/Informatika-2-ukoly-2025-FrantisekIlles/Ukol_1"
 }
