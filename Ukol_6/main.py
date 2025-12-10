@@ -78,8 +78,7 @@ def uloz_report(vystupni_soubor: str, vysledky: dict) -> None:
     """
     with open(vystupni_soubor, 'w') as psani:
         for student in vysledky:
-            x = vysledky[student]
-            psani.writelines((student, " " + str(x[0]), " PROSPEL" if x[1] == True else " NEPROSPEL", "\n"))
+            psani.writelines((student, " ",str(vysledky[student]['prumer']), " PROSPEL" if vysledky[student]['prospel'] == True else " NEPROSPEL", "\n"))
     # TODO: Otevřete soubor pro zápis a zapište formátované výsledky
     pass
 
