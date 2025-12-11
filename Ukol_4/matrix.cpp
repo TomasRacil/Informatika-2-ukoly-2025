@@ -201,3 +201,13 @@ std::ostream &operator<<(std::ostream &os, const Matrix &mat)
         }
     return os;
 }
+void Matrix::deallocateMatrix()
+{
+    if (data_ != nullptr) {
+            for (int i = 0; i < rows_; ++i) {
+                delete[] data_[i];
+            }
+            delete[] data_;
+            data_ = nullptr;
+        }
+}
