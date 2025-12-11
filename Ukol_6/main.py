@@ -12,6 +12,16 @@ def nacti_data(soubor: str) -> list:
     # 3. Rozdělte řádek podle čárky (první prvek je jméno, zbytek jsou známky)
     # 4. Převeďte známky na int
     # 5. Přidejte slovník do seznamu data
+    f = open(soubor)
+    for line in f:
+            parts = line.strip().split(',')
+            jmeno = parts[0]
+            if len(parts) > 1 and parts[1] != '':
+                znamky = list(map(int, parts[1:]))
+            else:
+                znamky = []
+            data.append({'jmeno': jmeno, 'znamky': znamky})
+    f.close() 
     return data
 
 
@@ -20,7 +30,9 @@ def spocitej_prumer(znamky: list) -> float:
     Vypočítá aritmetický průměr ze seznamu známek.
     Pokud je seznam prázdný, vrací 0.0.
     """
-    # TODO: Implementujte výpočet průměru
+    # TODO: Implementujte výpočet 
+    if znamky:
+        return sum(znamky) / len(znamky)
     return 0.0
 
 
@@ -29,6 +41,8 @@ def prospel(prumer: float) -> bool:
     Vrátí True, pokud je průměr <= 3.5, jinak False.
     """
     # TODO: Implementujte podmínku prospěchu
+    if prumer <= 3.5:
+        return True
     return False
 
 
@@ -42,6 +56,12 @@ def zpracuj_vysledky(studenti: list) -> dict:
     # 1. Pro každého zavolejte spocitej_prumer
     # 2. Zavolejte prospel
     # 3. Uložte do slovníku vysledky pod klíčem jména studenta
+    for student in studenti:
+        jmeno = student['jmeno']
+        znamky = student['znamky']
+        prumer = spocitej_prumer(znamky)
+        stav_prospechu = prospel(prumer)
+        vysledky[jmeno] = {'prumer': prumer, 'prospel': stav_prospechu}
     return vysledky
 
 
@@ -51,15 +71,20 @@ def uloz_report(vystupni_soubor: str, vysledky: dict) -> None:
     Jmeno: Prumer (PROSPEL/NEPROSPEL)
     """
     # TODO: Otevřete soubor pro zápis a zapište formátované výsledky
-    pass
+    f = open(vystupni_soubor, 'w')
+    for jmeno, data in vysledky.items():
+        prumer = data['prumer']
+        stav = "PROSPEL" if data['prospel'] else "NEPROSPEL"
+        f.write(f"{jmeno}: {prumer:.2f} ({stav})\n")
+    f.close()
 
 
 if __name__ == "__main__":
     # Tento blok slouží pro vaše manuální testování
     # Vytvořte si soubor 'studenti.txt' s testovacími daty pro vyzkoušení
     
-    vstup = "studenti.txt"
-    vystup = "report.txt"
+    vstup = "/workspaces/Informatika-2-ukoly-2025-TomasRosenbaum/Ukol_6/studenti.txt"
+    vystup = "/workspaces/Informatika-2-ukoly-2025-TomasRosenbaum/Ukol_6/report.txt"
 
     if os.path.exists(vstup):
         print(f"Načítám data z {vstup}...")

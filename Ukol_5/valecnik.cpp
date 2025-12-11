@@ -13,9 +13,9 @@ void Valecnik::utok(Postava& cil) {
     // 2. Pokud ano, vypište hlášku o zuřivosti a útočte silou * 1.5
     // 3. Pokud ne, útočte normální silou.
     // Tip: Využijte metodu cil.prijmiUtok()
-    if (this->_zivoty < 30)
+    if (this->_zivoty < (0.3 * this->getMaxZivoty()))
     {
-        std::cout << this->_jmeno << " je v rezimu zuřivosti a útočí silou " << this->_sila * 1.5 << std::endl;
+        std::cout << this->_jmeno << "Valecnik pod 30% Max HP by mel davat 1.5x poskozeni!" << this->_sila * 1.5 << std::endl;
         cil.prijmiUtok(this->_sila * 1.5);
     }
     else
