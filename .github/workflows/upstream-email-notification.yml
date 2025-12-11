@@ -1,0 +1,49 @@
+name: Email Notify on Upstream Update
+
+on:
+  schedule:
+    - cron: "0 * * * *"   
+  workflow_dispatch:      
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/TomasRacil/Informatika-2-ukoly-2025.git
+          git fetch upstream
+
+      - name: Check for differences
+        id: check
+        run: |
+          COMMITS=$(git rev-list HEAD..upstream/main --count || true)
+          echo "commits=$COMMITS" >> $GITHUB_OUTPUT
+
+      - name: Send email if updates exist
+        if: steps.check.outputs.commits != '0'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "🔔 Upstream Repository Updated"
+          to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          from: ${{ secrets.SMPTY_USERNAME }}
+          body: |
+            The upstream repository has new commits.
+            Your fork is behind the upstream main branch.
+
+            Repository: https://github.com/ORIGINAL_OWNER/ORIGINAL_REPO
+            Time: ${{ github.event.schedule }}
+
+            You can update your fork using:
+              git fetch upstream
+              git merge upstream/main
