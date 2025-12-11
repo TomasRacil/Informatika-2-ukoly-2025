@@ -14,7 +14,7 @@ def nacti_data(soubor: str) -> list:
 
             casti = radek.split(",")
             jmeno = casti[0].strip()
-            znamky = [int(z) for z in casti[1:]]
+            znamky = [int(z) for z in casti[1:] if z.strip() != ""]
 
             data.append({"jmeno": jmeno, "znamky": znamky})
 
