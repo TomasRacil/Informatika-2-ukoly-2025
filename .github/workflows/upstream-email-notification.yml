@@ -34,6 +34,7 @@ jobs:
           server_port: ${{ secrets.SMTP_PORT }}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
+          from: ${{ secrets.SMTP_USERNAME }}
           subject: "🔔 Upstream Repository Updated"
           to: ${{ secrets.NOTIFY_EMAIL_TO }}
           from: ${{ secrets.SMPTY_USERNAME }}
@@ -41,7 +42,7 @@ jobs:
             The upstream repository has new commits.
             Your fork is behind the upstream main branch.
 
-            Repository: https://github.com/ORIGINAL_OWNER/ORIGINAL_REPO
+            Repository: https://github.com/TomasRacil/Informatika-2-ukoly-2025.git
             Time: ${{ github.event.schedule }}
 
             You can update your fork using:
