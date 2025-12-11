@@ -7,9 +7,9 @@ Valecnik::Valecnik(const std::string& jmeno, double zivoty, double sila, double 
 
 void Valecnik::utok(Postava& cil) {
     if(getZivoty() < 0.3 * getMaxZivoty()){
-    cout << getJmeno() << "rawr" << endl;
+    cout << getJmeno() << "se nachazi v berserk modu" << endl;
     cil.prijmiUtok(1.5 * _sila);
-    }else{ cil.prijmiUtok();
+    }else{ cil.prijmiUtok(_sila);
     }
     // TODO: Implementujte útok válečníka
     // 1. Zkontrolujte, zda má válečník méně než 30 % maximálních životů (berserk mode).
@@ -27,7 +27,7 @@ void Valecnik::prijmiUtok(double poskozeni) {
     if (poskozeni = 0){
     cout << getJmeno() << "zablokoval utok" << endl;
     }
-Postava::prijmiUtok()
+Postava::prijmiUtok(poskozeni);
 }
 
 void Valecnik::vypisInfo() const {
