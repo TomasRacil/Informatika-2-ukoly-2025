@@ -6,12 +6,18 @@ def nacti_data(soubor: str) -> list:
     Vrací seznam slovníků ve formátu: [{'jmeno': 'Jan', 'znamky': [1, 2]}, ...]
     """
     data = []
-    # TODO: Implementujte načítání souboru
-    # 1. Otevřete soubor pro čtení
-    # 2. Projděte řádek po řádku
-    # 3. Rozdělte řádek podle čárky (první prvek je jméno, zbytek jsou známky)
-    # 4. Převeďte známky na int
-    # 5. Přidejte slovník do seznamu data
+    with open(soubor, "r", encoding="utf-8") as f:
+        for radek in f:
+            radek = radek.strip()
+            if not radek:
+                continue  # přeskočí prázdné řádky
+
+            casti = radek.split(",")
+            jmeno = casti[0].strip()
+            znamky = [int(z) for z in casti[1:]]
+
+            data.append({"jmeno": jmeno, "znamky": znamky})
+
     return data
 
 
@@ -20,16 +26,16 @@ def spocitej_prumer(znamky: list) -> float:
     Vypočítá aritmetický průměr ze seznamu známek.
     Pokud je seznam prázdný, vrací 0.0.
     """
-    # TODO: Implementujte výpočet průměru
-    return 0.0
+    if not znamky:
+        return 0.0
+    return sum(znamky) / len(znamky)
 
 
 def prospel(prumer: float) -> bool:
     """
     Vrátí True, pokud je průměr <= 3.5, jinak False.
     """
-    # TODO: Implementujte podmínku prospěchu
-    return False
+    return prumer <= 3.5
 
 
 def zpracuj_vysledky(studenti: list) -> dict:
@@ -38,10 +44,18 @@ def zpracuj_vysledky(studenti: list) -> dict:
     Formát výstupu: {'Jmeno': {'prumer': 1.5, 'prospel': True}, ...}
     """
     vysledky = {}
-    # TODO: Projděte seznam studentů
-    # 1. Pro každého zavolejte spocitej_prumer
-    # 2. Zavolejte prospel
-    # 3. Uložte do slovníku vysledky pod klíčem jména studenta
+    for student in studenti:
+        jmeno = student["jmeno"]
+        znamky = student["znamky"]
+
+        prumer = spocitej_prumer(znamky)
+        p = prospel(prumer)
+
+        vysledky[jmeno] = {
+            "prumer": prumer,
+            "prospel": p
+        }
+
     return vysledky
 
 
@@ -50,8 +64,11 @@ def uloz_report(vystupni_soubor: str, vysledky: dict) -> None:
     Uloží výsledky do souboru ve formátu:
     Jmeno: Prumer (PROSPEL/NEPROSPEL)
     """
-    # TODO: Otevřete soubor pro zápis a zapište formátované výsledky
-    pass
+    with open(vystupni_soubor, "w", encoding="utf-8") as f:
+        for jmeno, info in vysledky.items():
+            prumer = round(info["prumer"], 2)
+            status = "PROSPEL" if info["prospel"] else "NEPROSPEL"
+            f.write(f"{jmeno}: {prumer} ({status})\n")
 
 
 if __name__ == "__main__":
