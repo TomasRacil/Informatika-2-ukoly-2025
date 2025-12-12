@@ -1,0 +1,64 @@
+name: Sync Fork and Notify
+
+on:
+  schedule:
+    - cron: '0 0 * * *' 
+  workflow_dispatch:     
+
+jobs:
+  sync-and-notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout your fork
+      - name: Checkout Fork
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.Push_Token }}
+          fetch-depth: 0
+          ref: master
+
+      # 2️⃣ Configure git
+      - name: Configure Git
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+
+      # 3️⃣ Add upstream remote
+      - name: Add Upstream Remote
+        run: git remote add upstream https://github.com/TomasRacil/Informatika-2-ukoly-2025.git
+
+      # 4️⃣ Fetch upstream
+      - name: Fetch Upstream
+        run: git fetch upstream
+
+      # 5️⃣ Check for updates
+      - name: Check if fork is behind upstream
+        id: check
+        run: |
+          COMMITS=$(git rev-list HEAD..upstream/master --count || true)
+          echo "commits=$COMMITS" >> $GITHUB_OUTPUT
+
+      # 6️⃣ Merge updates if they exist
+      - name: Merge Upstream if Needed
+        if: steps.check.outputs.commits != '0'
+        run: |
+          git merge upstream/master --allow-unrelated-histories -X ours -m "Merge upstream/master (auto-resolved conflicts)"
+          git push origin master
+
+      # 7️⃣ Send email notification
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          from: ${{ secrets.SMTP_USERNAME }}
+          to: ${{ secrets.NOTIFY_EMAIL_TO }}
+          subject: ${{ steps.check.outputs.commits != '0' && '🔔 Upstream Updated' || '✅ Test Completed — No Updates' }}
+          body: |
+            ${{ steps.check.outputs.commits != '0' && 'The upstream repository has new commits. Your fork has been updated.' || 'Manual workflow run completed. No updates were found in the upstream repository.' }}
+            
+            Repository: https://github.com/TomasRacil/Informatika-2-ukoly-2025
+            Time: ${{ github.event.schedule || github.event.repository.pushed_at || github.run_started }}
