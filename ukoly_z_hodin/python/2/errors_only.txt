@@ -1,0 +1,2 @@
+ERROR Nelze se pripojit k databazi
+ERROR Chyba pri cteni souboru
