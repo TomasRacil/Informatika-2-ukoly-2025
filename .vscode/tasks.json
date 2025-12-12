@@ -1,4 +1,5 @@
 {
+    "version": "2.0.0",
     "tasks": [
         {
             "type": "cppbuild",
@@ -85,7 +86,6 @@
             ],
             "group": "build",
             "detail": "kompilátor: /usr/bin/g++"
-        },
-    ],
-    "version": "2.0.0"
+        }
+    ]
 }

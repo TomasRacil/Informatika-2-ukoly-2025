@@ -5,6 +5,9 @@ class Vector2D:
         """
         Konstruktor: Nastaví souřadnice x a y.
         """
+        if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+            raise TypeError("Souřadnice musí být čísla (int nebo float).")
+
         self.x = x
         self.y = y
 
@@ -12,57 +15,55 @@ class Vector2D:
         """
         Vrací textovou reprezentaci vektoru ve formátu: Vector(x, y)
         """
-        # TODO: Implementujte formátovaný výpis
-        return ""
+        return f"Vector({self.x}, {self.y})"
 
     def __add__(self, other):
         """
         Operátor +: Sečte dva vektory.
-        Vrací novou instanci Vector2D.
         """
-        # TODO: Implementujte sčítání
-        # return Vector2D(..., ...)
-        return None
+        if not isinstance(other, Vector2D):
+            raise TypeError("Sčítat lze pouze s jiným vektorem.")
+        return Vector2D(self.x + other.x, self.y + other.y)
 
     def __sub__(self, other):
         """
-        Operátor -: Odečte druhý vektor od prvního.
-        Vrací novou instanci Vector2D.
+        Operátor -: Odečte dva vektory.
         """
-        # TODO: Implementujte odčítání
-        return None
+        if not isinstance(other, Vector2D):
+            raise TypeError("Odečítat lze pouze jiný vektor.")
+        return Vector2D(self.x - other.x, self.y - other.y)
 
     def __mul__(self, other):
         """
-        Operátor *: 
-        - Pokud je 'other' číslo (int/float), provede skalární násobení a vrátí nový Vector2D.
-        - Pokud je 'other' Vector2D, provede skalární součin a vrátí číslo.
+        Operátor *: Skalární násobení nebo skalární součin.
         """
         if isinstance(other, (int, float)):
-            # TODO: Implementujte násobení skalárem (číslem)
-            return None
+            # Skalární násobení
+            return Vector2D(self.x * other, self.y * other)
+
         elif isinstance(other, Vector2D):
-            # TODO: Implementujte skalární součin (vektor * vektor)
-            return 0
+            # Skalární součin
+            return self.x * other.x + self.y * other.y
+
         else:
             raise TypeError("Násobení je podporováno pouze s číslem nebo jiným vektorem.")
 
     def __eq__(self, other):
         """
-        Operátor ==: Porovná dva vektory na shodu.
+        Operátor ==: Porovná dva vektory.
         """
-        # TODO: Implementujte porovnání
-        return False
+        if not isinstance(other, Vector2D):
+            return False
+        return self.x == other.x and self.y == other.y
 
     def __abs__(self):
         """
-        Funkce abs(): Vrátí délku (magnitudu) vektoru.
+        Funkce abs(): Vrátí délku vektoru.
         """
-        # TODO: Implementujte výpočet délky (Pythagorova věta)
-        return 0.0
+        return math.sqrt(self.x**2 + self.y**2)
+
 
 if __name__ == "__main__":
-    # Zde si můžete zkoušet svůj kód ručně
     v1 = Vector2D(3, 4)
     print(f"Můj vektor: {v1}")
     print(f"Délka: {abs(v1)}")
