@@ -1,0 +1,5 @@
+Alice Nova,1,1,2,1
+Bob Stary,3,4,3,2,4
+Cyril Hrozny,5,5,4,5,5
+David Prazdny,1,2,3,4
+Eva Jednickova,1
