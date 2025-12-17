@@ -12,8 +12,10 @@ class Vector2D:
         """
         Vrací textovou reprezentaci vektoru ve formátu: Vector(x, y)
         """
+
         # TODO: Implementujte formátovaný výpis
-        return ""
+        
+        return f"Vector({self.x}, {self.y})"
 
     def __add__(self, other):
         """
@@ -22,7 +24,10 @@ class Vector2D:
         """
         # TODO: Implementujte sčítání
         # return Vector2D(..., ...)
-        return None
+        nove_x= self.x + other.x
+        nove_y= self.y + other.y
+        
+        return Vector2D(nove_x,nove_y)
 
     def __sub__(self, other):
         """
@@ -30,7 +35,9 @@ class Vector2D:
         Vrací novou instanci Vector2D.
         """
         # TODO: Implementujte odčítání
-        return None
+        nove_x= self.x - other.x
+        nove_y= self.y - other.y
+        return Vector2D(nove_x,nove_y)
 
     def __mul__(self, other):
         """
@@ -40,10 +47,15 @@ class Vector2D:
         """
         if isinstance(other, (int, float)):
             # TODO: Implementujte násobení skalárem (číslem)
-            return None
+            skalar1= self.x *other
+            skalar2=self.y *other
+            return Vector2D(skalar1,skalar2)
         elif isinstance(other, Vector2D):
+            soucin_x = self.x * other.x
+            soucin_y = self.y * other.y
+            soucin = soucin_x + soucin_y
             # TODO: Implementujte skalární součin (vektor * vektor)
-            return 0
+            return soucin
         else:
             raise TypeError("Násobení je podporováno pouze s číslem nebo jiným vektorem.")
 
@@ -52,14 +64,14 @@ class Vector2D:
         Operátor ==: Porovná dva vektory na shodu.
         """
         # TODO: Implementujte porovnání
-        return False
+        return self.x == other.x and self.y == other.y
 
     def __abs__(self):
         """
         Funkce abs(): Vrátí délku (magnitudu) vektoru.
         """
         # TODO: Implementujte výpočet délky (Pythagorova věta)
-        return 0.0
+        return math.sqrt(self.x**2 + self.y**2)
 
 if __name__ == "__main__":
     # Zde si můžete zkoušet svůj kód ručně
