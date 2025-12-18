@@ -114,3 +114,56 @@ Server
 --------------------------------------------  
 Stav uložen do stats_history.txt  
 ```
+
+## **Jak spustit testy a vytvořit executables**
+
+### **Příprava prostředí**
+
+```bash
+cd /workspaces/Informatika-2-ukoly-2025-JanBarton/SkusobnaSkuska
+mkdir -p build
+cd build
+cmake ..
+make
+```
+
+### **Spuštění C++ aplikace (Logger)**
+
+```bash
+./logger_app
+```
+
+### **Spuštění C++ testů (GTest)**
+
+```bash
+./tests
+```
+
+Nebo alternativně:
+```bash
+ctest --output-on-failure
+```
+
+### **Spuštění Python testů**
+
+V hlavním adresáři (`SkusobnaSkuska`):
+
+```bash
+python3 -m unittest test_analyza.py -v
+```
+
+### **Spuštění Python analýzy**
+
+```bash
+python3 analyza.py
+```
+
+### **Shrnutí příkazů**
+
+| Operace | Příkaz |
+| :---- | :---- |
+| Překlad C++ kódu | `cd build && cmake .. && make` |
+| Spuštění C++ aplikace | `./build/logger_app` |
+| Spuštění C++ testů | `./build/tests` nebo `ctest` (v build/) |
+| Spuštění Python testů | `python3 -m unittest test_analyza.py -v` |
+| Spuštění Python analýzy | `python3 analyza.py` |

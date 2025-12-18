@@ -3,7 +3,7 @@ import os
 from os.path import join, dirname, realpath, exists
 
 def read_input(file_name="server.log"):
-    file_path = join(dirname(realpath(__file__)), file_name)
+    file_path = join(dirname(realpath(__file__)),"build", file_name)
     with open(file_path, "r", encoding="utf-8") as file:
         for line in file:
             yield line.strip()
@@ -11,13 +11,15 @@ def read_input(file_name="server.log"):
 class LogStat:
     HISTORY_FILE = "stats_history.txt"
 
-    def __init__(self):
+    def __init__(self, history_file=None):
+        self.HISTORY_FILE = history_file or "stats_history.txt"
         self.stats = {
-            "Databáze": {"INFO": 0, "WARNING": 0, "ERROR": 0},
+            "Database": {"INFO": 0, "WARNING": 0, "ERROR": 0},
             "Server":   {"INFO": 0, "WARNING": 0, "ERROR": 0},
             "System":   {"INFO": 0, "WARNING": 0, "ERROR": 0},
         }
 
+        self.data = self.stats #len kvoli funkcii testov
         self._load_history()
 
         self.pattern = re.compile(
@@ -61,7 +63,7 @@ class LogStat:
             self.stats[obj][level] += 1
 
     def __str__(self):
-        result = ["\n=== Agregované statistiky (včetně historie) ==="]
+        result = ["\n=== Agregovane statistiky historie included==="]
         for obj, levels in self.stats.items():
             result.append(f"\n{obj}:")
             for level, count in levels.items():
