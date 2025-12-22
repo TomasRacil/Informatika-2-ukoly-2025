@@ -13,6 +13,8 @@ class Vector2D:
         Vrací textovou reprezentaci vektoru ve formátu: Vector(x, y)
         """
         return f"Vector({self.x}, {self.y})"
+        # TODO: Implementujte formátovaný výpis
+        return ""
 
     def __add__(self, other):
         """
@@ -20,6 +22,9 @@ class Vector2D:
         Vrací novou instanci Vector2D.
         """
         return Vector2D(self.x + other.x, self.y + other.y)
+        # TODO: Implementujte sčítání
+        # return Vector2D(..., ...)
+        return None
 
     def __sub__(self, other):
         """
@@ -27,6 +32,8 @@ class Vector2D:
         Vrací novou instanci Vector2D.
         """
         return Vector2D(self.x - other.x, self.y - other.y)
+        # TODO: Implementujte odčítání
+        return None
 
     def __mul__(self, other):
         """
@@ -40,6 +47,11 @@ class Vector2D:
             return None
         elif isinstance(other, Vector2D):
             return self.x * other.x + self.y * other.y
+            # TODO: Implementujte násobení skalárem (číslem)
+            return None
+        elif isinstance(other, Vector2D):
+            # TODO: Implementujte skalární součin (vektor * vektor)
+            return 0
         else:
             raise TypeError("Násobení je podporováno pouze s číslem nebo jiným vektorem.")
 
@@ -49,6 +61,7 @@ class Vector2D:
         """
         if isinstance(other, Vector2D):
             return self.x == other.x and self.y == other.y
+        # TODO: Implementujte porovnání
         return False
 
     def __abs__(self):
@@ -56,6 +69,8 @@ class Vector2D:
         Funkce abs(): Vrátí délku (magnitudu) vektoru.
         """
         return math.sqrt(self.x ** 2 + self.y ** 2)
+        # TODO: Implementujte výpočet délky (Pythagorova věta)
+        return 0.0
 
 if __name__ == "__main__":
     # Zde si můžete zkoušet svůj kód ručně
