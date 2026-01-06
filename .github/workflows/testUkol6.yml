@@ -1,9 +1,9 @@
-name: Python syntax check
+name: Python Ukol 6 Tests
 
 on: [push, pull_request]
 
 jobs:
-  python_syntax_check:
+  python_test:
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'pull_request' || 
@@ -13,8 +13,5 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install Python dependencies
       run: python3 -m pip install --upgrade pip
-    - name: Check Python syntax
-      run: |
-        find . -name "*.py" -print0 | while IFS= read -r -d '' file; do
-          python3 -m py_compile "$file" || exit 1
-        done
+    - name: Run Python tests
+      run: cd Ukol_6 && python3 -m unittest discover || exit 1
