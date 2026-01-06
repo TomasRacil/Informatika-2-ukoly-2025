@@ -82,5 +82,12 @@
         "typeindex": "cpp",
         "valarray": "cpp"
     },
-    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp"
+    "cmake.sourceDirectory": "/workspaces/Ukoly2024/Ukol_1/cpp",
+    "python-envs.pythonProjects": [
+        {
+            "path": "SkusobnaSkuska/__pycache__",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ]
 }
