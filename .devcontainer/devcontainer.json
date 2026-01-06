@@ -26,7 +26,7 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "apt-get update && apt-get install -y g++ && apt-get install -y libgtest-dev",
+	"postCreateCommand": "apt-get update && apt-get install -y g++ && python3 -m pip install --upgrade pip &&  apt-get install -y libgtest-dev",
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
