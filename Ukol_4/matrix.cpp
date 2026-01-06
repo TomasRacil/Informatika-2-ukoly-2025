@@ -72,7 +72,7 @@ int Matrix::getRows() const {
 int Matrix::getCols() const {
     return cols_;
 }
-int Matrix::getValue(int row, int col) const {
+  int Matrix::getValue(int row, int col) const {
     if (!data_ || row < 0 || col < 0 || row >= rows_ || col >= cols_)
         throw out_of_range("Index mimo rozsah");
     return data_[row][col];
@@ -81,7 +81,8 @@ void Matrix::setValue(int row, int col, int value) {
     if (!data_ || row < 0 || col < 0 || row >= rows_ || col >= cols_)
         throw out_of_range("Index mimo rozsah");
     data_[row][col] = value;
-}
+        data_[row][col] = value;
+    }
 // TODO: Zkopírujte sem implementace (těla) metod z vašeho hotového Ukolu 3.
 // (s výjimkou metod add, multiply a print, které budou nahrazeny operátory)
 // Nezapomeňte ke každé metodě přidat prefix 'Matrix::'
