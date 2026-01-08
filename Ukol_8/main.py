@@ -6,8 +6,9 @@ def read_logs(file_path):
     Ošetřete FileNotFoundError.
     """
     try:
-        # TODO: Otevřít soubor a yieldovat řádky
-        pass
+        with open(file_path, "r", encoding="utf-8") as f:
+            for line in f:
+                yield line.strip()
     except FileNotFoundError:
         print(f"Chyba: Soubor '{file_path}' nebyl nalezen.")
 
@@ -19,28 +20,35 @@ def process_line(line):
     
     Očekávaný formát: [DATUM] LEVEL: Zpráva - User: email
     """
-    # TODO: Definovat regex pattern
-    # pattern = r"..."
-    
-    # TODO: Použít re.search nebo re.match
-    # match = ...
-    
-    # TODO: Pokud match, vrátit dict, jinak None
-    pass
+    regex = r"\[(.*?)\]\s+(INFO|WARN|ERROR):\s+(.*?)\s+-\s+User:\s+([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})" #regex_generator pouzit: https://regex-generator.olafneumann.org/
+
+    match = re.match(regex, line)
+    if not match:
+        return None
+
+    return {
+        "datetime": match.group(1),
+        "level": match.group(2),
+        "message": match.group(3),
+        "email": match.group(4),
+    }
 
 def analyze_logs(input_file, output_file):
     """
     Načte logy, vyfiltruje ERROR záznamy a zapíše je do výstupního souboru.
     """
-    count = 0
-    # TODO: Otevřít output_file pro zápis
-    # with open(output_file, 'w') as f_out:
-        # TODO: Iterovat přes read_logs(input_file)
-        # TODO: Zpracovat řádek přes process_line
-        # TODO: Pokud je level == 'ERROR', zapsat do souboru
-        # pass
-    
-    print(f"Zpracování dokončeno. Nalezeno {count} chyb.")
+    try:
+        with open(output_file, "w", encoding="utf-8") as out:
+            out.write("datetime,email,message\n")
+
+            for line in read_logs(input_file):
+                result = process_line(line)
+                if result and result["level"] == "ERROR":
+                    out.write(
+                        f'{result["datetime"]},{result["email"]},{result["message"]}\n'
+                    )
+    except IOError as e:
+        print(f"Chyba při zápisu do souboru: {e}")
 
 if __name__ == "__main__":
     # Pro účely testování vytvořte soubor data.log, pokud neexistuje, nebo jej stáhněte
