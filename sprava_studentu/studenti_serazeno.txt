@@ -1,0 +1,10 @@
+103,Martin Vesely,1.1
+110,Michal Hruby,1.1
+102,Tomas Marny,1.2
+108,David Smutny,1.5
+101,Jan Novak,1.8
+107,Adam Novy,1.9
+105,Petra Svobodova,2.1
+106,Lucie Pokorna,2.5
+109,Barbora Ticha,2.8
+104,Eva Kralova,3
