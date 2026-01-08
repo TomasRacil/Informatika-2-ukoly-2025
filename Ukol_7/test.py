@@ -1,3 +1,21 @@
+import unittest
+from main import Vector2D
+
+class TestVector2D(unittest.TestCase):
+
+    def test_init_and_str(self):
+        v = Vector2D(1, 2)
+        self.assertEqual(v.x, 1)
+        self.assertEqual(v.y, 2)
+        self.assertEqual(str(v), "Vector(1, 2)")
+
+    def test_add(self):
+        v1 = Vector2D(1, 2)
+        v2 = Vector2D(3, 4)
+        v3 = v1 + v2
+        self.assertIsInstance(v3, Vector2D)
+        self.assertEqual(v3.x, 4)
+        self.assertEqual(v3.y, 6)
         # Původní vektory se nesmí změnit
         self.assertEqual(v1.x, 1)
 
