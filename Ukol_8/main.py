@@ -17,14 +17,6 @@ def read_logs(file_path):
         print(f"Chyba: Soubor '{file_path}' nebyl nalezen.")
 
 def process_line(line):
-    """
-    Zpracuje řádek logu pomocí regexu.
-    Vrátí slovník {'timestamp': ..., 'level': ..., 'message': ..., 'email': ...}
-    nebo None, pokud řádek neodpovídá formátu.
-    
-    Očekávaný formát: [DATUM] LEVEL: Zpráva - User: email
-    """
-
     pattern_uni = r'\[(.*)\]\s([a-zA-Z]+): (.*) - [a-zA-Z]+: ([a-zA-Z-\d]*@*.*)'
     pattern_re = re.search(pattern_uni, line)
 
