@@ -63,5 +63,5 @@ if __name__ == "__main__":
 
 Spusťte testy pomocí:
 ```bash
-python3 -m unittest test_ukol8.py
+cd Ukol_8 && python3 -m unittest discover
 ```
