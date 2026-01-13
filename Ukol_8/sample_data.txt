@@ -1,0 +1,9 @@
+[2024-05-20 14:30:01] INFO: System start - User: admin@example.com
+[2024-05-20 14:32:15] WARN: High memory usage - User: system@monitor.local
+[2024-05-20 14:35:10] ERROR: Database connection failed - User: db_admin@example.com
+Invalid line that should be skipped
+[2024-05-20 14:40:00] INFO: User login - User: user123@gmail.com
+[2024-05-20 14:42:00] ERROR: Timeout waiting for response - User: service@bot.net
+[2024-05-20 14:45:00] DEBUG: Variable x=10 - User: dev@test.org
+[broken] ERROR: Missing timestamp - User: whoops
+[2024-05-20 14:50:00] ERROR: Disk full - User: root@server.com
