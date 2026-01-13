@@ -1,0 +1,17 @@
+name: Python Ukol 8 Tests
+
+on: [push, pull_request]
+
+jobs:
+  python_test:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' || 
+      github.event.repository.fork == true || 
+      github.ref != 'refs/heads/master'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Python dependencies
+      run: python3 -m pip install --upgrade pip
+    - name: Run Python tests
+      run: cd Ukol_8 && python3 -m unittest discover || exit 1
