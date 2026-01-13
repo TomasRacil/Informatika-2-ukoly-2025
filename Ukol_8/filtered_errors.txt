@@ -1,0 +1,5 @@
+timestamp,message,email
+2024-05-20 14:35:10,db_admin@example.com,Database connection failed
+2024-05-20 14:42:00,service@bot.net,Timeout waiting for response
+broken,whoops,Missing timestamp
+2024-05-20 14:50:00,root@server.com,Disk full

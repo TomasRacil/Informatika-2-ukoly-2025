@@ -68,5 +68,5 @@ if __name__ == "__main__":
     # Zde si můžete zkoušet svůj kód ručně
     v1 = Vector2D(3, 4)
     v2 = Vector2D(5, 7)
-    print(f"Můj vektor: {v1-v2}")
+    print(f"Můj vektor: {v1}")
     print(f"Délka: {abs(v1)}")
