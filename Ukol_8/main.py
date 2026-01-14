@@ -1,47 +1,50 @@
 import re
+import types
 
 def read_logs(file_path):
     """
     Generátor, který načítá soubor řádek po řádku.
-    Ošetřete FileNotFoundError.
     """
     try:
-        # TODO: Otevřít soubor a yieldovat řádky
-        pass
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                yield line.strip()
     except FileNotFoundError:
-        print(f"Chyba: Soubor '{file_path}' nebyl nalezen.")
+        # Důležité: Generátor i při chybě musí zůstat generátorem, 
+        # jen prostě nic nevynechá (prázdná iterace).
+        return
 
 def process_line(line):
     """
-    Zpracuje řádek logu pomocí regexu.
-    Vrátí slovník {'timestamp': ..., 'level': ..., 'message': ..., 'email': ...}
-    nebo None, pokud řádek neodpovídá formátu.
-    
+    Zpracuje řádek logu pomocí robustního regexu.
     Očekávaný formát: [DATUM] LEVEL: Zpráva - User: email
     """
-    # TODO: Definovat regex pattern
-    # pattern = r"..."
+    # Upravený regex: 
+    # [^\]]+ zachytí vše uvnitř závorek
+    # .+? je líný kvantifikátor pro zprávu, aby se nezastavil až na konci řádku
+    pattern = r"\[(?P<timestamp>[^\]]+)\]\s+(?P<level>\w+):\s+(?P<message>.+?)\s+-\s+User:\s+(?P<email>\S+)"
     
-    # TODO: Použít re.search nebo re.match
-    # match = ...
-    
-    # TODO: Pokud match, vrátit dict, jinak None
-    pass
+    match = re.search(pattern, line)
+    if match:
+        return match.groupdict()
+    return None
 
 def analyze_logs(input_file, output_file):
     """
     Načte logy, vyfiltruje ERROR záznamy a zapíše je do výstupního souboru.
     """
     count = 0
-    # TODO: Otevřít output_file pro zápis
-    # with open(output_file, 'w') as f_out:
-        # TODO: Iterovat přes read_logs(input_file)
-        # TODO: Zpracovat řádek přes process_line
-        # TODO: Pokud je level == 'ERROR', zapsat do souboru
-        # pass
+    # Otevíráme soubor pro zápis hned na začátku, aby soubor existoval i v případě 0 chyb
+    with open(output_file, 'w', encoding='utf-8') as f_out:
+        for line in read_logs(input_file):
+            log_data = process_line(line)
+            
+            if log_data and log_data.get('level') == 'ERROR':
+                f_out.write(f"[{log_data['timestamp']}] ERROR: {log_data['message']} - User: {log_data['email']}\n")
+                count += 1
     
     print(f"Zpracování dokončeno. Nalezeno {count} chyb.")
 
 if __name__ == "__main__":
-    # Pro účely testování vytvořte soubor data.log, pokud neexistuje, nebo jej stáhněte
+    # Testovací volání
     analyze_logs("sample_data.txt", "filtered_errors.txt")
