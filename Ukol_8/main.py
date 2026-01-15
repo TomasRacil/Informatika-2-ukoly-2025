@@ -6,8 +6,9 @@ def read_logs(file_path):
     Ošetřete FileNotFoundError.
     """
     try:
-        # TODO: Otevřít soubor a yieldovat řádky
-        pass
+        with open(file_path, 'r', encoding='utf-8') as file:
+            for line in file:
+                yield line.strip()  # .strip() odstraní \n na konci řádku
     except FileNotFoundError:
         print(f"Chyba: Soubor '{file_path}' nebyl nalezen.")
 
@@ -19,26 +20,42 @@ def process_line(line):
     
     Očekávaný formát: [DATUM] LEVEL: Zpráva - User: email
     """
-    # TODO: Definovat regex pattern
-    # pattern = r"..."
+    pattern = r"\[(.*?)\]\s(\w+):\s(.*?)\s-\sUser:\s([\w\.-]+@[\w\.-]+)"
     
-    # TODO: Použít re.search nebo re.match
-    # match = ...
+    match = re.search(pattern, line)
     
-    # TODO: Pokud match, vrátit dict, jinak None
-    pass
+    if match:
+        return {
+            'timestamp': match.group(1),
+            'level': match.group(2),
+            'message': match.group(3),
+            'email': match.group(4)
+        }
+    return None
 
 def analyze_logs(input_file, output_file):
     """
     Načte logy, vyfiltruje ERROR záznamy a zapíše je do výstupního souboru.
     """
     count = 0
-    # TODO: Otevřít output_file pro zápis
-    # with open(output_file, 'w') as f_out:
-        # TODO: Iterovat přes read_logs(input_file)
-        # TODO: Zpracovat řádek přes process_line
-        # TODO: Pokud je level == 'ERROR', zapsat do souboru
-        # pass
+log_generator = read_logs(input_file)
+    
+    # Pokud soubor neexistuje, generátor nic nevrátí (vyřešeno v read_logs)
+    if log_generator is None:
+        return
+
+    with open(output_file, 'w', encoding='utf-8') as f_out:
+        # Hlavička pro výstupní soubor (volitelné, ale užitečné)
+        f_out.write("timestamp,email,message\n")
+        
+        for line in log_generator:
+            data = process_line(line)
+            
+            # Filtrujeme pouze záznamy, které jsou ERROR
+            if data and data['level'] == 'ERROR':
+                # Zápis do souboru ve formátu CSV
+                f_out.write(f"{data['timestamp']},{data['email']},{data['message']}\n")
+                count += 1
     
     print(f"Zpracování dokončeno. Nalezeno {count} chyb.")
 
