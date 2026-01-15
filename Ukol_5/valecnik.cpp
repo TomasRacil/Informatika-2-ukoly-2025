@@ -27,26 +27,6 @@ void Valecnik::prijmiUtok(double poskozeni) {
     std::cout << this->getJmeno() << " blokuje " << _brneni << " poskozeni brnenim!" << std::endl;
     Postava::prijmiUtok(snizenePoskozeni);
     
-
-    // TODO: Inicializujte atribut _brneni
-}
-
-void Valecnik::utok(Postava& cil) {
-    // TODO: Implementujte útok válečníka
-    // 1. Zkontrolujte, zda má válečník méně než 30 % maximálních životů (berserk mode).
-    //    (Pozor: v zadání není max_hp, pro zjednodušení předpokládejme, že < 30 HP = berserk)
-    // 2. Pokud ano, vypište hlášku o zuřivosti a útočte silou * 1.5
-    // 3. Pokud ne, útočte normální silou.
-    // Tip: Využijte metodu cil.prijmiUtok()
-}
-
-void Valecnik::prijmiUtok(double poskozeni) {
-    // TODO: Implementujte obranu válečníka
-    // 1. Snižte příchozí poškození o hodnotu _brneni.
-    // 2. Pokud je výsledek menší než 0, nastavte ho na 0.
-    // 3. Vypište informaci o blokování.
-    // 4. Zavolejte metodu předka Postava::prijmiUtok() se sníženým poškozením.
-
 }
 
 void Valecnik::vypisInfo() const {
