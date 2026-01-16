@@ -4,17 +4,28 @@ class Product:
     """
     def __init__(self, name: str, price: float, quantity: int):
         # TODO: Inicializace, využití properties pro validaci
-        self._name = name
+        self.name = name
         self.price = price
         self.quantity = quantity
 
     @property
     def price(self) -> float:
         return self._price
+    
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    @name.setter
+    def name(self, value: str):
+        if not value:
+            raise ValueError("Název produktu nesmí být prázdný.")
+        self._name = value
 
     @price.setter
     def price(self, value: float):
-        # TODO: Validace, raise ValueError pokud < 0
+        if value < 0:
+            raise ValueError("Cena nemůže být záporná.")
         self._price = value
 
     @property
@@ -23,7 +34,8 @@ class Product:
 
     @quantity.setter
     def quantity(self, value: int):
-        # TODO: Validace
+        if value < 0:
+            raise ValueError("Množství nemůže být záporné.")
         self._quantity = value
 
     def to_dict(self) -> dict:
@@ -40,5 +52,4 @@ class Product:
         return Product(data['name'], data['price'], data['quantity'])
 
     def __str__(self) -> str:
-        # TODO: Hezký výpis
-        return f"{self._name}"
+        return f"Produkt {self._name} cena: {self._price} množství: {self._quantity}"
