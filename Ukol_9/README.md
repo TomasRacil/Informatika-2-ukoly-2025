@@ -59,5 +59,5 @@ Použijte knihovnu `argparse` pro vytvoření rozhraní příkazové řádky. Ap
 
 Spusťte připravené testy:
 ```bash
-python3 -m unittest test_ukol.py
+cd Ukol_9 && python3 -m unittest test.py
 ```
