@@ -12,6 +12,21 @@ def nacti_data(soubor: str) -> list:
     # 3. Rozdělte řádek podle čárky (první prvek je jméno, zbytek jsou známky)
     # 4. Převeďte známky na int
     # 5. Přidejte slovník do seznamu data
+    with open(soubor) as f:
+        for x in f:
+            x = x.strip()
+            radek = x.split(',')
+            radek = [x for x in radek if x.strip()]
+            jmeno = radek[0]
+            znamky = list(map(int, radek[1:]))
+
+            slovnik = {
+                "jmeno" : jmeno,
+                "znamky" : znamky
+            }
+
+            data.append(slovnik)
+
     return data
 
 
@@ -21,7 +36,10 @@ def spocitej_prumer(znamky: list) -> float:
     Pokud je seznam prázdný, vrací 0.0.
     """
     # TODO: Implementujte výpočet průměru
-    return 0.0
+    if znamky:
+        return sum(znamky) / len(znamky)
+    else:
+        return 0.0
 
 
 def prospel(prumer: float) -> bool:
@@ -29,7 +47,10 @@ def prospel(prumer: float) -> bool:
     Vrátí True, pokud je průměr <= 3.5, jinak False.
     """
     # TODO: Implementujte podmínku prospěchu
-    return False
+    if prumer <= 3.5:
+        return True
+    else:
+        return False
 
 
 def zpracuj_vysledky(studenti: list) -> dict:
@@ -42,6 +63,14 @@ def zpracuj_vysledky(studenti: list) -> dict:
     # 1. Pro každého zavolejte spocitej_prumer
     # 2. Zavolejte prospel
     # 3. Uložte do slovníku vysledky pod klíčem jména studenta
+    for x in studenti:
+        jmeno = (x["jmeno"])
+        prumer = spocitej_prumer(x["znamky"])
+        var_prospel = prospel(prumer)
+        vysledky[jmeno] = {
+            "prumer" : prumer,
+            "prospel" : var_prospel
+        }
     return vysledky
 
 
@@ -51,6 +80,14 @@ def uloz_report(vystupni_soubor: str, vysledky: dict) -> None:
     Jmeno: Prumer (PROSPEL/NEPROSPEL)
     """
     # TODO: Otevřete soubor pro zápis a zapište formátované výsledky
+    with open(vystupni_soubor, "w") as f:
+        for jmeno, studijni_vysledky in vysledky.items():
+            if studijni_vysledky["prospel"]:
+                text_prospel = "PROSPEL"
+            else:
+                text_prospel = "NEPROSPEL"
+
+            f.write(f"{jmeno}: {studijni_vysledky['prumer']} ({text_prospel})\n")
     pass
 
 
