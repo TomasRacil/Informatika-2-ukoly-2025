@@ -1,0 +1,3 @@
+{'timestamp': '[2024-05-20 14:35:10] ERROR: Database connection failed - User: db_admin@example.com', 'level': 'ERROR', 'message': 'Database connection failed', 'email': 'failed '}
+{'timestamp': '[2024-05-20 14:42:00] ERROR: Timeout waiting for response - User: service@bot.net', 'level': 'ERROR', 'message': 'Timeout waiting for response', 'email': 'response '}
+{'timestamp': '[2024-05-20 14:50:00] ERROR: Disk full - User: root@server.com', 'level': 'ERROR', 'message': 'Disk full', 'email': 'full '}
