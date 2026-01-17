@@ -12,7 +12,7 @@ protected:
 
 public:
     Postava(const std::string& jmeno, double zivoty, double sila);
-    
+
     virtual ~Postava() = default;
 
     std::string getJmeno() const;

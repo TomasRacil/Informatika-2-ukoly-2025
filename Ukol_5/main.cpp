@@ -21,7 +21,7 @@ int main() {
     int kolo = 1;
     while (conan.jeZiva() && gandalf.jeZiva()) {
         std::cout << "Kolo " << kolo << ":" << std::endl;
-        
+
         conan.utok(gandalf);
         if (!gandalf.jeZiva()) break;
 
