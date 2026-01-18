@@ -7,7 +7,7 @@ def read_logs(file_path):
     """
     try:
         # TODO: Otevřít soubor a yieldovat řádky
-        with open("Ukol_8/sample_data.txt", 'r') as f:
+        with open(file_path, 'r') as f:
             for line in f:
                 yield line.strip()
     except FileNotFoundError:
