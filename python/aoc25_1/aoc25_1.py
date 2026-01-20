@@ -3,6 +3,9 @@ counter = 0
 with open("python/ukoly z hodiny/aoc25_1/data.txt") as f:
     for radek in f:
         aktual_radek = radek.strip()
+
+
+        
         if aktual_radek[0] == "L":
             zacatek -= int(aktual_radek[1:]) 
             if zacatek < 0:
