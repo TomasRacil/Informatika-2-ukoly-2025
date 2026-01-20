@@ -205,9 +205,11 @@ Matrix Matrix::operator*(const Matrix &other) const
 Matrix Matrix::operator*(int scalar)
 {
     Matrix result(rows_, cols_);
-    for (int i = 0; i < rows_; ++i)
-        for (int j = 0; j < cols_; ++j)
-            result.setValue(i, j, getValue(i, j) * scalar);
+    for (int i = 0; i < rows_; ++i) {
+        for (int j = 0; j < cols_; ++j) {
+            result.setValue(i, j, this->getValue(i, j) * scalar);
+        } 
+    }   
     return result;
 }
 
