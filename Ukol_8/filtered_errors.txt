@@ -1,0 +1,4 @@
+timestamp: 2024-05-20 14:35:10 level: ERROR message: Database connection failed email: db_admin@example.com
+timestamp: 2024-05-20 14:42:00 level: ERROR message: Timeout waiting for response email: service@bot.net
+timestamp: broken level: ERROR message: Missing timestamp email: whoops
+timestamp: 2024-05-20 14:50:00 level: ERROR message: Disk full email: root@server.com
