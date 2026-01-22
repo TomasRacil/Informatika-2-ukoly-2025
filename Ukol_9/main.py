@@ -1,13 +1,17 @@
 import argparse
 import sys
+from datetime import datetime
 from models import Product
 from storage import Storage
 
 # TODO: Implementovat dekorátor @log_action (zapsat do history.log)
 def log_action(func):
     def wrapper(*args, **kwargs):
-        # ... logika logování ...
-        return func(*args, **kwargs)
+        vysledek=func(*args, **kwargs)
+        with open("history.log", "a", encoding="utf-8") as f:
+            cas = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            f.write(f"[{cas}] {func.__name__}\n")
+        return vysledek
     return wrapper
 
 class InventoryManager:
@@ -18,19 +22,35 @@ class InventoryManager:
     @log_action
     def add_product(self, name: str, price: float, quantity: int):
         # TODO: Vytvořit produkt, přidat do self.products, uložit
+        product = Product(name=name, price=price, quantity=quantity)
+        self.products.append(product)
+        self.storage.save_products(self.products) 
         print(f"Produkt {name} přidán.")
 
     def list_products(self):
         # TODO: Vypsat všechny produkty
-        pass
+        if not self.products:
+            print("Žádné produkty na skladě.")
+            return
+        for product in self.products:
+            print(f"{product.name}, Cena: {product.price}, Množství:{product.quantity}")
+
 
     def search_products(self, query: str):
         # TODO: Vyhledat produkty obsahující query v názvu
-        pass
+        results = [product for product in self.products if query.lower() in product.name.lower()]
+        if not results:
+            print("Žádné produkty nenalezeny.")
+            return
+        for product in results:
+            print(f"{product.name}, Cena: {product.price}, Množství:{product.quantity}")
+
     
     def total_value(self):
         # TODO: Spočítat celkovou hodnotu
-        pass
+        total = sum(product.price * product.quantity for product in self.products)
+        print(f"Celková hodnota skladu: {total:.2f} Kč")
+        return total
 
 def main():
     parser = argparse.ArgumentParser(description="Systém správy skladu")
