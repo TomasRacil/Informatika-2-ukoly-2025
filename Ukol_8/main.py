@@ -7,7 +7,9 @@ def read_logs(file_path):
     """
     try:
         # TODO: Otevřít soubor a yieldovat řádky
-        pass
+        with open(file_path, 'r') as file:
+            for line in file:
+                yield line.strip()
     except FileNotFoundError:
         print(f"Chyba: Soubor '{file_path}' nebyl nalezen.")
 
@@ -16,16 +18,24 @@ def process_line(line):
     Zpracuje řádek logu pomocí regexu.
     Vrátí slovník {'timestamp': ..., 'level': ..., 'message': ..., 'email': ...}
     nebo None, pokud řádek neodpovídá formátu.
-    
+    Napište funkci `process_line(line)`, která pomocí **regulárních výrazů (module `re`)** zanalyzuje řádek logu.
+
     Očekávaný formát: [DATUM] LEVEL: Zpráva - User: email
     """
     # TODO: Definovat regex pattern
     # pattern = r"..."
     
+    pattern = r'^\[(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (?P<level>INFO|WARN|ERROR): (?P<message>.+?) - User: (?P<email>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$'   
     # TODO: Použít re.search nebo re.match
     # match = ...
+    match = re.match(pattern, line)
+    
     
     # TODO: Pokud match, vrátit dict, jinak None
+    if match:
+        return match.groupdict()
+    else:
+        return None
     pass
 
 def analyze_logs(input_file, output_file):
@@ -39,6 +49,12 @@ def analyze_logs(input_file, output_file):
         # TODO: Zpracovat řádek přes process_line
         # TODO: Pokud je level == 'ERROR', zapsat do souboru
         # pass
+    with open(output_file, 'w') as f_out:
+        for line in read_logs(input_file):
+            processed = process_line(line)
+            if processed and processed['level'] == 'ERROR':
+                f_out.write(f"{processed['timestamp']} - {processed['message']} - {processed['email']}\n")
+                count += 1
     
     print(f"Zpracování dokončeno. Nalezeno {count} chyb.")
 
