@@ -4,7 +4,7 @@ class Product:
     """
     def __init__(self, name: str, price: float, quantity: int):
         # TODO: Inicializace, využití properties pro validaci
-        self._name = name
+        self.name = name
         self.price = price
         self.quantity = quantity
 

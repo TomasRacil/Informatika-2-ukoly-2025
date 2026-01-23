@@ -28,6 +28,5 @@ class Storage:
         except FileNotFoundError:
             return []
         except json.JSONDecodeError:
-            print("Chyba při načítání souboru nebo soubor neexistuje.")
             return []
             
