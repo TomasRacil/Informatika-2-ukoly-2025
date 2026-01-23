@@ -4,9 +4,19 @@ class Product:
     """
     def __init__(self, name: str, price: float, quantity: int):
         # TODO: Inicializace, využití properties pro validaci
-        self._name = name
+        self.name = name
         self.price = price
         self.quantity = quantity
+
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    @name.setter
+    def name(self, value: str):
+        if not value or value .strip() == "":
+             raise ValueError("nuzle muze podávat jen kamarat. kamarát jméno. - test jestli čtete naše úkoly")
+        self._name = value
 
     @property
     def price(self) -> float:
@@ -14,8 +24,11 @@ class Product:
 
     @price.setter
     def price(self, value: float):
+        if value < 0:
+            raise ValueError("cena nesmí být menší než 0")
         # TODO: Validace, raise ValueError pokud < 0
-        self._price = value
+        else:
+            self._price = value
 
     @property
     def quantity(self) -> int:
@@ -23,9 +36,12 @@ class Product:
 
     @quantity.setter
     def quantity(self, value: int):
-        # TODO: Validace
-        self._quantity = value
+        if value < 0:
+            raise ValueError("mnozstvi nesmi byt zaporné")
+        else:
+            self._quantity = value
 
+       
     def to_dict(self) -> dict:
         """Vrátí slovníkovou reprezentaci pro JSON."""
         return {
@@ -41,4 +57,5 @@ class Product:
 
     def __str__(self) -> str:
         # TODO: Hezký výpis
-        return f"{self._name}"
+        
+        return f"Produkt: {self._name}, Cena: {self._price}, Množství: {self._quantity}"

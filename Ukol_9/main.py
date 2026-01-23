@@ -7,7 +7,10 @@ from storage import Storage
 def log_action(func):
     def wrapper(*args, **kwargs):
         # ... logika logování ...
-        return func(*args, **kwargs)
+        result = func(*args,**kwargs)
+        with open("history.log", "a", encoding = "utf-8") as log_file:
+            log_file.write(f"Action:{func.__name__}, Args:{args[1:]}, Kwargs:{kwargs}\n")
+        return result
     return wrapper
 
 class InventoryManager:
@@ -17,20 +20,29 @@ class InventoryManager:
 
     @log_action
     def add_product(self, name: str, price: float, quantity: int):
-        # TODO: Vytvořit produkt, přidat do self.products, uložit
+        product=Product(name, price, quantity)
+        self.products.append(product)
+        self.storage.save_products(self.products)
         print(f"Produkt {name} přidán.")
 
     def list_products(self):
-        # TODO: Vypsat všechny produkty
-        pass
+        if self.products:
+            print("Nebyly nalezeny produkty v listu")
+            return
+        for product in self.products:
+            print(product)
 
     def search_products(self, query: str):
-        # TODO: Vyhledat produkty obsahující query v názvu
-        pass
+        results = [p for p in self.products if query.lower() in p._name.lower()]
+        if not results:
+            print("nebyly nalezeny produkty s tímto jménem")
+            return
+        for product in results:
+            print(product)
     
     def total_value(self):
-        # TODO: Spočítat celkovou hodnotu
-        pass
+        total = sum(p.price * p.quantity for p in self.products)
+        print(f"celková hodnota zboží je: {total:.2f} Kč")
 
 def main():
     parser = argparse.ArgumentParser(description="Systém správy skladu")
@@ -60,6 +72,8 @@ def main():
         manager.list_products()
     elif args.command == "search":
         manager.search_products(args.query)
+    elif args.command == "total":
+        manager.total_value()
     # TODO: Další příkazy
     else:
         parser.print_help()
