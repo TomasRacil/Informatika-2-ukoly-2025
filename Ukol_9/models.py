@@ -9,6 +9,17 @@ class Product:
         self.quantity = quantity
 
     @property
+    def name(self) -> str:
+        return self._name
+
+    @name.setter
+    def name(self, value: str):
+        if not value:
+            raise ValueError("Název nemůže být prázdný.")
+        else:
+            self._name = value
+
+    @property
     def price(self) -> float:
         return self._price
 
@@ -47,4 +58,4 @@ class Product:
 
     def __str__(self) -> str:
         # TODO: Hezký výpis
-        return f"Produkt(name={self._name}, price={self._price} Kč, quantity={self._quantity} ks)"
+        return f"Produkt: name={self._name}, price={self._price} Kč, quantity={self._quantity} ks."

@@ -1,5 +1,6 @@
 import argparse
 import sys
+from datetime import datetime
 from models import Product
 from storage import Storage
 
@@ -8,8 +9,8 @@ def log_action(func):
     def wrapper(*args, **kwargs):
         # ... logika logování ...
         output = func(*args, **kwargs)
-        with open("history.log", "a") as f:
-            timestamp = __import__('datetime').datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        with open("history.log", "a", encoding="utf-8") as f:
+            timestamp = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             f.write(f"[{timestamp}] {func.__name__}\n")
         return output
     return wrapper
@@ -22,7 +23,7 @@ class InventoryManager:
     @log_action
     def add_product(self, name: str, price: float, quantity: int):
         # TODO: Vytvořit produkt, přidat do self.products, uložit
-        product = Product(name, price, quantity)
+        product = Product(name=name, price=price, quantity=quantity)
         self.products.append(product)
         self.storage.save_products(self.products)
         print(f"Produkt {name} přidán.")
@@ -36,11 +37,16 @@ class InventoryManager:
 
     def search_products(self, query: str):
         # TODO: Vyhledat produkty obsahující query v názvu
-        results = [p for p in self.products if query.lower() in p._name.lower()]
-        for product in results:
-            print(product)
+        results = [
+            product for product in self.products
+            if query.lower() in product.name.lower()
+        ]
         if not results:
             print("Nebyly nalezeny žádné produkty.")
+            return
+        else:
+            for product in  results:
+                print(product)
     
     def total_value(self):
         # TODO: Spočítat celkovou hodnotu
