@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Myš",
+        "price": 500.0,
+        "quantity": 10,
+        "category": "General"
+    },
+    {
+        "name": "Myš",
+        "price": 500.0,
+        "quantity": 10,
+        "category": "General"
+    }
+]
