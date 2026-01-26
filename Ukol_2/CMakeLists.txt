@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
-project(Ukol_1)
+project(Ukol_2)
 
 # Hlavní spustitelný soubor
-add_executable(analyza main.cpp)
+add_executable(kalkulacka main.cpp)
 
 # Testovací spustitelný soubor
 add_executable(mytests test.cpp)
