@@ -2,22 +2,21 @@ class Product:
     """
     Reprezentuje produkt ve skladu.
     """
-    
     def __init__(self, name: str, price: float, quantity: int):
         # TODO: Inicializace, využití properties pro validaci
         self.name = name
         self.price = price
         self.quantity = quantity
-    
+
     @property
     def name(self) -> str:
         return self._name
 
     @name.setter
     def name(self, value: str):
-        # TODO: Validace
-        if not value or value.strip() == "":
-            raise ValueError("Jméno nemůže být prázdné.")
+        # TODO: Validace, raise ValueError pokud je prázdné
+        if not value or value == "":
+            raise ValueError("Jméno nesmí být prázdné.")
         self._name = value
 
     @property
@@ -28,9 +27,8 @@ class Product:
     def price(self, value: float):
         # TODO: Validace, raise ValueError pokud < 0
         if value < 0:
-            raise ValueError("Cena nemůže být záporná.")
-        else:
-            self._price = value
+            raise ValueError("Cena nesmí být záporná.")
+        self._price = value
 
     @property
     def quantity(self) -> int:
@@ -38,18 +36,17 @@ class Product:
 
     @quantity.setter
     def quantity(self, value: int):
-        # TODO: Validace
+        # TODO: Validace, raise ValueError pokud < 0
         if value < 0:
-            raise ValueError("Množství nemůže být záporné.")
-        else:
-            self._quantity = value
-    
+            raise ValueError("Množství nesmí být záporné.")
+        self._quantity = value
+
     def to_dict(self) -> dict:
         """Vrátí slovníkovou reprezentaci pro JSON."""
         return {
             "name": self._name,
             "price": self._price,
-            "quantity": self._quantity,
+            "quantity": self._quantity
         }
 
     @staticmethod
@@ -59,4 +56,4 @@ class Product:
 
     def __str__(self) -> str:
         # TODO: Hezký výpis
-        return f"Produkt: {self._name}, Cena: {self._price:.2f}, Množství: {self._quantity}"
+        return f"{self._name}: {self._price} Kč, {self._quantity} ks"

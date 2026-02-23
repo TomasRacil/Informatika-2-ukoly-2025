@@ -6,11 +6,12 @@ from storage import Storage
 # TODO: Implementovat dekorátor @log_action (zapsat do history.log)
 def log_action(func):
     def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        with open("history.log", "a", encoding="utf-8") as log_file:
-            log_file.write(f"Action: {func.__name__}, Args: {args[1:]}, Kwargs: {kwargs}\n")
-        return result
+        # ... logika logování ...
+        with open("history.log", "a") as f:
+            f.write(f"Action: {func.__name__}, Args: {args}, Kwargs: {kwargs}\n")
+        return func(*args, **kwargs)
     return wrapper
+
 
 class InventoryManager:
     def __init__(self, storage: Storage):
@@ -27,27 +28,19 @@ class InventoryManager:
 
     def list_products(self):
         # TODO: Vypsat všechny produkty
-        if not self.products:
-            print("Žádné produkty ve skladu.")
-            return
         for product in self.products:
             print(product)
 
     def search_products(self, query: str):
         # TODO: Vyhledat produkty obsahující query v názvu
-        results = [p for p in self.products if query.lower() in p._name.lower()]
-        if not results:
-            print("Nebyly nalezeny žádné produkty.")
-            return
+        results = [p for p in self.products if query.lower() in p.name.lower()]
         for product in results:
             print(product)
-        pass
     
     def total_value(self):
         # TODO: Spočítat celkovou hodnotu
         total = sum(p.price * p.quantity for p in self.products)
-        print(f"Celková hodnota skladu: {total:.2f} Kč")
-        pass
+        print(f"Celková hodnota skladu: {total}")
 
 def main():
     parser = argparse.ArgumentParser(description="Systém správy skladu")
@@ -77,7 +70,7 @@ def main():
         manager.list_products()
     elif args.command == "search":
         manager.search_products(args.query)
-    # TODO: Další příkazy
+    # TODO: Další příkazy    
     elif args.command == "total":
         manager.total_value()
     else:
